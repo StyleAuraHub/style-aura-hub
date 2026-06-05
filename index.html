@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StyleAura Hub™ | Fashion, Beauty, Lifestyle &amp; Curated Finds</title>
+  <title>StyleAura Hub | Fashion, Beauty, Lifestyle &amp; Curated Finds</title>
   <meta name="description" content="Curated fashion, beauty, lifestyle and tech finds inspired by Pinterest aesthetics. Discover trending products on trusted marketplaces — all in one place.">
   <meta name="keywords" content="old money aesthetic, coquette fashion, korean minimal, amazon fashion india, aesthetic outfits india, pinterest fashion finds, styleaura hub">
-  <meta property="og:title" content="StyleAura Hub™ — Fashion Discovery Platform">
+  <meta property="og:title" content="StyleAura Hub — Fashion Discovery Platform">
   <meta property="og:description" content="Curated Pinterest-inspired fashion, beauty and lifestyle finds. Shop on Amazon India.">
   <meta property="og:url" content="https://style-aura-hub.vercel.app">
   <meta property="og:type" content="website">
@@ -25,7 +25,6 @@
     nav{background:var(--card-bg);border-bottom:1px solid rgba(139,111,94,0.15);padding:0 40px;display:flex;align-items:center;height:58px;position:sticky;top:0;z-index:100}
     .nav-logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:400;color:var(--deep);letter-spacing:0.5px;margin-right:32px;white-space:nowrap;text-decoration:none;display:flex;align-items:center;gap:4px}
     .nav-logo span{font-style:italic;color:var(--rose)}
-    .nav-tm{font-size:10px;color:var(--gold);vertical-align:super;font-family:'DM Sans',sans-serif;font-style:normal;font-weight:500;margin-left:1px}
     .nav-links{display:flex;overflow-x:auto;scrollbar-width:none;flex:1}
     .nav-links::-webkit-scrollbar{display:none}
     .nav-link{font-family:'DM Sans',sans-serif;font-size:11px;font-weight:400;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);cursor:pointer;text-decoration:none;padding:0 14px;height:58px;display:flex;align-items:center;border-bottom:2px solid transparent;transition:color 0.2s,border-color 0.2s;white-space:nowrap}
@@ -115,14 +114,6 @@
     .trust-card-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:400;color:var(--deep);margin-bottom:10px}
     .trust-card-text{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:var(--muted);line-height:1.65}
 
-    /* ── TRADEMARK BANNER ── */
-    .tm-banner{background:var(--deep);padding:18px 40px;display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap}
-    .tm-badge{display:flex;align-items:center;gap:8px;background:rgba(255,252,249,0.06);border:1px solid rgba(184,150,90,0.3);border-radius:4px;padding:8px 18px}
-    .tm-badge-icon{font-size:16px}
-    .tm-badge-text{font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,252,249,0.7)}
-    .tm-badge-text strong{color:var(--gold);font-weight:600}
-    .tm-divider{width:1px;height:28px;background:rgba(255,252,249,0.12)}
-
     /* ── PRODUCT SECTIONS ── */
     section{padding:64px 40px 40px}
     section:nth-child(even){background:var(--blush)}
@@ -204,7 +195,6 @@
     .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
     .footer-brand{font-family:'Playfair Display',serif;font-size:22px;font-weight:400;margin-bottom:12px;display:flex;align-items:center;gap:4px}
     .footer-brand span{font-style:italic;color:var(--rose)}
-    .footer-brand-tm{font-size:10px;color:var(--gold);vertical-align:super;font-family:'DM Sans',sans-serif;margin-left:1px}
     .footer-tagline{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:300;color:rgba(255,252,249,0.55);line-height:1.75;margin-bottom:14px}
     .footer-disclosure{font-family:'DM Sans',sans-serif;font-size:11px;color:rgba(255,252,249,0.28);line-height:1.65}
     .footer-col-title{font-family:'DM Sans',sans-serif;font-size:9px;letter-spacing:2.5px;text-transform:uppercase;color:rgba(255,252,249,0.35);margin-bottom:16px}
@@ -223,7 +213,6 @@
       .ft3,.ft4,.ft5,.ft6{display:none}.hero-dots{left:24px}.scroll-hint{right:24px}
       section{padding:48px 20px 32px}.products-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}.product-img-wrap{height:180px}.section-title{font-size:22px}
       .trust-section{padding:40px 20px}.trust-grid{grid-template-columns:1fr}
-      .tm-banner{padding:14px 20px;gap:12px}.tm-divider{display:none}
       .about-section{grid-template-columns:1fr;gap:40px;padding:56px 20px}.about-quote{font-size:26px}
       .social-bar{grid-template-columns:1fr;padding:32px 20px}.social-card{border-right:none;border-bottom:1px solid rgba(255,252,249,0.08)}.social-card:last-child{border-bottom:none}
       .footer-grid{grid-template-columns:1fr 1fr;gap:28px}.footer-bottom{flex-direction:column;text-align:center}
@@ -238,7 +227,7 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">Style<span>Aura</span><sup class="nav-tm">™</sup></a>
+  <a href="#" class="nav-logo">Style<span>Aura</span></a>
   <div class="nav-links">
     <a href="#fashion-section" class="nav-link">Fashion</a>
     <a href="#skincare-section" class="nav-link">Skincare</a>
@@ -339,15 +328,9 @@
 
 <!-- AFFILIATE DISCLOSURE -->
 <div class="disclosure-bar">
-  <p>✦ <strong>Transparency first:</strong> StyleAura Hub™ participates in affiliate programmes including Amazon Associates. When you shop through our links, we may earn a small commission — at absolutely no extra cost to you. Every find is genuinely curated. ✦</p>
+  <p>✦ <strong>Transparency first:</strong> StyleAura Hub participates in affiliate programmes including Amazon Associates. When you shop through our links, we may earn a small commission — at absolutely no extra cost to you. Every find is genuinely curated. ✦</p>
 </div>
 
-<!-- TRADEMARK BANNER -->
-<div class="tm-banner">
-  <div class="tm-badge">
-    <span class="tm-badge-icon">™</span>
-    <span class="tm-badge-text"><strong>StyleAura Hub™</strong> — Registered Brand Identity</span>
-  </div>
   <div class="tm-divider"></div>
   <div class="tm-badge">
     <span class="tm-badge-icon">🔒</span>
@@ -363,7 +346,7 @@
 <!-- TRUST SECTION -->
 <div class="trust-section">
   <div class="trust-heading">
-    <div class="trust-eyebrow">Why StyleAura Hub™?</div>
+    <div class="trust-eyebrow">Why StyleAura Hub?</div>
     <h2 class="trust-title">Curated with <em>intention</em>, not algorithms</h2>
   </div>
   <div class="trust-grid">
@@ -432,11 +415,11 @@
 <!-- ABOUT SECTION -->
 <div class="about-section" id="about-section">
   <div>
-    <div class="about-eyebrow">The Story Behind StyleAura™</div>
+    <div class="about-eyebrow">The Story Behind StyleAura</div>
     <div class="about-quote">
       Style is not about owning more.<br>It's about discovering <em>what feels like you.</em>
     </div>
-    <p class="about-story">StyleAura Hub™ was created for people who enjoy discovering stylish finds, trending aesthetics, useful products, and everyday inspiration — all in one place.</p>
+    <p class="about-story">StyleAura Hub was created for people who enjoy discovering stylish finds, trending aesthetics, useful products, and everyday inspiration — all in one place.</p>
     <p class="about-story">Every collection is carefully curated to help you explore products that match your personality, lifestyle, and interests. From fashion and beauty to lifestyle and tech essentials — practical, visually appealing, and genuinely worth exploring.</p>
     <p class="about-story">We believe shopping should feel inspiring, not overwhelming.</p>
     <div class="about-mission">
@@ -444,7 +427,7 @@
     </div>
     <div class="about-signature">
       <div class="about-sig-line"></div>
-      <div class="about-sig-name">Vaishu · Founder, StyleAura Hub™</div>
+      <div class="about-sig-name">Vaishu · Founder, StyleAura Hub</div>
     </div>
   </div>
   <div class="about-right">
@@ -497,9 +480,9 @@
 <footer>
   <div class="footer-grid">
     <div>
-      <div class="footer-brand">Style<span>Aura</span><sup class="footer-brand-tm">™</sup> Hub</div>
+      <div class="footer-brand">Style<span>Aura</span> Hub</div>
       <p class="footer-tagline">A curated discovery platform for fashion, beauty, lifestyle and everyday finds. We help you explore trending products, aesthetic inspiration, and useful recommendations — all from trusted marketplaces.</p>
-      <p class="footer-disclosure">StyleAura Hub™ participates in affiliate programmes including Amazon Associates. We earn from qualifying purchases at no extra cost to you. Product availability and prices are subject to change. StyleAura Hub™ is an independent brand — Est. 2024, Nagpur, India.</p>
+      <p class="footer-disclosure">StyleAura Hub participates in affiliate programmes including Amazon Associates. We earn from qualifying purchases at no extra cost to you. Product availability and prices are subject to change. StyleAura Hub is an independent brand — Est. 2024, Nagpur, India.</p>
     </div>
     <div>
       <div class="footer-col-title">Explore</div>
@@ -531,7 +514,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <div class="footer-copy">© 2025 StyleAura Hub™ · All rights reserved · Curated with ✦ by Vaishu · Nagpur, India</div>
+    <div class="footer-copy">© 2025 StyleAura Hub · All rights reserved · Curated with ✦ by Vaishu · Nagpur, India</div>
     <div class="affiliate-badge">Affiliate Partner — Amazon · Flipkart · More</div>
   </div>
 </footer>
