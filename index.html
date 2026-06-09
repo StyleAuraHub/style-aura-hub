@@ -155,6 +155,148 @@
     .no-results-emoji{font-size:40px;margin-bottom:12px}
     .no-results-title{font-family:'Playfair Display',serif;font-size:20px;font-style:italic;color:var(--deep);margin-bottom:8px}
     .no-results-sub{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--muted)}
+    /* ══ 3D SCROLL EFFECTS ══ */
+    .section-scene {
+      perspective: 1200px;
+      perspective-origin: 50% 40%;
+    }
+    .products-grid {
+      transform-style: preserve-3d;
+    }
+    /* Cards start invisible and tilted — JS animates them in */
+    .product-card {
+      opacity: 0;
+      transform: translateY(60px) rotateX(12deg) scale(0.95);
+      transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1),
+                  transform 0.7s cubic-bezier(0.22,1,0.36,1),
+                  box-shadow 0.3s ease,
+                  border-color 0.3s ease;
+      will-change: transform, opacity;
+      transform-origin: center bottom;
+    }
+    .product-card.revealed {
+      opacity: 1;
+      transform: translateY(0) rotateX(0deg) scale(1);
+    }
+    /* Stagger delay per card position */
+    .product-card:nth-child(1){transition-delay:0s}
+    .product-card:nth-child(2){transition-delay:0.07s}
+    .product-card:nth-child(3){transition-delay:0.14s}
+    .product-card:nth-child(4){transition-delay:0.21s}
+    .product-card:nth-child(5){transition-delay:0.28s}
+    .product-card:nth-child(6){transition-delay:0.35s}
+    .product-card:nth-child(7){transition-delay:0.42s}
+    .product-card:nth-child(8){transition-delay:0.49s}
+    /* 3D tilt on mouse hover */
+    .product-card.revealed:hover {
+      transform: translateY(-8px) rotateX(4deg) rotateY(2deg) scale(1.02);
+      box-shadow: 0 24px 48px rgba(61,43,31,0.18), 0 0 0 1px rgba(201,150,122,0.3);
+      border-color: rgba(201,150,122,0.4);
+      z-index: 2;
+    }
+    /* Section heading 3D reveal */
+    .section-header {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.8s ease;
+    }
+    .section-header.revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    /* Parallax section accent bar */
+    section::before {
+      content: '';
+      display: block;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0;
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: opacity 0.6s ease, transform 0.8s cubic-bezier(0.22,1,0.36,1);
+      margin-bottom: 0;
+    }
+    section.in-view::before {
+      opacity: 0.6;
+      transform: scaleX(1);
+    }
+    /* Category-specific accent colours */
+    #fashion-section::before    { background: linear-gradient(90deg, transparent, #C9967A, transparent); }
+    #skincare-section::before   { background: linear-gradient(90deg, transparent, #F0B8C8, transparent); }
+    #accessories-section::before{ background: linear-gradient(90deg, transparent, #B8965A, transparent); }
+    #watches-section::before    { background: linear-gradient(90deg, transparent, #8B6F5E, transparent); }
+    #nailart-section::before    { background: linear-gradient(90deg, transparent, #E0A0B8, transparent); }
+    #tech-section::before       { background: linear-gradient(90deg, transparent, #708090, transparent); }
+    #homekitchen-section::before{ background: linear-gradient(90deg, transparent, #90A878, transparent); }
+    /* Floating depth particles per section */
+    .section-particle {
+      position: absolute;
+      border-radius: 50%;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 1s ease;
+      animation: particleFloat 6s ease-in-out infinite;
+    }
+    section.in-view .section-particle { opacity: 1; }
+    @keyframes particleFloat {
+      0%,100% { transform: translateY(0) rotate(0deg); }
+      33%      { transform: translateY(-20px) rotate(120deg); }
+      66%      { transform: translateY(10px) rotate(240deg); }
+    }
+    /* Trust section 3D cards */
+    .trust-card {
+      opacity: 0;
+      transform: translateY(40px) rotateY(8deg);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.22,1,0.36,1),
+                  box-shadow 0.3s, border-color 0.3s;
+    }
+    .trust-card.revealed {
+      opacity: 1;
+      transform: translateY(0) rotateY(0deg);
+    }
+    .trust-card:nth-child(2) { transition-delay: 0.12s; }
+    .trust-card:nth-child(3) { transition-delay: 0.24s; }
+    .trust-card.revealed:hover {
+      transform: translateY(-6px) rotateY(-3deg) rotateX(3deg);
+      box-shadow: 0 20px 40px rgba(61,43,31,0.12);
+    }
+    /* About stats 3D pop */
+    .about-stat {
+      opacity: 0;
+      transform: translateZ(-40px) scale(0.9);
+      transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.22,1,0.36,1);
+    }
+    .about-stat.revealed { opacity: 1; transform: translateZ(0) scale(1); }
+    .about-stat:nth-child(2){transition-delay:0.1s}
+    .about-stat:nth-child(3){transition-delay:0.2s}
+    .about-stat:nth-child(4){transition-delay:0.3s}
+    /* Social bar 3D hover */
+    .social-card {
+      transition: background 0.3s, transform 0.4s cubic-bezier(0.22,1,0.36,1);
+      transform-style: preserve-3d;
+    }
+    .social-card:hover {
+      transform: translateY(-4px) rotateX(4deg);
+      background: rgba(255,252,249,0.06);
+    }
+    /* Scroll progress bar at top */
+    .scroll-progress {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--rose), var(--gold));
+      z-index: 9999;
+      width: 0%;
+      transition: width 0.1s linear;
+      box-shadow: 0 0 8px rgba(201,150,122,0.6);
+    }
+    /* Image parallax inside card on hover */
+    .product-card.revealed:hover .product-image {
+      transform: scale(1.08) translateY(-4px);
+    }
+    /* Section wrapper needs relative for particles */
+    section { position: relative; overflow: hidden; }
+
 
     /* ── ABOUT SECTION ── */
     .about-section{background:var(--deep);padding:80px 40px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
@@ -224,6 +366,7 @@
   </style>
 </head>
 <body>
+<div class="scroll-progress" id="scrollProgress"></div>
 
 <!-- NAV -->
 <nav>
@@ -374,7 +517,7 @@
     <h2 class="section-title"><em>Fashion</em> Finds</h2>
     <span class="section-count" id="fashion-count"></span>
   </div>
-  <div class="products-grid" id="fashion-grid">
+  <div class="section-scene"><div class="products-grid" id="fashion-grid">
     <div class="loading-state">
       <div class="skeleton"><div class="skeleton-img"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
       <div class="skeleton"><div class="skeleton-img"></div><div class="skeleton-line"></div><div class="skeleton-line short"></div></div>
@@ -664,6 +807,127 @@
   setInterval(()=>goTo((cur+1)%slides.length),5000);
 
   fetchProducts();
+
+  // ════════════════════════════════════
+  // 3D SCROLL REVEAL ENGINE
+  // ════════════════════════════════════
+
+  // Scroll progress bar
+  window.addEventListener('scroll', () => {
+    const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+    document.getElementById('scrollProgress').style.width = scrolled + '%';
+  }, { passive: true });
+
+  // Intersection Observer for 3D reveals
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed');
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  // Section in-view observer (for accent bar + particles)
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in-view');
+        spawnParticles(entry.target);
+      }
+    });
+  }, { threshold: 0.05 });
+
+  // Observe all sections
+  document.querySelectorAll('section[id]').forEach(sec => {
+    sectionObserver.observe(sec);
+    // Observe section header
+    const header = sec.querySelector('.section-header');
+    if (header) revealObserver.observe(header);
+  });
+
+  // Observe trust cards and about stats
+  document.querySelectorAll('.trust-card, .about-stat').forEach(el => revealObserver.observe(el));
+
+  // Observe product cards — re-run after Sanity loads
+  function observeCards() {
+    document.querySelectorAll('.product-card').forEach(card => {
+      revealObserver.observe(card);
+    });
+  }
+
+  // Hook into existing fetchProducts to observe cards after they load
+  const _origFetch = fetchProducts;
+  async function fetchProducts() {
+    await _origFetch();
+    setTimeout(observeCards, 200);
+  }
+
+  // 3D mouse tilt on product cards
+  document.addEventListener('mousemove', (e) => {
+    const card = e.target.closest('.product-card.revealed');
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const dx = (e.clientX - cx) / (rect.width / 2);
+    const dy = (e.clientY - cy) / (rect.height / 2);
+    const rotX = -dy * 6;
+    const rotY = dx * 6;
+    card.style.transform = `translateY(-8px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.02)`;
+  });
+
+  document.addEventListener('mouseleave', (e) => {
+    const card = e.target.closest('.product-card.revealed');
+    if (!card) return;
+    card.style.transform = '';
+  }, true);
+
+  // Spawn floating depth particles per section
+  const SECTION_PARTICLES = {
+    'fashion-section':     { color: '#C9967A', count: 4 },
+    'skincare-section':    { color: '#F0B8C8', count: 4 },
+    'accessories-section': { color: '#B8965A', count: 3 },
+    'watches-section':     { color: '#8B6F5E', count: 3 },
+    'nailart-section':     { color: '#E0A0B8', count: 4 },
+    'tech-section':        { color: '#708090', count: 3 },
+    'homekitchen-section': { color: '#90A878', count: 3 },
+  };
+
+  const spawnedSections = new Set();
+
+  function spawnParticles(section) {
+    const id = section.id;
+    if (!SECTION_PARTICLES[id] || spawnedSections.has(id)) return;
+    spawnedSections.add(id);
+    const { color, count } = SECTION_PARTICLES[id];
+    for (let i = 0; i < count; i++) {
+      const p = document.createElement('div');
+      p.className = 'section-particle';
+      const size = 6 + Math.random() * 10;
+      p.style.cssText = `
+        width:${size}px; height:${size}px;
+        background:${color};
+        opacity:0.12;
+        top:${10 + Math.random() * 80}%;
+        left:${5 + Math.random() * 90}%;
+        animation-delay:${Math.random() * 3}s;
+        animation-duration:${5 + Math.random() * 4}s;
+      `;
+      section.appendChild(p);
+    }
+  }
+
+  // Parallax depth on scroll for section headings
+  window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    document.querySelectorAll('.section-header.revealed').forEach(header => {
+      const rect = header.getBoundingClientRect();
+      const fromCenter = (rect.top + rect.height / 2 - window.innerHeight / 2);
+      const tY = fromCenter * 0.04;
+      header.style.transform = `translateY(${tY}px)`;
+    });
+  }, { passive: true });
+
 
   // ── SCROLL SPY ──
   const pageSections=document.querySelectorAll('section[id]');
