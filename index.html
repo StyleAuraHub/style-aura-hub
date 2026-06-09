@@ -897,10 +897,10 @@
     </div>
   </div>
   <div class="about-right">
-    <div class="about-stat"><div class="about-stat-num">3.8k+</div><div class="about-stat-label">Monthly Pinterest Views</div></div>
-    <div class="about-stat"><div class="about-stat-num">7</div><div class="about-stat-label">Curated Categories</div></div>
-    <div class="about-stat"><div class="about-stat-num">100%</div><div class="about-stat-label">Handpicked Products</div></div>
-    <div class="about-stat"><div class="about-stat-num">₹0</div><div class="about-stat-label">Extra Cost To You</div></div>
+    <div class="about-stat"><div class="about-stat-num" id="stat-pinterest">3.8k+</div><div class="about-stat-label" id="stat-pinterest-label">Monthly Pinterest Views</div></div>
+    <div class="about-stat"><div class="about-stat-num" id="stat-categories">7</div><div class="about-stat-label" id="stat-categories-label">Curated Categories</div></div>
+    <div class="about-stat"><div class="about-stat-num" id="stat-handpicked">100%</div><div class="about-stat-label" id="stat-handpicked-label">Handpicked Products</div></div>
+    <div class="about-stat"><div class="about-stat-num" id="stat-cost">₹0</div><div class="about-stat-label" id="stat-cost-label">Extra Cost To You</div></div>
     <div class="about-values">
       <div class="about-values-title">Our Aesthetic Universe</div>
       <div class="about-values-list">
@@ -923,7 +923,7 @@
     <div class="social-icon-wrap">📌</div>
     <div class="social-label">Pinterest</div>
     <div class="social-cta">Save our boards</div>
-    <div class="social-stat">3.8K+ Monthly Views</div>
+    <div class="social-stat" id="social-pinterest-stat">3.8K+ Monthly Views</div>
     <div class="social-handle">@style_aura_hub</div>
   </a>
   <a href="https://www.instagram.com/styleaurahub082/" target="_blank" class="social-card">
@@ -1258,6 +1258,35 @@
     btn.style.transform = 'scale(1.3)';
     setTimeout(()=>{ btn.style.transform=''; }, 200);
   }
+
+
+  // ════════════════════════════════════
+  // LIVE STATS LOADER
+  // Reads from localStorage — updated via admin panel
+  // ════════════════════════════════════
+  function loadLiveStats() {
+    const saved = localStorage.getItem('sa_stats');
+    if (!saved) return;
+    try {
+      const stats = JSON.parse(saved);
+      const map = [
+        ['stat-pinterest',       'num',   stats.pinterestNum],
+        ['stat-pinterest-label', 'label', stats.pinterestLabel],
+        ['stat-categories',      'num',   stats.categoriesNum],
+        ['stat-categories-label','label', stats.categoriesLabel],
+        ['stat-handpicked',      'num',   stats.handpickedNum],
+        ['stat-handpicked-label','label', stats.handpickedLabel],
+        ['stat-cost',            'num',   stats.costNum],
+        ['stat-cost-label',      'label', stats.costLabel],
+        ['social-pinterest-stat','social',stats.pinterestSocial],
+      ];
+      map.forEach(([id,,val]) => {
+        const el = document.getElementById(id);
+        if (el && val) el.textContent = val;
+      });
+    } catch(e) {}
+  }
+  loadLiveStats();
 
   // ── SCROLL SPY ──
   const pageSections=document.querySelectorAll('section[id]');
