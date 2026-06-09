@@ -14,7 +14,7 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:#1a1210;font-family:'DM Sans',sans-serif;min-height:100vh;color:var(--cream)}
 
-    /* LOGIN */
+    /* ── LOGIN ── */
     .login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
     .login-box{background:#2a1e15;border:1px solid rgba(184,150,90,0.2);border-radius:8px;padding:48px 40px;width:100%;max-width:440px}
     .login-logo{font-family:'Playfair Display',serif;font-size:26px;color:var(--cream);margin-bottom:6px}
@@ -25,285 +25,643 @@
     .field-input:focus{border-color:rgba(184,150,90,0.5)}
     .field-input::placeholder{color:rgba(255,252,249,0.25)}
     .login-hint{font-size:11px;color:rgba(255,252,249,0.3);margin-bottom:24px;line-height:1.6;background:rgba(255,252,249,0.04);padding:12px;border-radius:4px;border-left:2px solid var(--gold)}
+    .login-hint a{color:var(--gold);text-decoration:none}
     .btn-login{width:100%;background:var(--rose);color:var(--cream);border:none;padding:14px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:4px;transition:background 0.2s}
     .btn-login:hover{background:#b87f64}
-    .login-error{color:var(--red);font-size:12px;margin-bottom:16px;display:none}
+    .login-error{color:var(--red);font-size:12px;margin-bottom:16px;display:none;padding:8px 12px;background:rgba(224,112,112,0.1);border-radius:4px}
 
-    /* ADMIN LAYOUT */
-    .admin-wrap{display:none;min-height:100vh}
-    .admin-nav{background:#2a1e15;border-bottom:1px solid rgba(184,150,90,0.2);padding:0 32px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+    /* ── ADMIN SHELL ── */
+    .admin-wrap{display:none;min-height:100vh;flex-direction:column}
+    .admin-nav{background:#2a1e15;border-bottom:1px solid rgba(184,150,90,0.2);padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
     .admin-nav-logo{font-family:'Playfair Display',serif;font-size:20px;color:var(--cream)}
     .admin-nav-logo span{font-style:italic;color:var(--rose)}
-    .admin-nav-right{display:flex;align-items:center;gap:16px}
-    .nav-badge{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:rgba(184,150,90,0.12);padding:4px 10px;border-radius:20px;border:1px solid rgba(184,150,90,0.2)}
+    .admin-nav-right{display:flex;align-items:center;gap:12px}
+    .nav-badge{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:rgba(184,150,90,0.12);padding:4px 10px;border-radius:20px;border:1px solid rgba(184,150,90,0.2);text-decoration:none}
     .btn-logout{background:transparent;border:1px solid rgba(255,252,249,0.15);color:rgba(255,252,249,0.5);padding:6px 14px;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all 0.2s}
     .btn-logout:hover{border-color:var(--red);color:var(--red)}
 
-    .admin-body{display:grid;grid-template-columns:340px 1fr;min-height:calc(100vh - 56px)}
+    /* ── TABS ── */
+    .admin-tabs{background:#221810;border-bottom:1px solid rgba(184,150,90,0.15);padding:0 28px;display:flex;gap:0}
+    .admin-tab{padding:14px 22px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,252,249,0.4);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s}
+    .admin-tab:hover{color:rgba(255,252,249,0.7)}
+    .admin-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
 
-    /* SIDEBAR — ADD FORM */
-    .sidebar{background:#221810;border-right:1px solid rgba(184,150,90,0.15);padding:28px 24px;overflow-y:auto}
-    .sidebar-title{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--cream);margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid rgba(255,252,249,0.06)}
-    .form-group{margin-bottom:18px}
+    /* ── TAB PANELS ── */
+    .tab-panel{display:none;padding:28px}
+    .tab-panel.active{display:block}
+
+    /* ── ADD PRODUCT LAYOUT ── */
+    .add-layout{display:grid;grid-template-columns:380px 1fr;gap:28px}
+    .panel-box{background:#221810;border:1px solid rgba(184,150,90,0.12);border-radius:6px;padding:24px}
+    .panel-title{font-family:'Playfair Display',serif;font-size:17px;font-style:italic;color:var(--cream);margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid rgba(255,252,249,0.06)}
+
+    /* ── FORM ELEMENTS ── */
+    .form-group{margin-bottom:16px}
     .form-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;display:block}
     .form-input,.form-select,.form-textarea{width:100%;background:rgba(255,252,249,0.06);border:1px solid rgba(255,252,249,0.1);border-radius:4px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--cream);outline:none;transition:border-color 0.2s}
     .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:rgba(184,150,90,0.5)}
     .form-input::placeholder,.form-textarea::placeholder{color:rgba(255,252,249,0.2)}
     .form-select option{background:#2a1e15;color:var(--cream)}
-    .form-textarea{resize:vertical;min-height:60px}
+    .form-textarea{resize:vertical;min-height:72px}
+    .form-hint{font-size:11px;color:rgba(255,252,249,0.25);margin-top:5px;line-height:1.5}
+
+    /* ── IMAGE UPLOAD ── */
     .img-upload-area{border:2px dashed rgba(184,150,90,0.25);border-radius:6px;padding:20px;text-align:center;cursor:pointer;transition:border-color 0.2s;position:relative;overflow:hidden}
     .img-upload-area:hover{border-color:rgba(184,150,90,0.5)}
     .img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
     .img-upload-icon{font-size:24px;margin-bottom:8px}
-    .img-upload-text{font-size:11px;color:var(--muted);letter-spacing:0.5px}
-    .img-preview{width:100%;height:120px;object-fit:cover;border-radius:4px;display:none;margin-top:10px}
-    .img-upload-or{font-size:10px;color:rgba(255,252,249,0.25);text-align:center;margin:10px 0;letter-spacing:1px;text-transform:uppercase}
-    .btn-add{width:100%;background:var(--rose);color:var(--cream);border:none;padding:13px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:4px;transition:background 0.2s;margin-top:8px}
-    .btn-add:hover{background:#b87f64}
-    .btn-add:disabled{background:#7a5548;cursor:not-allowed}
-    .form-status{font-size:12px;text-align:center;margin-top:12px;padding:10px;border-radius:4px;display:none}
+    .img-upload-text{font-size:11px;color:var(--muted)}
+    .img-preview-box{width:100%;height:130px;object-fit:cover;border-radius:4px;display:none;margin-top:10px;border:1px solid rgba(255,252,249,0.08)}
+    .img-or{font-size:10px;color:rgba(255,252,249,0.2);text-align:center;margin:10px 0;letter-spacing:1px;text-transform:uppercase}
+
+    /* ── BUTTONS ── */
+    .btn-primary{background:var(--rose);color:var(--cream);border:none;padding:11px 24px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:4px;transition:background 0.2s;width:100%}
+    .btn-primary:hover{background:#b87f64}
+    .btn-primary:disabled{background:#7a5548;cursor:not-allowed}
+    .btn-ghost{background:transparent;color:rgba(255,252,249,0.5);border:1px solid rgba(255,252,249,0.12);padding:8px 16px;font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all 0.2s}
+    .btn-ghost:hover{border-color:var(--gold);color:var(--gold)}
+    .btn-danger{background:transparent;color:rgba(224,112,112,0.7);border:1px solid rgba(224,112,112,0.2);padding:6px 12px;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all 0.2s}
+    .btn-danger:hover{background:rgba(224,112,112,0.1);border-color:var(--red);color:var(--red)}
+    .btn-edit{background:transparent;color:rgba(184,150,90,0.7);border:1px solid rgba(184,150,90,0.2);padding:6px 12px;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all 0.2s}
+    .btn-edit:hover{background:rgba(184,150,90,0.1);border-color:var(--gold);color:var(--gold)}
+    .btn-visit{background:transparent;color:rgba(255,252,249,0.4);border:1px solid rgba(255,252,249,0.1);padding:6px 12px;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:3px;text-decoration:none;transition:all 0.2s;display:inline-block}
+    .btn-visit:hover{border-color:rgba(255,252,249,0.3);color:rgba(255,252,249,0.8)}
+
+    /* ── STATUS MESSAGES ── */
+    .form-status{font-size:12px;text-align:center;margin-top:12px;padding:10px;border-radius:4px;display:none;line-height:1.5}
     .form-status.success{background:rgba(76,175,125,0.1);color:var(--green);border:1px solid rgba(76,175,125,0.2)}
     .form-status.error{background:rgba(224,112,112,0.1);color:var(--red);border:1px solid rgba(224,112,112,0.2)}
+    .form-status.info{background:rgba(184,150,90,0.08);color:var(--gold);border:1px solid rgba(184,150,90,0.2)}
 
-    /* MAIN — PRODUCT LIST */
-    .main-panel{padding:28px 32px;overflow-y:auto}
-    .main-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
-    .main-title{font-family:'Playfair Display',serif;font-size:22px;font-style:italic;color:var(--cream)}
-    .product-count-badge{font-size:11px;color:var(--gold);background:rgba(184,150,90,0.1);padding:5px 12px;border-radius:20px;border:1px solid rgba(184,150,90,0.2)}
-    .filter-bar{display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap}
-    .filter-btn{background:rgba(255,252,249,0.05);border:1px solid rgba(255,252,249,0.1);color:rgba(255,252,249,0.5);padding:6px 14px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border-radius:20px;transition:all 0.2s}
-    .filter-btn:hover,.filter-btn.active{background:rgba(184,150,90,0.15);border-color:rgba(184,150,90,0.4);color:var(--gold)}
-    .products-list{display:grid;gap:12px}
-    .product-row{background:#2a1e15;border:1px solid rgba(255,252,249,0.07);border-radius:6px;padding:14px 16px;display:grid;grid-template-columns:64px 1fr auto;gap:14px;align-items:center;transition:border-color 0.2s}
-    .product-row:hover{border-color:rgba(184,150,90,0.25)}
-    .product-row-img{width:64px;height:64px;border-radius:4px;object-fit:cover;background:rgba(255,252,249,0.06);flex-shrink:0}
+    /* ── PRODUCT LIST ── */
+    .list-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+    .list-title{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--cream)}
+    .count-badge{font-size:11px;color:var(--gold);background:rgba(184,150,90,0.1);padding:4px 12px;border-radius:20px;border:1px solid rgba(184,150,90,0.2)}
+    .filter-bar{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+    .filter-btn{background:rgba(255,252,249,0.04);border:1px solid rgba(255,252,249,0.08);color:rgba(255,252,249,0.4);padding:5px 14px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border-radius:20px;transition:all 0.2s}
+    .filter-btn:hover,.filter-btn.active{background:rgba(184,150,90,0.12);border-color:rgba(184,150,90,0.35);color:var(--gold)}
+    .products-list{display:flex;flex-direction:column;gap:10px;max-height:620px;overflow-y:auto;padding-right:4px}
+    .products-list::-webkit-scrollbar{width:4px}
+    .products-list::-webkit-scrollbar-track{background:rgba(255,252,249,0.04)}
+    .products-list::-webkit-scrollbar-thumb{background:rgba(184,150,90,0.3);border-radius:2px}
+    .product-row{background:#2a1e15;border:1px solid rgba(255,252,249,0.07);border-radius:6px;padding:12px 14px;display:grid;grid-template-columns:60px 1fr auto;gap:12px;align-items:center;transition:border-color 0.2s}
+    .product-row:hover{border-color:rgba(184,150,90,0.22)}
+    .product-row-img{width:60px;height:60px;border-radius:4px;object-fit:cover;background:rgba(255,252,249,0.06);flex-shrink:0}
     .product-row-info{min-width:0}
-    .product-row-title{font-family:'Playfair Display',serif;font-size:14px;font-style:italic;color:var(--cream);margin-bottom:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-    .product-row-cat{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
-    .product-row-link{font-size:11px;color:rgba(255,252,249,0.3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:200px}
-    .product-row-actions{display:flex;gap:8px;flex-shrink:0}
-    .btn-delete{background:transparent;border:1px solid rgba(224,112,112,0.25);color:rgba(224,112,112,0.6);padding:6px 12px;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all 0.2s}
-    .btn-delete:hover{background:rgba(224,112,112,0.1);border-color:var(--red);color:var(--red)}
-    .btn-visit{background:transparent;border:1px solid rgba(184,150,90,0.25);color:rgba(184,150,90,0.6);padding:6px 12px;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:3px;text-decoration:none;transition:all 0.2s;display:inline-block}
-    .btn-visit:hover{background:rgba(184,150,90,0.1);border-color:var(--gold);color:var(--gold)}
-    .loading-msg{text-align:center;padding:48px;color:var(--muted);font-family:'Playfair Display',serif;font-style:italic;font-size:16px}
-    .empty-msg{text-align:center;padding:48px;color:var(--muted);font-size:14px}
+    .product-row-title{font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--cream);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .product-row-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+    .row-cat{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
+    .row-badge{font-size:9px;background:rgba(201,150,122,0.15);color:var(--rose);padding:2px 8px;border-radius:10px;letter-spacing:0.5px}
+    .row-link{font-size:11px;color:rgba(255,252,249,0.25);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
+    .row-actions{display:flex;gap:6px;flex-shrink:0}
+    .loading-msg{text-align:center;padding:48px;color:var(--muted);font-family:'Playfair Display',serif;font-style:italic}
+    .empty-msg{text-align:center;padding:40px;color:var(--muted);font-size:13px}
 
-    /* TOKEN NOTICE */
-    .token-notice{background:rgba(184,150,90,0.08);border:1px solid rgba(184,150,90,0.2);border-radius:6px;padding:14px 16px;margin-bottom:20px;font-size:12px;color:rgba(255,252,249,0.6);line-height:1.65}
-    .token-notice a{color:var(--gold);text-decoration:none}
-    .token-notice a:hover{text-decoration:underline}
+    /* ── EDIT MODAL ── */
+    .modal-bg{display:none;position:fixed;inset:0;background:rgba(10,6,2,0.85);z-index:200;align-items:center;justify-content:center;padding:20px}
+    .modal-bg.open{display:flex}
+    .modal-box{background:#2a1e15;border:1px solid rgba(184,150,90,0.2);border-radius:8px;padding:32px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;animation:modalPop 0.3s cubic-bezier(0.34,1.56,0.64,1)}
+    @keyframes modalPop{from{opacity:0;transform:scale(0.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    .modal-title{font-family:'Playfair Display',serif;font-size:20px;font-style:italic;color:var(--cream);margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid rgba(255,252,249,0.06);display:flex;justify-content:space-between;align-items:center}
+    .modal-close{background:none;border:none;color:rgba(255,252,249,0.4);font-size:20px;cursor:pointer;padding:0;transition:color 0.2s}
+    .modal-close:hover{color:var(--red)}
+    .modal-actions{display:flex;gap:10px;margin-top:20px}
+    .modal-actions .btn-primary{width:auto;flex:1}
 
-    @media(max-width:768px){
-      .admin-body{grid-template-columns:1fr}
-      .sidebar{border-right:none;border-bottom:1px solid rgba(184,150,90,0.15)}
-      .main-panel{padding:20px 16px}
-      .product-row{grid-template-columns:48px 1fr auto}
-      .product-row-img{width:48px;height:48px}
+    /* ── HERO MANAGER ── */
+    .hero-manager-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
+    .hero-slide-card{background:#2a1e15;border:1px solid rgba(255,252,249,0.08);border-radius:6px;overflow:hidden;transition:border-color 0.2s}
+    .hero-slide-card:hover{border-color:rgba(184,150,90,0.3)}
+    .slide-thumb{width:100%;height:120px;object-fit:cover;background:rgba(255,252,249,0.06);display:flex;align-items:center;justify-content:center;font-size:24px;color:rgba(255,252,249,0.2)}
+    .slide-thumb img{width:100%;height:100%;object-fit:cover}
+    .slide-body{padding:12px}
+    .slide-num{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+    .slide-label{font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--cream);margin-bottom:10px}
+    .slide-input{width:100%;background:rgba(255,252,249,0.06);border:1px solid rgba(255,252,249,0.1);border-radius:3px;padding:7px 10px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--cream);outline:none;margin-bottom:6px;transition:border-color 0.2s}
+    .slide-input:focus{border-color:rgba(184,150,90,0.5)}
+    .slide-input::placeholder{color:rgba(255,252,249,0.2)}
+    .btn-slide-save{background:rgba(184,150,90,0.15);color:var(--gold);border:1px solid rgba(184,150,90,0.25);padding:6px 12px;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:3px;width:100%;transition:all 0.2s;font-family:'DM Sans',sans-serif}
+    .btn-slide-save:hover{background:rgba(184,150,90,0.25)}
+    .hero-text-section{background:#2a1e15;border:1px solid rgba(184,150,90,0.12);border-radius:6px;padding:24px;margin-bottom:20px}
+    .hero-section-title{font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--cream);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(255,252,249,0.06)}
+    .hero-preview{background:rgba(10,6,2,0.6);border-radius:6px;padding:20px;margin-top:16px;position:relative;overflow:hidden}
+    .hero-preview-bg{position:absolute;inset:0;background:linear-gradient(135deg,#2C1A12,#8B5E3C);opacity:0.4}
+    .hero-preview-content{position:relative;z-index:1}
+    .preview-eyebrow{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
+    .preview-title{font-family:'Playfair Display',serif;font-size:22px;color:#FAF7F2;font-style:italic;margin-bottom:6px;line-height:1.2}
+    .preview-sub{font-size:13px;color:rgba(250,247,242,0.6);font-family:'DM Sans',sans-serif;line-height:1.5}
+    .save-hero-btn{background:var(--rose);color:var(--cream);border:none;padding:12px 28px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:4px;transition:background 0.2s;margin-top:16px}
+    .save-hero-btn:hover{background:#b87f64}
+
+    /* ── BADGE AUTO-SUGGEST ── */
+    .badge-suggestions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+    .badge-chip{background:rgba(255,252,249,0.06);border:1px solid rgba(255,252,249,0.1);color:rgba(255,252,249,0.5);padding:4px 10px;font-size:10px;border-radius:20px;cursor:pointer;transition:all 0.2s}
+    .badge-chip:hover{background:rgba(184,150,90,0.15);border-color:var(--gold);color:var(--gold)}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:900px){
+      .add-layout{grid-template-columns:1fr}
+      .hero-manager-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:600px){
+      .admin-tabs{padding:0 16px}
+      .tab-panel{padding:16px}
+      .hero-manager-grid{grid-template-columns:1fr}
+      .product-row{grid-template-columns:48px 1fr}
+      .row-actions{display:none}
     }
   </style>
 </head>
 <body>
 
-<!-- LOGIN SCREEN -->
+<!-- ── LOGIN SCREEN ── -->
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
     <div class="login-logo">Style<span>Aura</span></div>
-    <div class="login-sub">Admin Panel</div>
+    <div class="login-sub">Admin Panel · Secure Access</div>
     <div id="loginError" class="login-error">Incorrect password. Please try again.</div>
     <label class="field-label">Admin Password</label>
-    <input type="password" class="field-input" id="loginPassword" placeholder="Enter your admin password" onkeydown="if(event.key==='Enter')doLogin()">
+    <input type="password" class="field-input" id="loginPassword"
+      placeholder="Enter your admin password"
+      onkeydown="if(event.key==='Enter')doLogin()">
     <label class="field-label">Sanity Write Token</label>
-    <input type="password" class="field-input" id="sanityToken" placeholder="Paste your Sanity API write token">
+    <input type="password" class="field-input" id="sanityToken"
+      placeholder="Paste your Sanity API write token">
     <div class="login-hint">
-      <strong style="color:var(--gold)">Where to get your Sanity token:</strong><br>
+      <strong style="color:var(--gold)">Get your Sanity token:</strong><br>
       1. Go to <a href="https://www.sanity.io/manage" target="_blank">sanity.io/manage</a><br>
-      2. Select your project → API → Tokens<br>
-      3. Create a token with <strong>Editor</strong> permissions<br>
-      4. Paste it above. It is never stored permanently.
+      2. Your Project → API → Tokens → Add Token<br>
+      3. Choose <strong>Editor</strong> permissions → Copy & paste above
     </div>
     <button class="btn-login" onclick="doLogin()">Enter Admin Panel</button>
   </div>
 </div>
 
-<!-- ADMIN PANEL -->
+<!-- ── ADMIN SHELL ── -->
 <div class="admin-wrap" id="adminWrap">
+
+  <!-- Top Nav -->
   <nav class="admin-nav">
-    <div class="admin-nav-logo">Style<span>Aura</span> <span style="font-family:'DM Sans',sans-serif;font-size:14px;font-style:normal;color:var(--muted)">Admin</span></div>
+    <div class="admin-nav-logo">Style<span>Aura</span>
+      <span style="font-family:'DM Sans',sans-serif;font-size:13px;font-style:normal;color:var(--muted);margin-left:8px">Admin</span>
+    </div>
     <div class="admin-nav-right">
       <span class="nav-badge">✦ Secure Session</span>
-      <a href="/" target="_blank" style="text-decoration:none"><span class="nav-badge" style="cursor:pointer">View Site ↗</span></a>
+      <a href="/" target="_blank" class="nav-badge" style="cursor:pointer">View Site ↗</a>
       <button class="btn-logout" onclick="doLogout()">Logout</button>
     </div>
   </nav>
 
-  <div class="admin-body">
+  <!-- Tab Bar -->
+  <div class="admin-tabs">
+    <div class="admin-tab active" onclick="switchTab('products')">📦 Products</div>
+    <div class="admin-tab" onclick="switchTab('add')">➕ Add Product</div>
+    <div class="admin-tab" onclick="switchTab('hero')">🎬 Hero Manager</div>
+  </div>
 
-    <!-- SIDEBAR: ADD PRODUCT -->
-    <div class="sidebar">
-      <div class="sidebar-title">Add New Product</div>
+  <!-- ══ TAB: PRODUCTS ══ -->
+  <div class="tab-panel active" id="tab-products">
+    <div class="list-header">
+      <div class="list-title">All Products</div>
+      <div class="count-badge" id="totalCount">Loading...</div>
+    </div>
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterProducts('all',this)">All</button>
+      <button class="filter-btn" onclick="filterProducts('fashion',this)">Fashion</button>
+      <button class="filter-btn" onclick="filterProducts('skincare',this)">Skincare</button>
+      <button class="filter-btn" onclick="filterProducts('accessories',this)">Accessories</button>
+      <button class="filter-btn" onclick="filterProducts('watches',this)">Watches</button>
+      <button class="filter-btn" onclick="filterProducts('nail art',this)">Nail Art</button>
+      <button class="filter-btn" onclick="filterProducts('tech',this)">Tech</button>
+      <button class="filter-btn" onclick="filterProducts('home & kitchen',this)">Home</button>
+    </div>
+    <div class="products-list" id="productList">
+      <div class="loading-msg">Loading your products...</div>
+    </div>
+  </div>
 
-      <div class="form-group">
-        <label class="form-label">Product Title *</label>
-        <input type="text" class="form-input" id="fTitle" placeholder="e.g. Minimalist Beige Dress">
-      </div>
+  <!-- ══ TAB: ADD PRODUCT ══ -->
+  <div class="tab-panel" id="tab-add">
+    <div class="add-layout">
+      <!-- Form -->
+      <div class="panel-box">
+        <div class="panel-title">Add New Product</div>
 
-      <div class="form-group">
-        <label class="form-label">Category *</label>
-        <select class="form-select" id="fCategory">
-          <option value="">Select category</option>
-          <option value="fashion">Fashion</option>
-          <option value="skincare">Skincare</option>
-          <option value="accessories">Accessories</option>
-          <option value="watches">Watches</option>
-          <option value="nail art">Nail Art</option>
-          <option value="tech">Tech &amp; Gadgets</option>
-          <option value="home & kitchen">Home &amp; Kitchen</option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Amazon Affiliate Link *</label>
-        <input type="url" class="form-input" id="fLink" placeholder="https://www.amazon.in/dp/...">
-      </div>
-
-      <div class="form-group">
-        <label class="form-label">Product Image</label>
-        <div class="img-upload-area" id="uploadArea">
-          <input type="file" id="fImageFile" accept="image/*" onchange="previewImage(this)">
-          <div class="img-upload-icon">🖼️</div>
-          <div class="img-upload-text">Click to upload image<br><span style="font-size:10px;opacity:0.6">JPG, PNG, WebP</span></div>
-          <img class="img-preview" id="imgPreview" alt="Preview">
+        <div class="form-group">
+          <label class="form-label">Product Title *</label>
+          <input type="text" class="form-input" id="fTitle" placeholder="e.g. Minimalist Beige Linen Dress">
         </div>
-        <div class="img-upload-or">or paste image URL</div>
-        <input type="url" class="form-input" id="fImageUrl" placeholder="https://... (optional if uploading file)">
+
+        <div class="form-group">
+          <label class="form-label">Category *</label>
+          <select class="form-select" id="fCategory" onchange="suggestBadge()">
+            <option value="">Select category</option>
+            <option value="fashion">Fashion</option>
+            <option value="skincare">Skincare</option>
+            <option value="accessories">Accessories</option>
+            <option value="watches">Watches</option>
+            <option value="nail art">Nail Art</option>
+            <option value="tech">Tech &amp; Gadgets</option>
+            <option value="home & kitchen">Home &amp; Kitchen</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Affiliate Link *</label>
+          <input type="url" class="form-input" id="fLink"
+            placeholder="https://amzn.to/... or Flipkart / Nykaa / any platform">
+          <div class="form-hint">Paste any affiliate link — Amazon, Flipkart, Myntra, Nykaa, Meesho, Ajio etc.</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Product Image</label>
+          <div class="img-upload-area" id="uploadArea">
+            <input type="file" id="fImageFile" accept="image/*" onchange="previewImg(this,'addPreview')">
+            <div class="img-upload-icon">🖼️</div>
+            <div class="img-upload-text">Click to upload image<br><span style="font-size:10px;opacity:0.6">JPG, PNG, WebP — max 5MB</span></div>
+          </div>
+          <img class="img-preview-box" id="addPreview" alt="Preview">
+          <div class="img-or">or paste image URL</div>
+          <input type="url" class="form-input" id="fImageUrl"
+            placeholder="https://m.media-amazon.com/images/..."
+            oninput="urlPreview(this.value,'addPreview')">
+          <div class="form-hint">Right-click Amazon product image → Copy image address → paste here</div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Badge <span style="opacity:0.5">(optional)</span></label>
+          <input type="text" class="form-input" id="fBadge"
+            placeholder="e.g. Trending, New Arrival, Under ₹999">
+          <div class="badge-suggestions" id="badgeSuggestions"></div>
+        </div>
+
+        <button class="btn-primary" id="addBtn" onclick="addProduct()">Publish Product</button>
+        <div class="form-status" id="addStatus"></div>
       </div>
 
-      <div class="form-group">
-        <label class="form-label">Badge Label <span style="opacity:0.5">(optional)</span></label>
-        <input type="text" class="form-input" id="fBadge" placeholder="e.g. Trending, New, Under ₹500">
+      <!-- Live Preview -->
+      <div class="panel-box">
+        <div class="panel-title">Live Preview</div>
+        <div style="background:#FAF7F2;border-radius:6px;overflow:hidden;border:1px solid rgba(139,111,94,0.12)">
+          <div style="position:relative;height:220px;background:#F2E4DA;overflow:hidden">
+            <img id="previewCardImg" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:none">
+            <div id="previewCardPlaceholder" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:40px">🖼️</div>
+            <div id="previewBadgeEl" style="display:none;position:absolute;top:10px;left:10px;background:#3D2B1F;color:#FAF7F2;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;padding:5px 10px;border-radius:2px"></div>
+          </div>
+          <div style="padding:14px 16px">
+            <div id="previewCatEl" style="font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:#B8965A;margin-bottom:5px"></div>
+            <div id="previewTitleEl" style="font-family:'Playfair Display',serif;font-size:15px;font-style:italic;color:#3D2B1F;line-height:1.35;margin-bottom:14px">Product title will appear here</div>
+            <div id="previewBtnEl" style="background:#3D2B1F;color:#FAF7F2;padding:9px 16px;font-size:10px;letter-spacing:1px;text-transform:uppercase;display:inline-block;border-radius:2px">Shop Now ↗</div>
+          </div>
+        </div>
+        <div style="margin-top:16px;padding:14px;background:rgba(184,150,90,0.06);border-radius:4px;font-size:12px;color:rgba(255,252,249,0.4);line-height:1.7">
+          💡 <strong style="color:var(--gold)">Auto Badge tip:</strong> Select a category above and badge suggestions will appear automatically. You can also type your own badge label.
+        </div>
       </div>
+    </div>
+  </div>
 
-      <button class="btn-add" id="addBtn" onclick="addProduct()">Add Product</button>
-      <div class="form-status" id="formStatus"></div>
+  <!-- ══ TAB: HERO MANAGER ══ -->
+  <div class="tab-panel" id="tab-hero">
+
+    <!-- Hero Text Controls -->
+    <div class="hero-text-section">
+      <div class="hero-section-title">Hero Headline & Subtext</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div>
+          <div class="form-group">
+            <label class="form-label">Main Headline</label>
+            <input type="text" class="form-input" id="heroTitle"
+              value="Discover Pinterest-Inspired"
+              oninput="updateHeroPreview()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Italic Highlight Word</label>
+            <input type="text" class="form-input" id="heroEmphasis"
+              value="Fashion Finds"
+              oninput="updateHeroPreview()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Third Line</label>
+            <input type="text" class="form-input" id="heroThird"
+              value="Lifestyle &amp; Trending Picks"
+              oninput="updateHeroPreview()">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Subtext</label>
+            <textarea class="form-textarea" id="heroSub"
+              oninput="updateHeroPreview()">Carefully curated fashion, beauty, home and tech finds. Trending aesthetics loved across Pinterest — all in one place.</textarea>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Button 1 Text</label>
+            <input type="text" class="form-input" id="heroBtn1" value="Explore Now">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Button 2 Text</label>
+            <input type="text" class="form-input" id="heroBtn2" value="Shop Finds ↓">
+          </div>
+        </div>
+        <div>
+          <div class="form-label" style="margin-bottom:12px">Live Preview</div>
+          <div class="hero-preview">
+            <div class="hero-preview-bg"></div>
+            <div class="hero-preview-content">
+              <div class="preview-eyebrow">✦ StyleAura Hub</div>
+              <div class="preview-title" id="previewHeroTitle">
+                Discover Pinterest-Inspired<br><em style="color:#C9967A">Fashion Finds</em>,<br>Lifestyle &amp; Trending Picks
+              </div>
+              <div class="preview-sub" id="previewHeroSub" style="margin-top:10px">
+                Carefully curated fashion, beauty, home and tech finds.
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:14px;padding:12px;background:rgba(184,150,90,0.06);border-radius:4px;font-size:11px;color:rgba(255,252,249,0.4);line-height:1.7">
+            ⚡ Changes saved here are stored in your browser. To make them permanent, copy the updated text into your <code style="color:var(--gold)">index.html</code> hero section, or paste into GitHub directly.
+          </div>
+        </div>
+      </div>
+      <button class="save-hero-btn" onclick="saveHeroText()">Save Hero Text</button>
+      <div class="form-status" id="heroStatus" style="display:inline-block;margin-left:16px"></div>
     </div>
 
-    <!-- MAIN: PRODUCT LIST -->
-    <div class="main-panel">
-      <div class="main-header">
-        <div class="main-title">All Products</div>
-        <div class="product-count-badge" id="totalCount">Loading...</div>
+    <!-- Slide Image Manager -->
+    <div class="hero-text-section">
+      <div class="hero-section-title">Hero Slide Images & Vibe Labels</div>
+      <div style="font-size:12px;color:rgba(255,252,249,0.35);margin-bottom:20px;line-height:1.6">
+        Each slide has a background photo and a vibe label shown in the animated text strip. Paste a new Unsplash or product image URL to update the slide photo. Vibe labels cycle with each slide.
       </div>
-
-      <div class="filter-bar" id="filterBar">
-        <button class="filter-btn active" onclick="filterProducts('all', this)">All</button>
-        <button class="filter-btn" onclick="filterProducts('fashion', this)">Fashion</button>
-        <button class="filter-btn" onclick="filterProducts('skincare', this)">Skincare</button>
-        <button class="filter-btn" onclick="filterProducts('accessories', this)">Accessories</button>
-        <button class="filter-btn" onclick="filterProducts('watches', this)">Watches</button>
-        <button class="filter-btn" onclick="filterProducts('nail art', this)">Nail Art</button>
-        <button class="filter-btn" onclick="filterProducts('tech', this)">Tech</button>
-        <button class="filter-btn" onclick="filterProducts('home & kitchen', this)">Home</button>
-      </div>
-
-      <div class="products-list" id="productList">
-        <div class="loading-msg">Loading your products...</div>
-      </div>
+      <div class="hero-manager-grid" id="slidesGrid"></div>
+      <button class="save-hero-btn" onclick="saveSlides()" style="margin-top:8px">Save All Slides</button>
+      <div class="form-status" id="slidesStatus" style="display:inline-block;margin-left:16px"></div>
     </div>
 
+  </div>
+
+</div>
+
+<!-- ══ EDIT PRODUCT MODAL ══ -->
+<div class="modal-bg" id="editModal">
+  <div class="modal-box">
+    <div class="modal-title">
+      Edit Product
+      <button class="modal-close" onclick="closeEdit()">✕</button>
+    </div>
+    <input type="hidden" id="editId">
+    <div class="form-group">
+      <label class="form-label">Product Title *</label>
+      <input type="text" class="form-input" id="editTitle" placeholder="Product title">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Category *</label>
+      <select class="form-select" id="editCategory">
+        <option value="fashion">Fashion</option>
+        <option value="skincare">Skincare</option>
+        <option value="accessories">Accessories</option>
+        <option value="watches">Watches</option>
+        <option value="nail art">Nail Art</option>
+        <option value="tech">Tech &amp; Gadgets</option>
+        <option value="home & kitchen">Home &amp; Kitchen</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Affiliate Link *</label>
+      <input type="url" class="form-input" id="editLink" placeholder="https://...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Image URL</label>
+      <input type="url" class="form-input" id="editImageUrl"
+        placeholder="Paste new image URL or leave unchanged"
+        oninput="urlPreview(this.value,'editPreview')">
+      <img class="img-preview-box" id="editPreview" alt="Preview" style="margin-top:8px">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Upload New Image <span style="opacity:0.5">(replaces URL above)</span></label>
+      <div class="img-upload-area">
+        <input type="file" id="editImageFile" accept="image/*" onchange="previewImg(this,'editPreview')">
+        <div class="img-upload-icon">📁</div>
+        <div class="img-upload-text">Click to upload new image</div>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Badge</label>
+      <input type="text" class="form-input" id="editBadge" placeholder="e.g. Trending, New Arrival">
+      <div class="badge-suggestions" id="editBadgeSuggestions">
+        <div class="badge-chip" onclick="setBadge('editBadge','Trending')">Trending</div>
+        <div class="badge-chip" onclick="setBadge('editBadge','Best Seller')">Best Seller</div>
+        <div class="badge-chip" onclick="setBadge('editBadge','New Arrival')">New Arrival</div>
+        <div class="badge-chip" onclick="setBadge('editBadge','Editor\'s Pick')">Editor's Pick</div>
+        <div class="badge-chip" onclick="setBadge('editBadge','Limited Deal')">Limited Deal</div>
+        <div class="badge-chip" onclick="setBadge('editBadge','')">Remove Badge</div>
+      </div>
+    </div>
+    <div class="form-status" id="editStatus"></div>
+    <div class="modal-actions">
+      <button class="btn-primary" onclick="saveEdit()">Save Changes</button>
+      <button class="btn-ghost" onclick="closeEdit()">Cancel</button>
+    </div>
   </div>
 </div>
 
 <script>
+  // ── CONFIG ──
   const SANITY_PROJECT = '0rnruyd6';
   const SANITY_DATASET = 'production';
+  const ADMIN_PASS = 'styleaura2024'; // Change this!
   let SANITY_TOKEN = '';
   let allProducts = [];
-  let currentFilter = 'all';
+
+  // Default slide data
+  let slides = [
+    { url:'https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=1600&q=80', vibe:'Old Money Aesthetic' },
+    { url:'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1600&q=80', vibe:'Party & Evening Glam' },
+    { url:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1600&q=80', vibe:'Luxury Watches & Jewellery' },
+    { url:'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1600&q=80', vibe:'Minimal Street Style' },
+    { url:'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1600&q=80', vibe:'Skincare & Beauty Finds' },
+    { url:'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=1600&q=80', vibe:'Coquette · Soft Girl' },
+  ];
+
+  // Auto badge suggestions per category
+  const BADGE_SUGGESTIONS = {
+    fashion:        ['Trending','New Arrival','Old Money','Best Seller','Editor\'s Pick'],
+    skincare:       ['Must Have','Bestseller','Glow Up','Clean Beauty','Editor\'s Pick'],
+    accessories:    ['Trending','Luxury Pick','New Arrival','Gift Idea','Editor\'s Pick'],
+    watches:        ['Premium','Limited Edition','Best Seller','Gift Idea','New Arrival'],
+    'nail art':     ['Viral','New','Trending','Starter Kit','Salon Quality'],
+    tech:           ['Top Rated','New Launch','Best Buy','Editor\'s Pick','Trending'],
+    'home & kitchen':['Home Essential','Bestseller','New Arrival','Gift Idea','Trending'],
+  };
 
   // ── AUTH ──
-  const ADMIN_PASS = 'styleaura2024'; // Change this to your preferred password
-
   function doLogin() {
-    const pass = document.getElementById('loginPassword').value;
+    const pass  = document.getElementById('loginPassword').value;
     const token = document.getElementById('sanityToken').value.trim();
-    const err = document.getElementById('loginError');
-    if (pass !== ADMIN_PASS) { err.style.display = 'block'; return; }
+    const err   = document.getElementById('loginError');
+    if (pass !== ADMIN_PASS) { err.style.display='block'; return; }
     if (!token) { alert('Please enter your Sanity write token.'); return; }
     SANITY_TOKEN = token;
     err.style.display = 'none';
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('adminWrap').style.display = 'block';
+    document.getElementById('loginScreen').style.display  = 'none';
+    document.getElementById('adminWrap').style.display    = 'flex';
     loadProducts();
+    buildSlidesGrid();
+    loadSavedSlides();
   }
 
   function doLogout() {
     SANITY_TOKEN = '';
     document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('adminWrap').style.display = 'none';
+    document.getElementById('adminWrap').style.display   = 'none';
     document.getElementById('loginPassword').value = '';
-    document.getElementById('sanityToken').value = '';
+    document.getElementById('sanityToken').value   = '';
+  }
+
+  // ── TABS ──
+  function switchTab(name) {
+    document.querySelectorAll('.admin-tab').forEach((t,i) => {
+      const names = ['products','add','hero'];
+      t.classList.toggle('active', names[i] === name);
+    });
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.getElementById('tab-'+name).classList.add('active');
+    if (name === 'products') loadProducts();
   }
 
   // ── LOAD PRODUCTS ──
   async function loadProducts() {
-    const url = `https://${SANITY_PROJECT}.api.sanity.io/v2021-10-21/data/query/${SANITY_DATASET}?query=*[_type == "product"]%7B_id, title, "imageUrl": image.asset->url, affiliateLink, category, badge%7D`;
+    const url = `https://${SANITY_PROJECT}.api.sanity.io/v2021-10-21/data/query/${SANITY_DATASET}`
+      + `?query=*[_type=="product"]{_id,title,"imageUrl":image.asset->url,affiliateLink,category,badge}`
+      + `|order(_createdAt desc)`;
     try {
-      const res = await fetch(url, { headers: { Authorization: `Bearer ${SANITY_TOKEN}` } });
+      const res  = await fetch(url, { headers:{ Authorization:`Bearer ${SANITY_TOKEN}` }});
       const data = await res.json();
       allProducts = data.result || [];
       renderProducts(allProducts);
-      document.getElementById('totalCount').textContent = `${allProducts.length} products total`;
+      document.getElementById('totalCount').textContent = `${allProducts.length} products`;
     } catch(e) {
-      document.getElementById('productList').innerHTML = `<div class="empty-msg">Could not load products. Check your token and connection.</div>`;
+      document.getElementById('productList').innerHTML =
+        `<div class="empty-msg">Could not load — check token & connection.</div>`;
     }
   }
 
   // ── RENDER PRODUCTS ──
   function renderProducts(products) {
     const list = document.getElementById('productList');
-    if (!products.length) { list.innerHTML = `<div class="empty-msg">No products in this category yet.</div>`; return; }
+    if (!products.length) {
+      list.innerHTML = `<div class="empty-msg">No products in this category yet.</div>`;
+      return;
+    }
     list.innerHTML = products.map(p => `
       <div class="product-row" id="row-${p._id}">
-        ${p.imageUrl ? `<img class="product-row-img" src="${p.imageUrl}" alt="${p.title||''}">` : `<div class="product-row-img" style="display:flex;align-items:center;justify-content:center;font-size:20px;">🖼️</div>`}
+        ${p.imageUrl
+          ? `<img class="product-row-img" src="${p.imageUrl}" alt="${p.title||''}" onerror="this.style.display='none'">`
+          : `<div class="product-row-img" style="display:flex;align-items:center;justify-content:center;font-size:22px">🖼️</div>`}
         <div class="product-row-info">
-          <div class="product-row-title">${p.title || 'Untitled'}</div>
-          <div class="product-row-cat">${p.category || '—'}${p.badge ? ' · <span style="color:var(--rose)">'+p.badge+'</span>' : ''}</div>
-          <div class="product-row-link">${p.affiliateLink || 'No link set'}</div>
+          <div class="product-row-title">${p.title||'Untitled'}</div>
+          <div class="product-row-meta">
+            <span class="row-cat">${p.category||'—'}</span>
+            ${p.badge ? `<span class="row-badge">${p.badge}</span>` : ''}
+          </div>
+          <div class="row-link">${p.affiliateLink||'No link'}</div>
         </div>
-        <div class="product-row-actions">
+        <div class="row-actions">
           ${p.affiliateLink ? `<a href="${p.affiliateLink}" target="_blank" class="btn-visit">View ↗</a>` : ''}
-          <button class="btn-delete" onclick="deleteProduct('${p._id}')">Delete</button>
+          <button class="btn-edit" onclick="openEdit('${p._id}')">✏ Edit</button>
+          <button class="btn-danger" onclick="deleteProduct('${p._id}')">✕ Delete</button>
         </div>
       </div>`).join('');
   }
 
   // ── FILTER ──
   function filterProducts(cat, btn) {
-    currentFilter = cat;
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
-    const filtered = cat === 'all' ? allProducts : allProducts.filter(p => (p.category||'').toLowerCase() === cat);
+    const filtered = cat==='all' ? allProducts
+      : allProducts.filter(p => (p.category||'').toLowerCase() === cat);
     renderProducts(filtered);
   }
 
-  // ── IMAGE PREVIEW ──
-  function previewImage(input) {
-    const preview = document.getElementById('imgPreview');
+  // ── IMAGE HELPERS ──
+  function previewImg(input, previewId) {
+    const preview = document.getElementById(previewId);
     if (input.files && input.files[0]) {
       const reader = new FileReader();
-      reader.onload = e => { preview.src = e.target.result; preview.style.display = 'block'; };
+      reader.onload = e => {
+        preview.src = e.target.result;
+        preview.style.display = 'block';
+        // Also update card preview if on add tab
+        if (previewId === 'addPreview') {
+          document.getElementById('previewCardImg').src = e.target.result;
+          document.getElementById('previewCardImg').style.display = 'block';
+          document.getElementById('previewCardPlaceholder').style.display = 'none';
+        }
+      };
       reader.readAsDataURL(input.files[0]);
     }
   }
 
+  function urlPreview(url, previewId) {
+    const preview = document.getElementById(previewId);
+    if (url) {
+      preview.src = url;
+      preview.style.display = 'block';
+      if (previewId === 'addPreview') {
+        document.getElementById('previewCardImg').src = url;
+        document.getElementById('previewCardImg').style.display = 'block';
+        document.getElementById('previewCardPlaceholder').style.display = 'none';
+      }
+    } else {
+      preview.style.display = 'none';
+    }
+  }
+
+  // ── LIVE CARD PREVIEW (Add tab) ──
+  document.addEventListener('input', e => {
+    if (['fTitle','fCategory','fBadge'].includes(e.target.id)) updateCardPreview();
+  });
+
+  function updateCardPreview() {
+    const title    = document.getElementById('fTitle').value || 'Product title will appear here';
+    const category = document.getElementById('fCategory').value || '';
+    const badge    = document.getElementById('fBadge').value || '';
+    const link     = document.getElementById('fLink').value || '';
+    document.getElementById('previewTitleEl').textContent = title;
+    document.getElementById('previewCatEl').textContent   = category.toUpperCase();
+    const badgeEl = document.getElementById('previewBadgeEl');
+    badgeEl.style.display = badge ? 'block' : 'none';
+    badgeEl.textContent   = badge;
+    // Smart button label
+    const u = link.toLowerCase();
+    let btnLabel = 'Shop Now ↗';
+    if (u.includes('amzn')||u.includes('amazon'))   btnLabel = 'Shop on Amazon ↗';
+    else if (u.includes('fktr')||u.includes('flipkart')) btnLabel = 'Shop on Flipkart ↗';
+    else if (u.includes('myntra'))  btnLabel = 'Shop on Myntra ↗';
+    else if (u.includes('nykaa'))   btnLabel = 'Shop on Nykaa ↗';
+    else if (u.includes('meesho'))  btnLabel = 'Shop on Meesho ↗';
+    document.getElementById('previewBtnEl').textContent = btnLabel;
+  }
+
+  // ── AUTO BADGE SUGGESTIONS ──
+  function suggestBadge() {
+    const cat  = document.getElementById('fCategory').value;
+    const wrap = document.getElementById('badgeSuggestions');
+    const badges = BADGE_SUGGESTIONS[cat] || ['Trending','New Arrival','Best Seller','Editor\'s Pick'];
+    wrap.innerHTML = badges.map(b =>
+      `<div class="badge-chip" onclick="setBadge('fBadge','${b}')">${b}</div>`
+    ).join('');
+    updateCardPreview();
+  }
+
+  function setBadge(inputId, value) {
+    document.getElementById(inputId).value = value;
+    updateCardPreview();
+  }
+
   // ── UPLOAD IMAGE TO SANITY ──
   async function uploadImageToSanity(file) {
-    const res = await fetch(`https://${SANITY_PROJECT}.api.sanity.io/v2021-10-21/assets/images/${SANITY_DATASET}`, {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${SANITY_TOKEN}`, 'Content-Type': file.type },
-      body: file
-    });
+    const res = await fetch(
+      `https://${SANITY_PROJECT}.api.sanity.io/v2021-10-21/assets/images/${SANITY_DATASET}`,
+      { method:'POST', headers:{ Authorization:`Bearer ${SANITY_TOKEN}`, 'Content-Type':file.type }, body:file }
+    );
     if (!res.ok) throw new Error('Image upload failed');
     const data = await res.json();
     return data.document._id;
@@ -311,86 +669,258 @@
 
   // ── ADD PRODUCT ──
   async function addProduct() {
-    const title = document.getElementById('fTitle').value.trim();
+    const title    = document.getElementById('fTitle').value.trim();
     const category = document.getElementById('fCategory').value;
-    const link = document.getElementById('fLink').value.trim();
-    const badge = document.getElementById('fBadge').value.trim();
-    const imageFile = document.getElementById('fImageFile').files[0];
-    const imageUrl = document.getElementById('fImageUrl').value.trim();
+    const link     = document.getElementById('fLink').value.trim();
+    const badge    = document.getElementById('fBadge').value.trim();
+    const imgFile  = document.getElementById('fImageFile').files[0];
+    const imgUrl   = document.getElementById('fImageUrl').value.trim();
 
-    if (!title) { showStatus('Please enter a product title.', 'error'); return; }
-    if (!category) { showStatus('Please select a category.', 'error'); return; }
-    if (!link) { showStatus('Please enter the Amazon affiliate link.', 'error'); return; }
+    if (!title)    { showStatus('addStatus','Please enter a product title.','error'); return; }
+    if (!category) { showStatus('addStatus','Please select a category.','error'); return; }
+    if (!link)     { showStatus('addStatus','Please enter an affiliate link.','error'); return; }
 
     const btn = document.getElementById('addBtn');
-    btn.disabled = true;
-    btn.textContent = 'Adding...';
-    showStatus('', '');
+    btn.disabled = true; btn.textContent = 'Publishing...';
+    showStatus('addStatus','','');
 
     try {
-      const mutation = { _type: 'product', title, category, affiliateLink: link };
+      const mutation = { _type:'product', title, category, affiliateLink:link };
       if (badge) mutation.badge = badge;
 
-      if (imageFile) {
-        showStatus('Uploading image...', '');
-        const assetId = await uploadImageToSanity(imageFile);
-        mutation.image = { _type: 'image', asset: { _type: 'reference', _ref: assetId } };
+      if (imgFile) {
+        showStatus('addStatus','Uploading image to Sanity...','info');
+        const assetId = await uploadImageToSanity(imgFile);
+        mutation.image = { _type:'image', asset:{ _type:'reference', _ref:assetId }};
+      } else if (imgUrl) {
+        mutation.imageUrl = imgUrl;
       }
 
-      const res = await fetch(`https://${SANITY_PROJECT}.api.sanity.io/v2021-10-21/data/mutate/${SANITY_DATASET}`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${SANITY_TOKEN}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mutations: [{ create: mutation }] })
-      });
+      const res = await fetch(
+        `https://${SANITY_PROJECT}.api.sanity.io/v2021-10-21/data/mutate/${SANITY_DATASET}`,
+        { method:'POST', headers:{ Authorization:`Bearer ${SANITY_TOKEN}`, 'Content-Type':'application/json' },
+          body: JSON.stringify({ mutations:[{ create: mutation }]}) }
+      );
+      if (!res.ok) { const e=await res.json(); throw new Error(e.error?.description||'Failed'); }
 
-      if (!res.ok) { const e = await res.json(); throw new Error(e.error?.description || 'Add failed'); }
-
-      showStatus('✓ Product added successfully!', 'success');
-      clearForm();
-      await loadProducts();
+      showStatus('addStatus','✓ Product published successfully! It is now live on your site.','success');
+      clearAddForm();
+      setTimeout(() => switchTab('products'), 1500);
     } catch(e) {
-      showStatus('Error: ' + e.message, 'error');
+      showStatus('addStatus','Error: '+e.message,'error');
     } finally {
-      btn.disabled = false;
-      btn.textContent = 'Add Product';
+      btn.disabled = false; btn.textContent = 'Publish Product';
+    }
+  }
+
+  function clearAddForm() {
+    ['fTitle','fLink','fImageUrl','fBadge'].forEach(id => document.getElementById(id).value='');
+    document.getElementById('fCategory').value = '';
+    document.getElementById('fImageFile').value = '';
+    document.getElementById('addPreview').style.display = 'none';
+    document.getElementById('previewCardImg').style.display = 'none';
+    document.getElementById('previewCardPlaceholder').style.display = 'flex';
+    document.getElementById('badgeSuggestions').innerHTML = '';
+    updateCardPreview();
+  }
+
+  // ── EDIT PRODUCT ──
+  function openEdit(id) {
+    const p = allProducts.find(x => x._id === id);
+    if (!p) return;
+    document.getElementById('editId').value       = p._id;
+    document.getElementById('editTitle').value    = p.title || '';
+    document.getElementById('editCategory').value = p.category || '';
+    document.getElementById('editLink').value     = p.affiliateLink || '';
+    document.getElementById('editImageUrl').value = p.imageUrl || '';
+    document.getElementById('editBadge').value    = p.badge || '';
+    const prev = document.getElementById('editPreview');
+    if (p.imageUrl) { prev.src=p.imageUrl; prev.style.display='block'; }
+    else prev.style.display = 'none';
+    document.getElementById('editStatus').style.display = 'none';
+    document.getElementById('editModal').classList.add('open');
+  }
+
+  function closeEdit() {
+    document.getElementById('editModal').classList.remove('open');
+    document.getElementById('editImageFile').value = '';
+  }
+
+  async function saveEdit() {
+    const id       = document.getElementById('editId').value;
+    const title    = document.getElementById('editTitle').value.trim();
+    const category = document.getElementById('editCategory').value;
+    const link     = document.getElementById('editLink').value.trim();
+    const imgUrl   = document.getElementById('editImageUrl').value.trim();
+    const badge    = document.getElementById('editBadge').value.trim();
+    const imgFile  = document.getElementById('editImageFile').files[0];
+
+    if (!title||!category||!link) {
+      showStatus('editStatus','Title, category and link are required.','error'); return;
+    }
+
+    showStatus('editStatus','Saving...','info');
+
+    try {
+      const setFields = { title, category, affiliateLink:link, badge };
+
+      if (imgFile) {
+        showStatus('editStatus','Uploading new image...','info');
+        const assetId = await uploadImageToSanity(imgFile);
+        setFields.image = { _type:'image', asset:{ _type:'reference', _ref:assetId }};
+      } else if (imgUrl) {
+        setFields.imageUrl = imgUrl;
+      }
+
+      const res = await fetch(
+        `https://${SANITY_PROJECT}.api.sanity.io/v2021-10-21/data/mutate/${SANITY_DATASET}`,
+        { method:'POST', headers:{ Authorization:`Bearer ${SANITY_TOKEN}`, 'Content-Type':'application/json' },
+          body: JSON.stringify({ mutations:[{ patch:{ id, set:setFields }}]}) }
+      );
+      if (!res.ok) throw new Error('Save failed');
+
+      showStatus('editStatus','✓ Saved successfully!','success');
+      // Update local cache
+      const idx = allProducts.findIndex(p => p._id === id);
+      if (idx > -1) Object.assign(allProducts[idx], { title, category, affiliateLink:link, badge, imageUrl:imgUrl });
+      renderProducts(allProducts);
+      setTimeout(closeEdit, 1200);
+    } catch(e) {
+      showStatus('editStatus','Error: '+e.message,'error');
     }
   }
 
   // ── DELETE PRODUCT ──
   async function deleteProduct(id) {
-    if (!confirm('Delete this product? This cannot be undone.')) return;
+    if (!confirm('Delete this product? Cannot be undone.')) return;
     try {
-      const res = await fetch(`https://${SANITY_PROJECT}.api.sanity.io/v2021-10-21/data/mutate/${SANITY_DATASET}`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${SANITY_TOKEN}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ mutations: [{ delete: { id } }] })
-      });
+      const res = await fetch(
+        `https://${SANITY_PROJECT}.api.sanity.io/v2021-10-21/data/mutate/${SANITY_DATASET}`,
+        { method:'POST', headers:{ Authorization:`Bearer ${SANITY_TOKEN}`, 'Content-Type':'application/json' },
+          body: JSON.stringify({ mutations:[{ delete:{ id }}]}) }
+      );
       if (!res.ok) throw new Error('Delete failed');
       const row = document.getElementById(`row-${id}`);
-      if (row) { row.style.opacity = '0'; row.style.transition = 'opacity 0.3s'; setTimeout(()=>row.remove(), 300); }
+      if (row) { row.style.opacity='0'; row.style.transition='opacity 0.3s'; setTimeout(()=>row.remove(),300); }
       allProducts = allProducts.filter(p => p._id !== id);
-      document.getElementById('totalCount').textContent = `${allProducts.length} products total`;
-    } catch(e) {
-      alert('Could not delete: ' + e.message);
-    }
+      document.getElementById('totalCount').textContent = `${allProducts.length} products`;
+    } catch(e) { alert('Could not delete: '+e.message); }
   }
 
-  function showStatus(msg, type) {
-    const el = document.getElementById('formStatus');
-    el.textContent = msg;
-    el.className = 'form-status' + (type ? ' ' + type : '');
+  // ── HERO MANAGER ──
+  function buildSlidesGrid() {
+    const grid = document.getElementById('slidesGrid');
+    grid.innerHTML = slides.map((s,i) => `
+      <div class="hero-slide-card">
+        <div class="slide-thumb">
+          <img src="${s.url}" alt="Slide ${i+1}"
+            style="width:100%;height:100%;object-fit:cover"
+            onerror="this.style.display='none'">
+        </div>
+        <div class="slide-body">
+          <div class="slide-num">Slide ${i+1}</div>
+          <input class="slide-input" id="slideUrl${i}"
+            value="${s.url}"
+            placeholder="Paste image URL..."
+            oninput="previewSlide(${i},this.value)">
+          <input class="slide-input" id="slideVibe${i}"
+            value="${s.vibe}"
+            placeholder="Vibe label (e.g. Old Money)">
+          <button class="btn-slide-save" onclick="updateSlide(${i})">Update Slide ${i+1}</button>
+        </div>
+      </div>`).join('');
+  }
+
+  function previewSlide(i, url) {
+    const imgs = document.querySelectorAll(`#slidesGrid .hero-slide-card:nth-child(${i+1}) img`);
+    if (imgs[0]) imgs[0].src = url;
+  }
+
+  function updateSlide(i) {
+    slides[i].url  = document.getElementById(`slideUrl${i}`).value.trim();
+    slides[i].vibe = document.getElementById(`slideVibe${i}`).value.trim();
+    buildSlidesGrid();
+    saveSlides();
+  }
+
+  function saveSlides() {
+    localStorage.setItem('sa_slides', JSON.stringify(slides));
+    showStatus('slidesStatus','✓ Slides saved to browser!','success');
+    setTimeout(()=>{ document.getElementById('slidesStatus').style.display='none'; },2500);
+    generateSlideCode();
+  }
+
+  function loadSavedSlides() {
+    const saved = localStorage.getItem('sa_slides');
+    if (saved) { try { slides = JSON.parse(saved); buildSlidesGrid(); } catch(e){} }
+  }
+
+  function generateSlideCode() {
+    const code = slides.map((s,i) => `.slide-${i+1}{background-image:url('${s.url}')}`).join('\n');
+    console.log('Updated slide CSS:\n' + code);
+    console.log('Updated vibes JS:\n const vibes = ' + JSON.stringify(slides.map(s=>s.vibe)));
+  }
+
+  function updateHeroPreview() {
+    const title    = document.getElementById('heroTitle').value || '';
+    const emphasis = document.getElementById('heroEmphasis').value || '';
+    const third    = document.getElementById('heroThird').value || '';
+    const sub      = document.getElementById('heroSub').value || '';
+    document.getElementById('previewHeroTitle').innerHTML =
+      `${title}<br><em style="color:#C9967A">${emphasis}</em>,<br>${third}`;
+    document.getElementById('previewHeroSub').textContent = sub.split('\n')[0];
+  }
+
+  function saveHeroText() {
+    const heroData = {
+      title:    document.getElementById('heroTitle').value,
+      emphasis: document.getElementById('heroEmphasis').value,
+      third:    document.getElementById('heroThird').value,
+      sub:      document.getElementById('heroSub').value,
+      btn1:     document.getElementById('heroBtn1').value,
+      btn2:     document.getElementById('heroBtn2').value,
+    };
+    localStorage.setItem('sa_hero', JSON.stringify(heroData));
+    showStatus('heroStatus','✓ Hero text saved!','success');
+    setTimeout(()=>{ document.getElementById('heroStatus').style.display='none'; },2500);
+    // Log the code for copy-paste
+    console.log('Updated hero HTML:\n',
+      `<h1 class="hero-title">${heroData.title}<br><em>${heroData.emphasis}</em>,<br>${heroData.third}</h1>\n` +
+      `<p class="hero-sub">${heroData.sub}</p>\n` +
+      `<a class="btn-primary">${heroData.btn1}</a>\n` +
+      `<a class="btn-secondary">${heroData.btn2}</a>`
+    );
+  }
+
+  // Load saved hero on start
+  window.addEventListener('load', () => {
+    const saved = localStorage.getItem('sa_hero');
+    if (saved) {
+      try {
+        const h = JSON.parse(saved);
+        document.getElementById('heroTitle').value    = h.title    || '';
+        document.getElementById('heroEmphasis').value = h.emphasis || '';
+        document.getElementById('heroThird').value    = h.third    || '';
+        document.getElementById('heroSub').value      = h.sub      || '';
+        document.getElementById('heroBtn1').value     = h.btn1     || '';
+        document.getElementById('heroBtn2').value     = h.btn2     || '';
+        updateHeroPreview();
+      } catch(e) {}
+    }
+  });
+
+  // ── STATUS HELPER ──
+  function showStatus(id, msg, type) {
+    const el = document.getElementById(id);
+    el.textContent  = msg;
+    el.className    = 'form-status' + (type ? ' '+type : '');
     el.style.display = msg ? 'block' : 'none';
   }
 
-  function clearForm() {
-    document.getElementById('fTitle').value = '';
-    document.getElementById('fCategory').value = '';
-    document.getElementById('fLink').value = '';
-    document.getElementById('fBadge').value = '';
-    document.getElementById('fImageFile').value = '';
-    document.getElementById('fImageUrl').value = '';
-    document.getElementById('imgPreview').style.display = 'none';
-  }
+  // Close modal on background click
+  document.getElementById('editModal').addEventListener('click', function(e) {
+    if (e.target === this) closeEdit();
+  });
 </script>
 </body>
 </html>
