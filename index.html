@@ -115,95 +115,333 @@
     .trust-card-text{font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:300;color:var(--muted);line-height:1.65}
 
     /* ── PRODUCT SECTIONS ── */
-    section{padding:64px 40px 40px}
-    section:nth-child(even){background:var(--blush)}
+
+    /* ══ IMMERSIVE SECTION THEMES ══ */
+    section{padding:64px 40px 40px;position:relative;overflow:hidden;transition:background 0.5s}
+
+    #fashion-section{
+      background:linear-gradient(160deg,#FAF7F2 0%,#F5EDE4 50%,#EDD8C8 100%);
+    }
+    #skincare-section{
+      background:linear-gradient(160deg,#FDF0F5 0%,#F7E0EB 50%,#EDD0DF 100%);
+    }
+    #accessories-section{
+      background:linear-gradient(160deg,#FAF7F2 0%,#F2EAD8 50%,#E8D8B8 100%);
+    }
+    #watches-section{
+      background:linear-gradient(160deg,#1A1208 0%,#2A1E10 50%,#3D2B1F 100%);
+    }
+    #nailart-section{
+      background:linear-gradient(160deg,#FDF0F8 0%,#F5D8ED 50%,#ECC8E0 100%);
+    }
+    #tech-section{
+      background:linear-gradient(160deg,#0A0E18 0%,#141C2E 50%,#1E2840 100%);
+    }
+    #homekitchen-section{
+      background:linear-gradient(160deg,#F4F8F0 0%,#E4F0DC 50%,#D4E8C4 100%);
+    }
+    #discover-section{background:var(--blush)}
+
+    /* Watches + Tech = dark sections — flip text colors */
+    #watches-section .section-title,
+    #tech-section .section-title{color:#FAF7F2}
+    #watches-section .section-title em,
+    #tech-section .section-title em{color:var(--gold)}
+    #watches-section .section-count,
+    #tech-section .section-count{color:rgba(255,252,249,0.4)}
+    #watches-section .section-header,
+    #tech-section .section-header{border-bottom-color:rgba(255,252,249,0.1)}
+    #watches-section .empty-state,
+    #tech-section .empty-state{color:rgba(255,252,249,0.4)}
+
+    /* Section ambient glow orbs */
+    section::before{
+      content:'';
+      position:absolute;
+      width:400px;height:400px;
+      border-radius:50%;
+      top:-100px;right:-100px;
+      opacity:0.18;
+      filter:blur(80px);
+      pointer-events:none;
+      animation:orbFloat 8s ease-in-out infinite;
+      transition:opacity 0.5s;
+    }
+    section::after{
+      content:'';
+      position:absolute;
+      width:300px;height:300px;
+      border-radius:50%;
+      bottom:-80px;left:-80px;
+      opacity:0.12;
+      filter:blur(60px);
+      pointer-events:none;
+      animation:orbFloat 10s ease-in-out infinite reverse;
+    }
+    @keyframes orbFloat{
+      0%,100%{transform:translate(0,0) scale(1)}
+      33%{transform:translate(20px,-20px) scale(1.05)}
+      66%{transform:translate(-10px,15px) scale(0.95)}
+    }
+    #fashion-section::before{background:#C9967A}
+    #fashion-section::after{background:#B8965A}
+    #skincare-section::before{background:#F0B8C8}
+    #skincare-section::after{background:#E8A0B8}
+    #accessories-section::before{background:#B8965A}
+    #accessories-section::after{background:#C9967A}
+    #watches-section::before{background:#B8965A}
+    #watches-section::after{background:#8B6F5E}
+    #nailart-section::before{background:#E0A0C8}
+    #nailart-section::after{background:#C890B8}
+    #tech-section::before{background:#4060A0}
+    #tech-section::after{background:#304880}
+    #homekitchen-section::before{background:#90B870}
+    #homekitchen-section::after{background:#70A050}
+
     .section-header{
       display:flex;align-items:flex-end;justify-content:space-between;
       margin-bottom:32px;padding-bottom:16px;
       border-bottom:1px solid rgba(139,111,94,0.12);
       opacity:0;transform:translateX(-20px);
-      transition:opacity 0.7s ease,transform 0.7s cubic-bezier(0.22,1,0.36,1);
+      transition:opacity 0.8s ease,transform 0.8s cubic-bezier(0.22,1,0.36,1);
     }
     .section-header.revealed{opacity:1;transform:translateX(0)}
+    /* Section label badge */
+    .section-header::before{display:none}
+    .section-title-wrap{display:flex;align-items:center;gap:16px}
     .section-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:var(--deep)}
     .section-title em{font-style:italic;color:var(--rose)}
     .section-count{font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1px;color:var(--muted)}
 
     /* ── PRODUCT GRID ── */
     .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;min-height:60px}
-    /* ── 3D AESTHETIC PRODUCT CARDS ── */
-    .products-grid { perspective: 1000px; }
+        /* ══ IMMERSIVE 3D PRODUCT CARDS ══ */
+
+    /* Watches section — dark luxury cards */
+    #watches-section .product-card{
+      background:rgba(30,20,10,0.85);
+      border-color:rgba(184,150,90,0.2);
+      backdrop-filter:blur(10px);
+    }
+    #watches-section .product-category{color:var(--gold)}
+    #watches-section .product-title{color:#FAF7F2}
+    #watches-section .shop-btn{background:var(--gold);color:var(--deep)}
+    #watches-section .shop-btn:hover{background:#d4a96a}
+
+    /* Tech section — dark futuristic cards */
+    #tech-section .product-card{
+      background:rgba(15,20,35,0.88);
+      border-color:rgba(80,120,200,0.2);
+      backdrop-filter:blur(10px);
+    }
+    #tech-section .product-category{color:#6090D8}
+    #tech-section .product-title{color:#FAF7F2}
+    #tech-section .shop-btn{background:#3060A0;color:#FAF7F2}
+    #tech-section .shop-btn:hover{background:#4070C0}
+    #tech-section .product-card.revealed:hover::after{
+      background:linear-gradient(90deg,#3060A0,#6090D8);
+    }
+
+    /* Skincare — blush rose cards */
+    #skincare-section .product-card{background:linear-gradient(160deg,#FFFCF9,#FEF0F5)}
+    #skincare-section .product-card.revealed:hover::after{
+      background:linear-gradient(90deg,#E0A0B8,#F0C8D8);
+    }
+
+    /* Nail Art — soft pink cards */
+    #nailart-section .product-card{background:linear-gradient(160deg,#FFFCF9,#FDF0F8)}
+    #nailart-section .product-card.revealed:hover::after{
+      background:linear-gradient(90deg,#D890C0,#E8A8D0);
+    }
+
+    /* Home — soft green cards */
+    #homekitchen-section .product-card{background:linear-gradient(160deg,#FFFCF9,#F4FAF0)}
+    #homekitchen-section .product-card.revealed:hover::after{
+      background:linear-gradient(90deg,#80B060,#A0C880);
+    }
+
+    /* ── BASE 3D CARD ── */
+    .products-grid{perspective:1200px;perspective-origin:50% 30%}
     .product-card{
       background:var(--card-bg);
-      border-radius:12px;
+      border-radius:16px;
       overflow:hidden;
       border:1px solid rgba(139,111,94,0.12);
       display:flex;flex-direction:column;
-      /* 3D start state — revealed by scroll observer */
+      position:relative;
+      /* 3D entry state */
       opacity:0;
-      transform:translateY(50px) rotateX(15deg) scale(0.95);
+      transform:translateY(60px) rotateX(18deg) scale(0.93);
       transition:
-        opacity 0.65s cubic-bezier(0.22,1,0.36,1),
-        transform 0.65s cubic-bezier(0.22,1,0.36,1),
-        box-shadow 0.3s ease,
-        border-color 0.3s ease;
+        opacity 0.7s cubic-bezier(0.22,1,0.36,1),
+        transform 0.7s cubic-bezier(0.22,1,0.36,1),
+        box-shadow 0.35s ease,
+        border-color 0.35s ease,
+        background 0.35s ease;
       will-change:transform,opacity;
-      transform-origin:center bottom;
+      transform-origin:center 80%;
       transform-style:preserve-3d;
     }
-    /* Stagger each card */
+    /* Stagger */
     .product-card:nth-child(1){transition-delay:0.00s}
-    .product-card:nth-child(2){transition-delay:0.07s}
-    .product-card:nth-child(3){transition-delay:0.14s}
-    .product-card:nth-child(4){transition-delay:0.21s}
-    .product-card:nth-child(5){transition-delay:0.28s}
-    .product-card:nth-child(6){transition-delay:0.35s}
-    .product-card:nth-child(7){transition-delay:0.42s}
-    .product-card:nth-child(8){transition-delay:0.49s}
-    .product-card:nth-child(n+9){transition-delay:0.56s}
-    /* Revealed state */
+    .product-card:nth-child(2){transition-delay:0.08s}
+    .product-card:nth-child(3){transition-delay:0.16s}
+    .product-card:nth-child(4){transition-delay:0.24s}
+    .product-card:nth-child(5){transition-delay:0.32s}
+    .product-card:nth-child(6){transition-delay:0.40s}
+    .product-card:nth-child(7){transition-delay:0.48s}
+    .product-card:nth-child(8){transition-delay:0.56s}
+    .product-card:nth-child(n+9){transition-delay:0.60s}
+
+    /* Revealed */
     .product-card.revealed{
       opacity:1;
       transform:translateY(0) rotateX(0deg) scale(1);
     }
-    /* Aesthetic glow border on hover */
+
+    /* ── HOVER 3D LIFT ── */
     .product-card.revealed:hover{
-      transform:translateY(-8px) rotateX(4deg) scale(1.02);
+      transform:translateY(-12px) rotateX(5deg) rotateY(2deg) scale(1.02);
       box-shadow:
-        0 20px 50px rgba(61,43,31,0.16),
-        0 0 0 1.5px rgba(201,150,122,0.35),
-        inset 0 1px 0 rgba(255,252,249,0.6);
+        0 28px 60px rgba(61,43,31,0.18),
+        0 8px 20px rgba(61,43,31,0.10),
+        0 0 0 1.5px rgba(201,150,122,0.4),
+        inset 0 1px 0 rgba(255,252,249,0.7);
       border-color:transparent;
+      z-index:10;
     }
-    /* Shimmer overlay on card hover */
+
+    /* ── SHIMMER SWEEP ── */
     .product-card::before{
       content:'';
       position:absolute;
-      top:0;left:-100%;
-      width:60%;height:100%;
-      background:linear-gradient(120deg,transparent 0%,rgba(255,252,249,0.12) 50%,transparent 100%);
-      transform:skewX(-20deg);
-      transition:left 0.6s ease;
-      z-index:3;
-      pointer-events:none;
+      top:0;left:-120%;
+      width:55%;height:100%;
+      background:linear-gradient(
+        105deg,
+        transparent 0%,
+        rgba(255,252,249,0.15) 45%,
+        rgba(255,252,249,0.08) 55%,
+        transparent 100%
+      );
+      transform:skewX(-15deg);
+      transition:left 0.7s ease;
+      z-index:5;pointer-events:none;
     }
-    .product-card.revealed:hover::before{ left:160%; }
-    /* Category colour accent line at top */
+    .product-card.revealed:hover::before{left:170%}
+
+    /* ── TOP ACCENT LINE ── */
     .product-card::after{
       content:'';
       position:absolute;
       top:0;left:0;right:0;
       height:3px;
-      background:linear-gradient(90deg,var(--rose),var(--gold));
+      background:linear-gradient(90deg,var(--rose),var(--gold),var(--rose));
+      background-size:200% 100%;
       opacity:0;
-      transition:opacity 0.3s;
-      z-index:4;
+      animation:accentShimmer 2.5s linear infinite;
+      transition:opacity 0.35s;
+      z-index:6;
     }
-    .product-card.revealed:hover::after{ opacity:1; }
+    .product-card.revealed:hover::after{opacity:1}
+    @keyframes accentShimmer{
+      0%{background-position:200% 0}
+      100%{background-position:-200% 0}
+    }
 
-    .product-img-wrap{position:relative;overflow:hidden;height:240px;background:var(--blush)}
-    .product-image{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s cubic-bezier(0.22,1,0.36,1)}
-    .product-card.revealed:hover .product-image{transform:scale(1.08) translateY(-4px)}
+    /* ── IMAGE AREA ── */
+    .product-img-wrap{
+      position:relative;overflow:hidden;
+      height:240px;background:var(--blush);
+      transform-style:preserve-3d;
+    }
+    .product-image{
+      width:100%;height:100%;object-fit:cover;display:block;
+      transition:transform 0.7s cubic-bezier(0.22,1,0.36,1),filter 0.4s ease;
+      filter:saturate(0.9) brightness(0.98);
+    }
+    .product-card.revealed:hover .product-image{
+      transform:scale(1.1) translateY(-6px);
+      filter:saturate(1.1) brightness(1.04);
+    }
+
+    /* ── BADGE PULSE ── */
+    .product-badge{
+      position:absolute;top:10px;left:10px;
+      background:var(--deep);color:var(--cream);
+      font-family:'DM Sans',sans-serif;font-size:9px;font-weight:500;
+      letter-spacing:1.5px;text-transform:uppercase;
+      padding:5px 10px;border-radius:2px;
+      animation:badgePulse 3s ease infinite;
+      z-index:3;
+    }
+    @keyframes badgePulse{
+      0%,100%{box-shadow:0 0 0 0 rgba(61,43,31,0)}
+      50%{box-shadow:0 0 0 4px rgba(61,43,31,0.15)}
+    }
+
+    /* ── WISHLIST HEART BUTTON ── */
+    .card-wish{
+      position:absolute;top:10px;right:10px;
+      width:32px;height:32px;border-radius:50%;
+      background:rgba(255,252,249,0.9);
+      border:none;cursor:pointer;
+      display:flex;align-items:center;justify-content:center;
+      font-size:14px;
+      opacity:0;transform:scale(0.7) translateY(-4px);
+      transition:opacity 0.3s,transform 0.3s,background 0.2s;
+      z-index:4;
+      backdrop-filter:blur(4px);
+    }
+    .product-card.revealed:hover .card-wish{
+      opacity:1;transform:scale(1) translateY(0);
+    }
+    .card-wish:hover{background:var(--rose);color:white}
+    .card-wish.liked{opacity:1;transform:scale(1) translateY(0);background:var(--rose);color:white}
+
+    /* ── PRODUCT INFO ── */
+    .product-info{
+      padding:14px 16px 16px;flex:1;display:flex;flex-direction:column;
+      transition:transform 0.35s ease;
+    }
+    .product-card.revealed:hover .product-info{
+      transform:translateY(-2px);
+    }
+    .product-category{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+    .product-title{font-family:'Playfair Display',serif;font-size:15px;font-style:italic;color:var(--deep);line-height:1.35;flex:1;margin-bottom:14px}
+    .product-footer{display:flex;align-items:center;justify-content:space-between;gap:8px}
+
+    /* ── SHOP BUTTON 3D ── */
+    .shop-btn{
+      color:var(--cream);padding:9px 16px;
+      font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;
+      letter-spacing:1px;text-transform:uppercase;text-decoration:none;
+      border-radius:4px;display:inline-block;
+      transition:all 0.25s cubic-bezier(0.22,1,0.36,1);
+      white-space:nowrap;background:var(--deep);
+      box-shadow:0 4px 12px rgba(61,43,31,0.2);
+      position:relative;overflow:hidden;
+    }
+    .shop-btn::before{
+      content:'';
+      position:absolute;inset:0;
+      background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent);
+      opacity:0;transition:opacity 0.2s;
+    }
+    .shop-btn:hover{
+      transform:translateY(-2px) scale(1.03);
+      box-shadow:0 8px 20px rgba(61,43,31,0.25);
+    }
+    .shop-btn:hover::before{opacity:1}
+    .shop-btn:active{transform:translateY(0) scale(0.98)}
+    .shop-btn.amazon{background:#232F3E}.shop-btn.amazon:hover{background:#F90;color:#111}
+    .shop-btn.flipkart{background:#2874F0}.shop-btn.flipkart:hover{background:#1a5dc8}
+    .shop-btn.myntra{background:#FF3F6C}.shop-btn.myntra:hover{background:#e0325a}
+    .shop-btn.nykaa{background:#FC2779}.shop-btn.nykaa:hover{background:#d91f68}
+    .shop-btn.meesho{background:#9B2D8E}.shop-btn.meesho:hover{background:#7d2473}
+    .shop-btn.ajio{background:#1B1B39}.shop-btn.ajio:hover{background:#2d2d5a}
+
+    .product-card.revealed:hover .product-image{transform:scale(1.1) translateY(-6px)}
     .product-badge{position:absolute;top:10px;left:10px;background:var(--deep);color:var(--cream);font-family:'DM Sans',sans-serif;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;padding:5px 10px;border-radius:2px}
     .product-info{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column}
     .product-category{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
@@ -784,7 +1022,7 @@
     const link   = product.affiliateLink || '#';
     const {label, cls} = getPlatform(link);
     return `<div class="product-card" data-title="${(product.title||'').toLowerCase()}" data-category="${(product.category||'').toLowerCase()}">
-      <div class="product-img-wrap">${img}${badge}</div>
+      <div class="product-img-wrap">${img}${badge}<button class="card-wish" onclick="toggleWish(this)" title="Save to wishlist">🤍</button></div>
       <div class="product-info">
         ${catLbl}
         <div class="product-title">${product.title||'Untitled Product'}</div>
@@ -1012,6 +1250,14 @@
     });
   }, { passive: true });
 
+
+  // ── WISHLIST TOGGLE ──
+  function toggleWish(btn){
+    const liked = btn.classList.toggle('liked');
+    btn.textContent = liked ? '❤️' : '🤍';
+    btn.style.transform = 'scale(1.3)';
+    setTimeout(()=>{ btn.style.transform=''; }, 200);
+  }
 
   // ── SCROLL SPY ──
   const pageSections=document.querySelectorAll('section[id]');
