@@ -217,6 +217,7 @@
     <div class="admin-tab active" onclick="switchTab('products')">📦 Products</div>
     <div class="admin-tab" onclick="switchTab('add')">➕ Add Product</div>
     <div class="admin-tab" onclick="switchTab('hero')">🎬 Hero Manager</div>
+    <div class="admin-tab" onclick="switchTab('stats')">📊 Stats Manager</div>
   </div>
 
   <!-- ══ TAB: PRODUCTS ══ -->
@@ -397,6 +398,106 @@
 
   </div>
 
+  <!-- ══ TAB: STATS MANAGER ══ -->
+  <div class="tab-panel" id="tab-stats">
+    <div style="max-width:680px">
+
+      <div class="panel-box" style="margin-bottom:20px">
+        <div class="panel-title">📊 About Section Stats</div>
+        <div style="font-size:12px;color:rgba(255,252,249,0.35);margin-bottom:20px;line-height:1.7">
+          These numbers appear in the About section of your website. Update them anytime — Pinterest views, product count, etc. Changes save instantly to your browser and show live on your site.
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+
+          <div class="form-group">
+            <label class="form-label">📌 Pinterest Views (Number)</label>
+            <input type="text" class="form-input" id="s-pinterestNum" placeholder="e.g. 5.2k+" value="3.8k+">
+            <div class="form-hint">Update when your Pinterest analytics changes</div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">📌 Pinterest Label</label>
+            <input type="text" class="form-input" id="s-pinterestLabel" placeholder="e.g. Monthly Pinterest Views" value="Monthly Pinterest Views">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">🏷️ Categories (Number)</label>
+            <input type="text" class="form-input" id="s-categoriesNum" placeholder="e.g. 7" value="7">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">🏷️ Categories Label</label>
+            <input type="text" class="form-input" id="s-categoriesLabel" placeholder="e.g. Curated Categories" value="Curated Categories">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">✨ Products (Number)</label>
+            <input type="text" class="form-input" id="s-handpickedNum" placeholder="e.g. 100%" value="100%">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">✨ Products Label</label>
+            <input type="text" class="form-input" id="s-handpickedLabel" placeholder="e.g. Handpicked Products" value="Handpicked Products">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">💰 Cost Stat (Number)</label>
+            <input type="text" class="form-input" id="s-costNum" placeholder="e.g. ₹0" value="₹0">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">💰 Cost Label</label>
+            <input type="text" class="form-input" id="s-costLabel" placeholder="e.g. Extra Cost To You" value="Extra Cost To You">
+          </div>
+
+        </div>
+
+        <div class="form-group" style="margin-top:8px">
+          <label class="form-label">📌 Pinterest Social Bar Text</label>
+          <input type="text" class="form-input" id="s-pinterestSocial" placeholder="e.g. 5.2K+ Monthly Views" value="3.8K+ Monthly Views">
+          <div class="form-hint">This appears in the social links bar at the bottom of your site</div>
+        </div>
+
+        <div style="margin-top:20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
+          <button class="btn-primary" style="width:auto;padding:12px 28px" onclick="saveStats()">
+            💾 Save All Stats
+          </button>
+          <button class="btn-ghost" onclick="loadCurrentStats()">↺ Load Current</button>
+          <div class="form-status" id="statsStatus" style="display:inline-block"></div>
+        </div>
+      </div>
+
+      <!-- Live Preview -->
+      <div class="panel-box">
+        <div class="panel-title">Live Preview</div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:4px">
+          <div style="background:rgba(255,252,249,0.04);border:1px solid rgba(255,252,249,0.08);border-radius:4px;padding:20px;text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:28px;color:var(--rose);margin-bottom:4px" id="prev-pinterestNum">3.8k+</div>
+            <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,252,249,0.4)" id="prev-pinterestLabel">Monthly Pinterest Views</div>
+          </div>
+          <div style="background:rgba(255,252,249,0.04);border:1px solid rgba(255,252,249,0.08);border-radius:4px;padding:20px;text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:28px;color:var(--rose);margin-bottom:4px" id="prev-categoriesNum">7</div>
+            <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,252,249,0.4)" id="prev-categoriesLabel">Curated Categories</div>
+          </div>
+          <div style="background:rgba(255,252,249,0.04);border:1px solid rgba(255,252,249,0.08);border-radius:4px;padding:20px;text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:28px;color:var(--rose);margin-bottom:4px" id="prev-handpickedNum">100%</div>
+            <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,252,249,0.4)" id="prev-handpickedLabel">Handpicked Products</div>
+          </div>
+          <div style="background:rgba(255,252,249,0.04);border:1px solid rgba(255,252,249,0.08);border-radius:4px;padding:20px;text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:28px;color:var(--rose);margin-bottom:4px" id="prev-costNum">₹0</div>
+            <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,252,249,0.4)" id="prev-costLabel">Extra Cost To You</div>
+          </div>
+        </div>
+
+        <div style="margin-top:16px;padding:12px 14px;background:rgba(184,150,90,0.06);border-radius:4px;font-size:11px;color:rgba(255,252,249,0.35);line-height:1.7">
+          ⚡ <strong style="color:var(--gold)">How it works:</strong> Stats are saved to your browser's localStorage. Your website reads from the same localStorage and updates automatically — no code changes needed. Works on the same browser/device. For permanent changes across all devices, update the numbers directly in <code style="color:var(--gold)">index.html</code> lines 900–903.
+        </div>
+      </div>
+
+    </div>
+  </div>
+
 </div>
 
 <!-- ══ EDIT PRODUCT MODAL ══ -->
@@ -518,7 +619,7 @@
   // ── TABS ──
   function switchTab(name) {
     document.querySelectorAll('.admin-tab').forEach((t,i) => {
-      const names = ['products','add','hero'];
+      const names = ['products','add','hero','stats'];
       t.classList.toggle('active', names[i] === name);
     });
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -916,6 +1017,82 @@
     el.className    = 'form-status' + (type ? ' '+type : '');
     el.style.display = msg ? 'block' : 'none';
   }
+
+
+  // ════════════════════════════════════
+  // STATS MANAGER
+  // ════════════════════════════════════
+
+  const STAT_FIELDS = [
+    'pinterestNum','pinterestLabel',
+    'categoriesNum','categoriesLabel',
+    'handpickedNum','handpickedLabel',
+    'costNum','costLabel',
+    'pinterestSocial'
+  ];
+
+  function saveStats() {
+    const stats = {};
+    STAT_FIELDS.forEach(f => {
+      stats[f] = document.getElementById('s-'+f)?.value || '';
+    });
+    localStorage.setItem('sa_stats', JSON.stringify(stats));
+    updateStatsPreview(stats);
+    showStatus('statsStatus', '✓ Stats saved! Reload your website to see changes.', 'success');
+    setTimeout(() => { document.getElementById('statsStatus').style.display='none'; }, 3500);
+  }
+
+  function loadCurrentStats() {
+    const saved = localStorage.getItem('sa_stats');
+    if (!saved) {
+      showStatus('statsStatus', 'No saved stats found — showing defaults.', 'info');
+      return;
+    }
+    try {
+      const stats = JSON.parse(saved);
+      STAT_FIELDS.forEach(f => {
+        const el = document.getElementById('s-'+f);
+        if (el && stats[f]) el.value = stats[f];
+      });
+      updateStatsPreview(stats);
+      showStatus('statsStatus', '✓ Loaded current saved stats.', 'success');
+      setTimeout(() => { document.getElementById('statsStatus').style.display='none'; }, 2000);
+    } catch(e) {}
+  }
+
+  function updateStatsPreview(stats) {
+    const previewMap = {
+      'prev-pinterestNum':   stats.pinterestNum,
+      'prev-pinterestLabel': stats.pinterestLabel,
+      'prev-categoriesNum':  stats.categoriesNum,
+      'prev-categoriesLabel':stats.categoriesLabel,
+      'prev-handpickedNum':  stats.handpickedNum,
+      'prev-handpickedLabel':stats.handpickedLabel,
+      'prev-costNum':        stats.costNum,
+      'prev-costLabel':      stats.costLabel,
+    };
+    Object.entries(previewMap).forEach(([id,val]) => {
+      const el = document.getElementById(id);
+      if (el && val) el.textContent = val;
+    });
+  }
+
+  // Live preview as you type
+  STAT_FIELDS.forEach(f => {
+    const el = document.getElementById('s-'+f);
+    if (el) el.addEventListener('input', () => {
+      const stats = {};
+      STAT_FIELDS.forEach(field => {
+        stats[field] = document.getElementById('s-'+field)?.value || '';
+      });
+      updateStatsPreview(stats);
+    });
+  });
+
+  // Load on init
+  window.addEventListener('load', () => {
+    loadCurrentStats();
+  });
 
   // Close modal on background click
   document.getElementById('editModal').addEventListener('click', function(e) {
