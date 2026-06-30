@@ -199,53 +199,13 @@
 
     /* ── PRODUCT GRID ── */
     .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;min-height:60px}
-        /* ══ IMMERSIVE 3D PRODUCT CARDS ══ */
-
-    /* Watches section — dark luxury cards */
-    #watches-section .product-card{
-      background:rgba(30,20,10,0.85);
-      border-color:rgba(184,150,90,0.2);
-      backdrop-filter:blur(10px);
-    }
-    #watches-section .product-category{color:var(--gold)}
-    #watches-section .product-title{color:#FAF7F2}
-    #watches-section .shop-btn{background:var(--gold);color:var(--deep)}
-    #watches-section .shop-btn:hover{background:#d4a96a}
-
-    /* Tech section — dark futuristic cards */
-    #tech-section .product-card{
-      background:rgba(15,20,35,0.88);
-      border-color:rgba(80,120,200,0.2);
-      backdrop-filter:blur(10px);
-    }
-    #tech-section .product-category{color:#6090D8}
-    #tech-section .product-title{color:#FAF7F2}
-    #tech-section .shop-btn{background:#3060A0;color:#FAF7F2}
-    #tech-section .shop-btn:hover{background:#4070C0}
-    #tech-section .product-card.revealed:hover::after{
-      background:linear-gradient(90deg,#3060A0,#6090D8);
-    }
-
-    /* Skincare — blush rose cards */
-    #skincare-section .product-card{background:linear-gradient(160deg,#FFFCF9,#FEF0F5)}
-    #skincare-section .product-card.revealed:hover::after{
-      background:linear-gradient(90deg,#E0A0B8,#F0C8D8);
-    }
-
-    /* Nail Art — soft pink cards */
-    #nailart-section .product-card{background:linear-gradient(160deg,#FFFCF9,#FDF0F8)}
-    #nailart-section .product-card.revealed:hover::after{
-      background:linear-gradient(90deg,#D890C0,#E8A8D0);
-    }
-
-    /* Home — soft green cards */
-    #homekitchen-section .product-card{background:linear-gradient(160deg,#FFFCF9,#F4FAF0)}
-    #homekitchen-section .product-card.revealed:hover::after{
-      background:linear-gradient(90deg,#80B060,#A0C880);
-    }
-
-    /* ── BASE 3D CARD ── */
+        /* ══════════════════════════════════════════════
+       PER-CATEGORY ANIMATION IDENTITIES
+       Each section gets its own entrance + hover motion,
+       not just a different colour on the same tilt.
+    ══════════════════════════════════════════════ */
     .products-grid{perspective:1200px;perspective-origin:50% 30%}
+
     .product-card{
       background:var(--card-bg);
       border-radius:16px;
@@ -253,20 +213,12 @@
       border:1px solid rgba(139,111,94,0.12);
       display:flex;flex-direction:column;
       position:relative;
-      /* 3D entry state */
       opacity:0;
-      transform:translateY(60px) rotateX(18deg) scale(0.93);
-      transition:
-        opacity 0.7s cubic-bezier(0.22,1,0.36,1),
-        transform 0.7s cubic-bezier(0.22,1,0.36,1),
-        box-shadow 0.35s ease,
-        border-color 0.35s ease,
-        background 0.35s ease;
       will-change:transform,opacity;
-      transform-origin:center 80%;
       transform-style:preserve-3d;
     }
-    /* Stagger */
+
+    /* Shared stagger delays — applies to whichever entrance animation is active */
     .product-card:nth-child(1){transition-delay:0.00s}
     .product-card:nth-child(2){transition-delay:0.08s}
     .product-card:nth-child(3){transition-delay:0.16s}
@@ -277,25 +229,169 @@
     .product-card:nth-child(8){transition-delay:0.56s}
     .product-card:nth-child(n+9){transition-delay:0.60s}
 
-    /* Revealed */
-    .product-card.revealed{
-      opacity:1;
-      transform:translateY(0) rotateX(0deg) scale(1);
+    /* ── 1. FASHION — elegant rise + tilt, like a runway reveal ── */
+    #fashion-section .product-card{
+      transform:translateY(60px) rotateX(18deg) scale(0.93);
+      transform-origin:center 80%;
+      transition:opacity 0.7s cubic-bezier(0.22,1,0.36,1),
+                 transform 0.7s cubic-bezier(0.22,1,0.36,1),
+                 box-shadow 0.35s ease, border-color 0.35s ease;
     }
-
-    /* ── HOVER 3D LIFT ── */
-    .product-card.revealed:hover{
+    #fashion-section .product-card.revealed{
+      opacity:1; transform:translateY(0) rotateX(0deg) scale(1);
+    }
+    #fashion-section .product-card.revealed:hover{
       transform:translateY(-12px) rotateX(5deg) rotateY(2deg) scale(1.02);
-      box-shadow:
-        0 28px 60px rgba(61,43,31,0.18),
-        0 8px 20px rgba(61,43,31,0.10),
-        0 0 0 1.5px rgba(201,150,122,0.4),
-        inset 0 1px 0 rgba(255,252,249,0.7);
-      border-color:transparent;
-      z-index:10;
+      box-shadow:0 28px 60px rgba(61,43,31,0.18),0 0 0 1.5px rgba(201,150,122,0.4);
+      border-color:transparent; z-index:10;
     }
 
-    /* ── SHIMMER SWEEP ── */
+    /* ── 2. SKINCARE — soft droplet drop-in with gentle bounce ── */
+    #skincare-section .product-card{
+      transform:translateY(-50px) scale(0.85);
+      transition:opacity 0.6s ease,
+                 transform 0.9s cubic-bezier(0.34,1.56,0.64,1),
+                 box-shadow 0.35s ease, border-color 0.35s ease;
+      background:linear-gradient(160deg,#FFFCF9,#FEF0F5);
+    }
+    #skincare-section .product-card.revealed{
+      opacity:1; transform:translateY(0) scale(1);
+    }
+    #skincare-section .product-card.revealed:hover{
+      transform:translateY(-10px) scale(1.035);
+      box-shadow:0 24px 50px rgba(224,160,184,0.3);
+      border-color:rgba(224,160,184,0.4);
+    }
+    #skincare-section .product-card.revealed:hover .product-image{
+      animation:dropletWobble 0.6s ease;
+    }
+    @keyframes dropletWobble{
+      0%,100%{border-radius:0}
+      30%{border-radius:46% 54% 60% 40% / 50% 45% 55% 50%}
+      60%{border-radius:54% 46% 40% 60% / 45% 55% 45% 55%}
+    }
+
+    /* ── 3. ACCESSORIES — rotate in from the side, catching light ── */
+    #accessories-section .product-card{
+      transform:translateX(-70px) rotateY(-35deg) scale(0.9);
+      transform-origin:left center;
+      transition:opacity 0.6s ease,
+                 transform 0.8s cubic-bezier(0.22,1,0.36,1),
+                 box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+    #accessories-section .product-card.revealed{
+      opacity:1; transform:translateX(0) rotateY(0deg) scale(1);
+    }
+    #accessories-section .product-card.revealed:hover{
+      transform:translateY(-8px) rotateY(-8deg) scale(1.02);
+      box-shadow:0 24px 50px rgba(184,150,90,0.28);
+      border-color:rgba(184,150,90,0.4);
+    }
+    #accessories-section .product-card::after{
+      background:linear-gradient(90deg,#B8965A,#E8D4A8,#B8965A) !important;
+    }
+
+    /* ── 4. WATCHES — slow cinematic shutter wipe, dark luxury ── */
+    #watches-section .product-card{
+      background:rgba(30,20,10,0.85);
+      border-color:rgba(184,150,90,0.2);
+      backdrop-filter:blur(10px);
+      clip-path:inset(0 100% 0 0);
+      transform:scale(0.97);
+      transition:opacity 0.4s ease,
+                 clip-path 1s cubic-bezier(0.65,0,0.35,1),
+                 transform 1s cubic-bezier(0.65,0,0.35,1),
+                 box-shadow 0.35s ease;
+    }
+    #watches-section .product-card.revealed{
+      opacity:1; clip-path:inset(0 0% 0 0); transform:scale(1);
+    }
+    #watches-section .product-card.revealed:hover{
+      transform:scale(1.025) translateY(-8px);
+      box-shadow:0 24px 50px rgba(0,0,0,0.5),0 0 0 1px rgba(184,150,90,0.4);
+    }
+    #watches-section .product-category{color:var(--gold)}
+    #watches-section .product-title{color:#FAF7F2}
+    #watches-section .shop-btn{background:var(--gold);color:var(--deep)}
+    #watches-section .shop-btn:hover{background:#d4a96a}
+
+    /* ── 5. NAIL ART — playful pop with a little wobble, like polish bottles ── */
+    #nailart-section .product-card{
+      transform:scale(0.6) rotate(-8deg);
+      transition:opacity 0.5s ease,
+                 transform 0.65s cubic-bezier(0.34,1.56,0.64,1),
+                 box-shadow 0.3s ease, border-color 0.3s ease;
+      background:linear-gradient(160deg,#FFFCF9,#FDF0F8);
+    }
+    #nailart-section .product-card.revealed{
+      opacity:1; transform:scale(1) rotate(0deg);
+    }
+    #nailart-section .product-card.revealed:hover{
+      transform:scale(1.05) rotate(-1.5deg);
+      box-shadow:0 22px 46px rgba(216,144,192,0.32);
+      border-color:rgba(216,144,192,0.4);
+    }
+
+    /* ── 6. TECH — sharp glitch-style snap-in, fast and angular ── */
+    #tech-section .product-card{
+      background:rgba(15,20,35,0.88);
+      border-color:rgba(80,120,200,0.2);
+      backdrop-filter:blur(10px);
+      transform:translateX(40px) skewX(-6deg);
+      transition:opacity 0.3s ease,
+                 transform 0.4s cubic-bezier(0.16,1,0.3,1),
+                 box-shadow 0.3s ease;
+    }
+    #tech-section .product-card.revealed{
+      opacity:1; transform:translateX(0) skewX(0deg);
+    }
+    #tech-section .product-card.revealed:hover{
+      transform:translateY(-8px) scale(1.02);
+      box-shadow:0 24px 50px rgba(48,96,160,0.35),0 0 0 1px rgba(96,144,216,0.4);
+    }
+    #tech-section .product-category{color:#6090D8}
+    #tech-section .product-title{color:#FAF7F2}
+    #tech-section .shop-btn{background:#3060A0;color:#FAF7F2}
+    #tech-section .shop-btn:hover{background:#4070C0}
+    #tech-section .product-card::after{
+      background:linear-gradient(90deg,#3060A0,#6090D8) !important;
+    }
+
+    /* ── 7. HOME & KITCHEN — calm grounded slide-up, no flourish ── */
+    #homekitchen-section .product-card{
+      transform:translateY(36px);
+      transition:opacity 0.6s ease,
+                 transform 0.6s cubic-bezier(0.22,1,0.36,1),
+                 box-shadow 0.3s ease, border-color 0.3s ease;
+      background:linear-gradient(160deg,#FFFCF9,#F4FAF0);
+    }
+    #homekitchen-section .product-card.revealed{
+      opacity:1; transform:translateY(0);
+    }
+    #homekitchen-section .product-card.revealed:hover{
+      transform:translateY(-6px);
+      box-shadow:0 18px 40px rgba(128,176,96,0.25);
+      border-color:rgba(128,176,96,0.35);
+    }
+    #homekitchen-section .product-card::after{
+      background:linear-gradient(90deg,#80B060,#A0C880) !important;
+    }
+
+    /* ── 8. DISCOVER (fallback) — same as fashion default ── */
+    #discover-section .product-card{
+      transform:translateY(60px) rotateX(18deg) scale(0.93);
+      transform-origin:center 80%;
+      transition:opacity 0.7s cubic-bezier(0.22,1,0.36,1),
+                 transform 0.7s cubic-bezier(0.22,1,0.36,1),
+                 box-shadow 0.35s ease, border-color 0.35s ease;
+    }
+    #discover-section .product-card.revealed{
+      opacity:1; transform:translateY(0) rotateX(0deg) scale(1);
+    }
+    #discover-section .product-card.revealed:hover{
+      transform:translateY(-12px) scale(1.02);
+      box-shadow:0 28px 60px rgba(61,43,31,0.18);
+    }
     .product-card::before{
       content:'';
       position:absolute;
@@ -425,21 +521,6 @@
     .shop-btn.meesho{background:#9B2D8E}.shop-btn.meesho:hover{background:#7d2473}
     .shop-btn.ajio{background:#1B1B39}.shop-btn.ajio:hover{background:#2d2d5a}
 
-    .product-card.revealed:hover .product-image{transform:scale(1.1) translateY(-6px)}
-    .product-badge{position:absolute;top:10px;left:10px;background:var(--deep);color:var(--cream);font-family:'DM Sans',sans-serif;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;padding:5px 10px;border-radius:2px}
-    .product-info{padding:14px 16px 16px;flex:1;display:flex;flex-direction:column}
-    .product-category{font-family:'DM Sans',sans-serif;font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
-    .product-title{font-family:'Playfair Display',serif;font-size:15px;font-style:italic;color:var(--deep);line-height:1.35;flex:1;margin-bottom:14px}
-    .product-footer{display:flex;align-items:center;justify-content:space-between;gap:8px}
-    .shop-btn{color:var(--cream);padding:9px 16px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;letter-spacing:1px;text-transform:uppercase;text-decoration:none;border-radius:2px;display:inline-block;transition:all 0.2s;white-space:nowrap;background:var(--deep)}
-    .shop-btn:hover{background:var(--rose)}
-    .shop-btn.amazon{background:#232F3E}.shop-btn.amazon:hover{background:#F90;color:#111}
-    .shop-btn.flipkart{background:#2874F0}.shop-btn.flipkart:hover{background:#1a5dc8}
-    .shop-btn.myntra{background:#FF3F6C}.shop-btn.myntra:hover{background:#e0325a}
-    .shop-btn.nykaa{background:#FC2779}.shop-btn.nykaa:hover{background:#d91f68}
-    .shop-btn.meesho{background:#9B2D8E}.shop-btn.meesho:hover{background:#7d2473}
-    .shop-btn.ajio{background:#1B1B39}.shop-btn.ajio:hover{background:#2d2d5a}
-
     /* ── EMPTY / LOADING / NO RESULTS ── */
     .empty-state{grid-column:1/-1;text-align:center;padding:40px 20px;color:var(--muted);font-family:'Cormorant Garamond',serif;font-size:16px;font-style:italic}
     .loading-state{grid-column:1/-1;display:flex;gap:20px}
@@ -452,46 +533,7 @@
     .no-results-emoji{font-size:40px;margin-bottom:12px}
     .no-results-title{font-family:'Playfair Display',serif;font-size:20px;font-style:italic;color:var(--deep);margin-bottom:8px}
     .no-results-sub{font-family:'DM Sans',sans-serif;font-size:13px;color:var(--muted)}
-    /* ══ 3D SCROLL EFFECTS ══ */
-    .section-scene {
-      perspective: 1200px;
-      perspective-origin: 50% 40%;
-    }
-    .products-grid {
-      transform-style: preserve-3d;
-    }
-    /* Cards start invisible and tilted — JS animates them in */
-    .product-card {
-      opacity: 0;
-      transform: translateY(60px) rotateX(12deg) scale(0.95);
-      transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1),
-                  transform 0.7s cubic-bezier(0.22,1,0.36,1),
-                  box-shadow 0.3s ease,
-                  border-color 0.3s ease;
-      will-change: transform, opacity;
-      transform-origin: center bottom;
-    }
-    .product-card.revealed {
-      opacity: 1;
-      transform: translateY(0) rotateX(0deg) scale(1);
-    }
-    /* Stagger delay per card position */
-    .product-card:nth-child(1){transition-delay:0s}
-    .product-card:nth-child(2){transition-delay:0.07s}
-    .product-card:nth-child(3){transition-delay:0.14s}
-    .product-card:nth-child(4){transition-delay:0.21s}
-    .product-card:nth-child(5){transition-delay:0.28s}
-    .product-card:nth-child(6){transition-delay:0.35s}
-    .product-card:nth-child(7){transition-delay:0.42s}
-    .product-card:nth-child(8){transition-delay:0.49s}
-    /* 3D tilt on mouse hover */
-    .product-card.revealed:hover {
-      transform: translateY(-8px) rotateX(4deg) rotateY(2deg) scale(1.02);
-      box-shadow: 0 24px 48px rgba(61,43,31,0.18), 0 0 0 1px rgba(201,150,122,0.3);
-      border-color: rgba(201,150,122,0.4);
-      z-index: 2;
-    }
-    /* Section heading 3D reveal */
+    /* ══ SCROLL-DRIVEN SECTION FX ══ */
     .section-header {
       opacity: 0;
       transform: translateY(30px);
@@ -586,10 +628,6 @@
       width: 0%;
       transition: width 0.1s linear;
       box-shadow: 0 0 8px rgba(201,150,122,0.6);
-    }
-    /* Image parallax inside card on hover */
-    .product-card.revealed:hover .product-image {
-      transform: scale(1.08) translateY(-4px);
     }
     /* Section wrapper needs relative for particles */
     section { position: relative; overflow: hidden; }
@@ -1248,10 +1286,13 @@
 
   // Cards observed after fetch completes (handled inside fetchProducts below)
 
-  // 3D mouse tilt on product cards
+  // 3D mouse tilt — only on sections using the "tilt" identity (Fashion, Discover)
+  const TILT_SECTIONS = ['fashion-section', 'discover-section'];
   document.addEventListener('mousemove', (e) => {
     const card = e.target.closest('.product-card.revealed');
     if (!card) return;
+    const parentSection = card.closest('section[id]');
+    if (!parentSection || !TILT_SECTIONS.includes(parentSection.id)) return;
     const rect = card.getBoundingClientRect();
     const cx = rect.left + rect.width / 2;
     const cy = rect.top + rect.height / 2;
@@ -1259,12 +1300,14 @@
     const dy = (e.clientY - cy) / (rect.height / 2);
     const rotX = -dy * 6;
     const rotY = dx * 6;
-    card.style.transform = `translateY(-8px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.02)`;
+    card.style.transform = `translateY(-12px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.02)`;
   });
 
   document.addEventListener('mouseleave', (e) => {
     const card = e.target.closest('.product-card.revealed');
     if (!card) return;
+    const parentSection = card.closest('section[id]');
+    if (!parentSection || !TILT_SECTIONS.includes(parentSection.id)) return;
     card.style.transform = '';
   }, true);
 
