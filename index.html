@@ -62,7 +62,7 @@
     .hero-slide.active{opacity:1;animation:slowZoom 9s ease-out forwards}
     @keyframes slowZoom{from{transform:scale(1.06)}to{transform:scale(1.0)}}
     .hero-grain{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0.045;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-    .hero-vignette{position:absolute;inset:0;z-index:1;pointer-events:none;box-shadow:inset 0 0 10vw 2vw rgba(0,0,0,0.5);transition:box-shadow 0.4s ease}
+    .hero-vignette{position:absolute;inset:0;z-index:1;pointer-events:none;box-shadow:inset 0 0 10vw 2vw rgba(0,0,0,0.5)}
     .slide-1{background-image:url('https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=1600&q=80&fit=crop&crop=top');background-position:center 20%}
     .slide-2{background-image:url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1600&q=80&fit=crop&crop=top');background-position:center 15%}
     .slide-3{background-image:url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1600&q=80&fit=crop')}
@@ -248,42 +248,22 @@
     .product-card:nth-child(8){transition-delay:0.56s}
     .product-card:nth-child(n+9){transition-delay:0.60s}
 
-    /* ── 1. FASHION — split reveal: image from left, info from right ── */
-    /* Card wrapper clips the sliding children */
+    /* ── 1. FASHION — clean fade + rise, calm like Skincare/Tech ── */
     #fashion-section .product-card{
       opacity:0;
-      transform:scale(0.96);
-      transition:opacity 0.01s, transform 0.7s cubic-bezier(0.22,1,0.36,1),
+      transform:translateY(28px);
+      transition:opacity 0.6s ease,
+                 transform 0.6s cubic-bezier(0.22,1,0.36,1),
                  box-shadow 0.35s ease, border-color 0.35s ease;
-      overflow:hidden;
     }
-    /* Image slides in from left */
-    #fashion-section .product-card .product-img-wrap{
-      transform:translateX(-100%);
-      transition:transform 0.75s cubic-bezier(0.22,1,0.36,1);
-    }
-    /* Info panel slides in from right */
-    #fashion-section .product-card .product-info{
-      transform:translateX(100%);
-      opacity:0;
-      transition:transform 0.75s cubic-bezier(0.22,1,0.36,1) 0.08s,
-                 opacity 0.4s ease 0.08s;
-    }
-    /* Revealed state — both panels slide home */
     #fashion-section .product-card.revealed{
-      opacity:1; transform:scale(1);
-    }
-    #fashion-section .product-card.revealed .product-img-wrap{
-      transform:translateX(0);
-    }
-    #fashion-section .product-card.revealed .product-info{
-      transform:translateX(0); opacity:1;
+      opacity:1; transform:translateY(0);
     }
     #fashion-section .product-card.revealed:hover{
+      transform:translateY(-6px);
       box-shadow:
-        0 32px 64px rgba(61,43,31,0.22),
-        0 0 0 1.5px rgba(201,150,122,0.5),
-        0 0 60px rgba(201,150,122,0.08);
+        0 24px 48px rgba(61,43,31,0.18),
+        0 0 0 1px rgba(201,150,122,0.35);
       border-color:transparent; z-index:10;
     }
 
@@ -1244,89 +1224,115 @@
 
   fetchProducts();
 
-  // ════════════════════════════════════
-  // CINEMATIC PARALLAX HERO ENGINE
-  // ════════════════════════════════════
-  (function heroParallax(){
+  // ════════════════════════════════════════════
+  // UNIFIED SCROLL CONTROLLER
+  // One rAF-throttled loop drives every scroll effect —
+  // hero parallax, progress bar, and scroll spy — instead
+  // of separate uncoordinated listeners each forcing their
+  // own layout reads (which was the cause of scroll jank).
+  // ════════════════════════════════════════════
+  (function unifiedScroll(){
     const heroEl      = document.querySelector('.hero');
     const slidesEl     = document.getElementById('heroSlides');
     const contentEl    = document.querySelector('.hero-content');
     const floatsEl     = document.querySelector('.hero-floats');
     const vignetteEl   = document.getElementById('heroVignette');
-    if (!heroEl) return;
+    const progressEl   = document.getElementById('scrollProgress');
+    const pageSections = document.querySelectorAll('section[id]');
+    const navLinks      = document.querySelectorAll('.nav-link');
 
-    let ticking = false;
-    let mx = 0, my = 0; // mouse offset, -1 to 1
+    // Cache expensive layout values — only recompute on resize,
+    // never inside the scroll loop itself
+    let heroHeight  = heroEl ? heroEl.offsetHeight : 0;
+    let docHeight   = document.documentElement.scrollHeight - window.innerHeight;
+    let sectionTops = Array.from(pageSections).map(s => s.offsetTop);
 
-    function update() {
-      const heroHeight = heroEl.offsetHeight;
-      const scrollY = window.scrollY;
-      const progress = Math.min(Math.max(scrollY / heroHeight, 0), 1.4);
-
-      // Background: scroll drift (slow) + mouse drift (subtle) combined
-      if (slidesEl) {
-        slidesEl.style.transform =
-          `translate3d(${mx * 10}px, ${scrollY * 0.35 + my * 6}px, 0)`;
-      }
-
-      // Foreground content: faster scroll drift + fade/scale + opposite mouse drift (depth)
-      if (contentEl) {
-        const fade = Math.max(1 - progress * 1.5, 0);
-        contentEl.style.transform =
-          `translate3d(${mx * -6}px, ${scrollY * 0.55 + my * -4}px, 0) scale(${1 - progress * 0.04})`;
-        contentEl.style.opacity = fade;
-      }
-
-      // Floating tags: independent depth layer — strongest mouse parallax
-      if (floatsEl) {
-        floatsEl.style.transform =
-          `translate3d(${mx * 22}px, ${scrollY * 0.2 + my * 14}px, 0)`;
-      }
-
-      // Vignette intensifies as user scrolls — cinematic "focus pull"
-      if (vignetteEl) {
-        const spread = 10 + progress * 14;
-        vignetteEl.style.boxShadow = `inset 0 0 ${spread}vw 2vw rgba(0,0,0,${0.5 + progress * 0.25})`;
-      }
-
-      ticking = false;
+    function recalcLayout() {
+      heroHeight  = heroEl ? heroEl.offsetHeight : 0;
+      docHeight   = document.documentElement.scrollHeight - window.innerHeight;
+      sectionTops = Array.from(pageSections).map(s => s.offsetTop);
     }
+    window.addEventListener('resize', recalcLayout, { passive: true });
 
-    window.addEventListener('scroll', () => {
-      if (!ticking) {
-        requestAnimationFrame(update);
-        ticking = true;
-      }
-    }, { passive: true });
-
-    update(); // run once on load
-
-    // Subtle mouse-driven depth tilt — only on devices with a real cursor
-    if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-      let raf = null;
+    // Mouse-driven depth tilt state (hero only)
+    let mx = 0, my = 0;
+    if (heroEl && window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
       heroEl.addEventListener('mousemove', (e) => {
         const r = heroEl.getBoundingClientRect();
         mx = ((e.clientX - r.left) / r.width - 0.5) * 2;
         my = ((e.clientY - r.top) / r.height - 0.5) * 2;
-        if (!raf) raf = requestAnimationFrame(() => { update(); raf = null; });
+        requestTick();
       }, { passive: true });
-
       heroEl.addEventListener('mouseleave', () => {
         mx = 0; my = 0;
-        requestAnimationFrame(update);
+        requestTick();
       }, { passive: true });
     }
+
+    let ticking = false;
+    function requestTick() {
+      if (!ticking) {
+        requestAnimationFrame(update);
+        ticking = true;
+      }
+    }
+
+    function update() {
+      const scrollY = window.scrollY;
+
+      // ── 1. Hero parallax — only compute while hero is anywhere near view ──
+      if (heroEl && scrollY < heroHeight * 1.5) {
+        const progress = Math.min(Math.max(scrollY / heroHeight, 0), 1.4);
+
+        if (slidesEl) {
+          slidesEl.style.transform =
+            `translate3d(${mx * 10}px, ${scrollY * 0.35 + my * 6}px, 0)`;
+        }
+        if (contentEl) {
+          const fade = Math.max(1 - progress * 1.5, 0);
+          contentEl.style.transform =
+            `translate3d(${mx * -6}px, ${scrollY * 0.55 + my * -4}px, 0) scale(${1 - progress * 0.04})`;
+          contentEl.style.opacity = fade;
+        }
+        if (floatsEl) {
+          floatsEl.style.transform =
+            `translate3d(${mx * 22}px, ${scrollY * 0.2 + my * 14}px, 0)`;
+        }
+        if (vignetteEl) {
+          const spread = 10 + progress * 14;
+          vignetteEl.style.boxShadow = `inset 0 0 ${spread}vw 2vw rgba(0,0,0,${0.5 + progress * 0.25})`;
+        }
+      }
+
+      // ── 2. Scroll progress bar — cached docHeight, no layout read ──
+      if (progressEl && docHeight > 0) {
+        progressEl.style.width = Math.min((scrollY / docHeight) * 100, 100) + '%';
+      }
+
+      // ── 3. Scroll spy — cached sectionTops, no layout read ──
+      const mid = scrollY + window.innerHeight / 3;
+      let current = '';
+      for (let i = 0; i < sectionTops.length; i++) {
+        if (mid >= sectionTops[i]) current = pageSections[i].id;
+      }
+      navLinks.forEach(l => {
+        const isActive = l.getAttribute('href') === `#${current}`;
+        if (isActive !== l.classList.contains('active')) {
+          l.classList.toggle('active', isActive);
+        }
+      });
+
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', requestTick, { passive: true });
+    update(); // run once on load
   })();
 
   // ════════════════════════════════════
   // 3D SCROLL REVEAL ENGINE
   // ════════════════════════════════════
-
-  // Scroll progress bar
-  window.addEventListener('scroll', () => {
-    const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
-    document.getElementById('scrollProgress').style.width = scrolled + '%';
-  }, { passive: true });
+  // (Scroll progress bar now handled inside unifiedScroll above)
 
   // Intersection Observer for 3D reveals
   const revealObserver = new IntersectionObserver((entries) => {
@@ -1504,16 +1510,7 @@
     }
   }
 
-  // Parallax depth on scroll for section headings
-  window.addEventListener('scroll', () => {
-    const scrollY = window.scrollY;
-    document.querySelectorAll('.section-header.revealed').forEach(header => {
-      const rect = header.getBoundingClientRect();
-      const fromCenter = (rect.top + rect.height / 2 - window.innerHeight / 2);
-      const tY = fromCenter * 0.04;
-      header.style.transform = `translateY(${tY}px)`;
-    });
-  }, { passive: true });
+  // (Section header parallax now handled inside unifiedScroll above)
 
 
   // ── WISHLIST TOGGLE ──
@@ -1553,14 +1550,7 @@
   }
   loadLiveStats();
 
-  // ── SCROLL SPY ──
-  const pageSections=document.querySelectorAll('section[id]');
-  const navLinks=document.querySelectorAll('.nav-link');
-  window.addEventListener('scroll',()=>{
-    const mid=window.scrollY+window.innerHeight/3;let current='';
-    pageSections.forEach(s=>{if(mid>=s.offsetTop)current=s.id;});
-    navLinks.forEach(l=>{l.classList.remove('active');if(l.getAttribute('href')===`#${current}`)l.classList.add('active');});
-  },{passive:true});
+  // (Scroll spy now handled inside unifiedScroll above)
 </script>
 </body>
 </html>
