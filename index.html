@@ -58,22 +58,24 @@
     /* ── HERO ── */
     .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:#1a1008}
     .hero-slides{position:absolute;left:0;right:0;top:-8%;height:118%;z-index:0;will-change:transform}
-    .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.6s cubic-bezier(0.4,0,0.2,1);background-size:cover;background-position:center top;transform:scale(1.06)}
-    .hero-slide.active{opacity:1;animation:slowZoom 9s ease-out forwards}
-    @keyframes slowZoom{from{transform:scale(1.06)}to{transform:scale(1.0)}}
+    .hero-slide{position:absolute;inset:0;opacity:0;transition:opacity 1.8s cubic-bezier(0.4,0,0.2,1);background-size:cover;background-position:center top;transform:scale(1)}
+    .hero-slide.active{opacity:1;animation:slowZoom 7s ease-out forwards}
+    @keyframes slowZoom{from{transform:scale(1)}to{transform:scale(1.03)}}
     .hero-grain{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0.045;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-    .hero-vignette{position:absolute;inset:0;z-index:1;pointer-events:none;box-shadow:inset 0 0 10vw 2vw rgba(0,0,0,0.5)}
+    .hero-vignette{position:absolute;inset:0;z-index:1;pointer-events:none;box-shadow:inset 0 0 14vw 3vw rgba(0,0,0,0.55)}
     .slide-1{background-image:url('https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=1600&q=80&fit=crop&crop=top');background-position:center 20%}
     .slide-2{background-image:url('https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1600&q=80&fit=crop&crop=top');background-position:center 15%}
     .slide-3{background-image:url('https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1600&q=80&fit=crop')}
     .slide-4{background-image:url('https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1600&q=80&fit=crop&crop=top');background-position:center 10%}
     .slide-5{background-image:url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1600&q=80&fit=crop')}
     .slide-6{background-image:url('https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=1600&q=80&fit=crop&crop=top');background-position:center 10%}
-    .hero-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(13,10,7,0.92) 0%,rgba(13,10,7,0.60) 45%,rgba(13,10,7,0.25) 100%),linear-gradient(to top,rgba(13,10,7,0.65) 0%,transparent 40%);z-index:1}
-    .hero-floats{position:absolute;inset:0;z-index:2;pointer-events:none;overflow:hidden;will-change:transform}
-    .float-tag{position:absolute;background:rgba(255,252,249,0.08);border:1px solid rgba(255,252,249,0.18);backdrop-filter:blur(8px);color:rgba(255,252,249,0.75);font-family:'DM Sans',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:7px 14px;border-radius:40px;animation:floatDrift linear infinite;white-space:nowrap}
-    @keyframes floatDrift{0%{transform:translateY(0) rotate(0deg);opacity:0.5}33%{transform:translateY(-18px) rotate(1deg);opacity:0.8}66%{transform:translateY(-8px) rotate(-1deg);opacity:0.6}100%{transform:translateY(0) rotate(0deg);opacity:0.5}}
-    .ft1{top:15%;right:12%;animation-duration:5.5s}.ft2{top:28%;right:28%;animation-duration:7s;animation-delay:1.2s}.ft3{top:55%;right:8%;animation-duration:6s;animation-delay:0.5s}.ft4{top:68%;right:22%;animation-duration:8s;animation-delay:2s}.ft5{top:42%;right:38%;animation-duration:5s;animation-delay:0.8s}.ft6{top:80%;right:14%;animation-duration:6.5s;animation-delay:1.5s}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(105deg,rgba(13,10,7,0.92) 0%,rgba(13,10,7,0.60) 45%,rgba(13,10,7,0.25) 100%),linear-gradient(to top,rgba(13,10,7,0.65) 0%,transparent 40%);z-index:1;transition:filter 1.8s ease;filter:hue-rotate(0deg) saturate(1)}
+    /* Soft lighting shift per slide — subtle, one-time per transition, not continuous */
+    .hero-overlay[data-tone="1"]{filter:hue-rotate(-3deg) saturate(1.04) brightness(1.02)}
+    .hero-overlay[data-tone="2"]{filter:hue-rotate(4deg) saturate(0.97) brightness(0.99)}
+    .hero-overlay[data-tone="3"]{filter:hue-rotate(-2deg) saturate(1.02) brightness(1.01)}
+    .hero-overlay[data-tone="4"]{filter:hue-rotate(3deg) saturate(0.98) brightness(1.0)}
+    .hero-overlay[data-tone="5"]{filter:hue-rotate(-4deg) saturate(1.05) brightness(1.02)}
     .hero-vibe-label{display:inline-flex;align-items:center;gap:10px;margin-bottom:22px;padding:8px 18px;border-radius:40px;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);box-shadow:0 0 24px rgba(201,168,76,0.08)}
     .vibe-dot{width:6px;height:6px;background:var(--gold);border-radius:50%;animation:pulseDot 2s ease infinite}
     @keyframes pulseDot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(0.6)}}
@@ -769,7 +771,7 @@
       nav{padding:0 16px}.nav-logo{font-size:18px;margin-right:16px}.nav-link{padding:0 10px;font-size:10px}
       .search-section{padding:12px 16px;top:58px}.filter-pills{gap:6px}.filter-pill{font-size:10px;padding:5px 12px}
       .hero{min-height:88vh}.hero-content{padding:48px 24px}.hero-title{font-size:36px}.hero-sub{font-size:17px}
-      .ft3,.ft4,.ft5,.ft6{display:none}.hero-dots{left:24px}.scroll-hint{right:24px}
+      .hero-dots{left:24px}.scroll-hint{right:24px}
       section{padding:48px 20px 32px}.products-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px}.product-img-wrap{height:180px}.section-title{font-size:22px}
       .about-section{grid-template-columns:1fr;gap:40px;padding:56px 20px}.about-quote{font-size:26px}
       .trust-grid-dark{grid-template-columns:1fr}
@@ -886,16 +888,8 @@
     <div class="hero-slide slide-6"></div>
   </div>
   <div class="hero-grain"></div>
-  <div class="hero-vignette" id="heroVignette"></div>
-  <div class="hero-overlay"></div>
-  <div class="hero-floats" aria-hidden="true">
-    <div class="float-tag ft1">Old Money ✦</div>
-    <div class="float-tag ft2">Evening Glam</div>
-    <div class="float-tag ft3">Luxury Watches</div>
-    <div class="float-tag ft4">Street Style</div>
-    <div class="float-tag ft5">Beauty Finds</div>
-    <div class="float-tag ft6">Coquette ✿</div>
-  </div>
+  <div class="hero-vignette"></div>
+  <div class="hero-overlay" id="heroOverlay"></div>
   <div class="hero-content">
     <div class="hero-vibe-label">
       <div class="vibe-dot"></div>
@@ -1248,6 +1242,7 @@
   const slides=document.querySelectorAll('.hero-slide');
   const dotsContainer=document.getElementById('heroDots');
   const vibeTextEl=document.getElementById('vibeText');
+  const heroOverlayEl=document.getElementById('heroOverlay');
   const vibes=['Old Money Aesthetic','Party & Evening Glam','Luxury Watches & Jewellery','Minimal Street Style','Skincare & Beauty Finds','Coquette · Soft Girl'];
   let cur=0;
   slides.forEach((_,i)=>{const d=document.createElement('div');d.className='hero-dot'+(i===0?' active':'');d.addEventListener('click',()=>goTo(i));dotsContainer.appendChild(d);});
@@ -1256,8 +1251,10 @@
     cur=i;slides[cur].classList.add('active');dotsContainer.children[cur].classList.add('active');
     vibeTextEl.classList.replace('in','out');
     setTimeout(()=>{vibeTextEl.textContent=vibes[cur];vibeTextEl.classList.replace('out','in');},400);
+    // Soft lighting shift — one-time per slide change, not continuous
+    if (heroOverlayEl) heroOverlayEl.dataset.tone = String(i % 5);
   }
-  setInterval(()=>goTo((cur+1)%slides.length),5000);
+  setInterval(()=>goTo((cur+1)%slides.length),7000);
 
   fetchProducts();
 
@@ -1272,8 +1269,6 @@
     const heroEl      = document.querySelector('.hero');
     const slidesEl     = document.getElementById('heroSlides');
     const contentEl    = document.querySelector('.hero-content');
-    const floatsEl     = document.querySelector('.hero-floats');
-    const vignetteEl   = document.getElementById('heroVignette');
     const progressEl   = document.getElementById('scrollProgress');
     const pageSections = document.querySelectorAll('section[id]');
     const navLinks      = document.querySelectorAll('.nav-link');
@@ -1318,6 +1313,8 @@
       const scrollY = window.scrollY;
 
       // ── 1. Hero parallax — only compute while hero is anywhere near view ──
+      // Now just 2 transform/opacity writes (both compositor-only, cheap)
+      // instead of 4, since floating tags and dynamic vignette are gone.
       if (heroEl && scrollY < heroHeight * 1.5) {
         const progress = Math.min(Math.max(scrollY / heroHeight, 0), 1.4);
 
@@ -1330,14 +1327,6 @@
           contentEl.style.transform =
             `translate3d(${mx * -6}px, ${scrollY * 0.55 + my * -4}px, 0) scale(${1 - progress * 0.04})`;
           contentEl.style.opacity = fade;
-        }
-        if (floatsEl) {
-          floatsEl.style.transform =
-            `translate3d(${mx * 22}px, ${scrollY * 0.2 + my * 14}px, 0)`;
-        }
-        if (vignetteEl) {
-          const spread = 10 + progress * 14;
-          vignetteEl.style.boxShadow = `inset 0 0 ${spread}vw 2vw rgba(0,0,0,${0.5 + progress * 0.25})`;
         }
       }
 
