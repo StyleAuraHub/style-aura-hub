@@ -204,6 +204,7 @@
       transform-style:preserve-3d;
       transition-property:box-shadow, border-color, background;
       transition-duration:0.35s;
+      filter:drop-shadow(var(--dyn-shadow, 0 0 0 rgba(0,0,0,0)));
     }
 
     /* Spotlight layer — moves with cursor via JS */
@@ -236,6 +237,42 @@
                  inset 0 -1px 0 rgba(0,0,0,0.15);
     }
     .product-card.revealed:hover .card-rim{ opacity:1; }
+
+    /* ── FOCUS EFFECT — hovered card gains attention, siblings recede ── */
+    /* Pure CSS, zero JS cost — safe "magnetic" feel without per-pixel math */
+    .products-grid:has(.product-card:hover) .product-card:not(:hover){
+      transition:opacity 0.4s ease, filter 0.4s ease;
+      opacity:0.72;
+      filter:saturate(0.85) brightness(0.94);
+    }
+
+    /* ── CLICK-TO-EXPAND ── */
+    .expand-backdrop{
+      position:fixed;inset:0;z-index:998;
+      background:rgba(13,10,7,0.55);
+      backdrop-filter:blur(0px);
+      opacity:0;pointer-events:none;
+      transition:opacity 0.35s ease, backdrop-filter 0.35s ease;
+    }
+    .expand-backdrop.active{
+      opacity:1;backdrop-filter:blur(6px);pointer-events:auto;
+    }
+    .product-card.expanding{
+      position:relative;z-index:999;
+      transition:transform 0.4s cubic-bezier(0.22,1,0.36,1),
+                 box-shadow 0.4s ease;
+      transform:scale(1.06) translateY(-4px) !important;
+      box-shadow:0 40px 90px rgba(0,0,0,0.5),0 0 0 1px rgba(201,168,76,0.3) !important;
+    }
+
+    /* ── REDUCED MOTION — respect user preference ── */
+    @media (prefers-reduced-motion: reduce){
+      .product-card{transition-duration:0.15s !important}
+      .product-image{transition:none !important}
+      .products-grid:has(.product-card:hover) .product-card:not(:hover){
+        opacity:1;filter:none;transition:none;
+      }
+    }
 
     /* Shared stagger delays — applies to whichever entrance animation is active */
     .product-card:nth-child(1){transition-delay:0.00s}
@@ -1419,11 +1456,25 @@
     const rotY = state.currentY * maxRY;
     const lift = state.hovering ? liftY : 0;
     const scale = state.hovering ? sc : 1;
+    const magnitude = Math.sqrt(state.currentX**2 + state.currentY**2);
 
     // Apply via inline style (JS-driven, CSS transition disabled during JS control)
-    card.style.transform = state.hovering || Math.abs(state.currentX) > 0.001 || Math.abs(state.currentY) > 0.001
-      ? `perspective(900px) translateY(${lift * (1 - Math.sqrt(state.currentX**2 + state.currentY**2) * 0.5)}px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${scale})`
+    const active = state.hovering || magnitude > 0.001;
+    card.style.transform = active
+      ? `perspective(900px) translateY(${lift * (1 - magnitude * 0.5)}px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${scale})`
       : '';
+
+    // Directional shadow — falls away from the "light" (opposite the tilt),
+    // simulating a real light source tracking the cursor
+    if (active) {
+      const shadowX = -state.currentY * 18;
+      const shadowY = 22 - state.currentX * 14;
+      const blur = 40 + magnitude * 20;
+      card.style.setProperty('--dyn-shadow',
+        `${shadowX}px ${shadowY}px ${blur}px rgba(0,0,0,${0.28 + magnitude * 0.1})`);
+    } else {
+      card.style.removeProperty('--dyn-shadow');
+    }
 
     // Move spotlight to follow cursor position
     const spotlight = card.querySelector('.card-spotlight');
@@ -1433,21 +1484,40 @@
       spotlight.style.background = `radial-gradient(circle at ${px}% ${py}%,rgba(255,255,255,0.18) 0%,transparent 60%)`;
     }
 
+    // Layered depth — the product image itself shifts slightly more than
+    // the card, so it feels separated in its own layer (front-layer parallax)
+    const image = card.querySelector('.product-image');
+    if (image) {
+      if (active) {
+        // Disable CSS transition while JS drives this frame-by-frame —
+        // prevents the same lag bug the header parallax had earlier
+        if (image.style.transition !== 'none') image.style.transition = 'none';
+        const imgX = state.currentY * 10;
+        const imgY = -state.currentX * 10;
+        image.style.transform = `scale(1.1) translate(${imgX}px, ${imgY}px)`;
+      } else if (image.style.transition === 'none') {
+        // Settling — hand control back to CSS so it eases home naturally
+        image.style.transition = '';
+        image.style.transform = '';
+      }
+    }
+
     // Keep animating until settled
     const settled = !state.hovering
-      && Math.abs(state.currentX) < 0.001
-      && Math.abs(state.currentY) < 0.001;
+      && magnitude < 0.001;
 
     if (!settled) {
       state.raf = requestAnimationFrame(() => lerpCard(card));
     } else {
       state.raf = null;
       card.style.transform = '';
+      card.style.removeProperty('--dyn-shadow');
     }
   }
 
-  // Only run on non-touch devices
-  if (window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
+  // Only run on non-touch devices, and respect reduced-motion preference
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!prefersReducedMotion && window.matchMedia('(hover:hover) and (pointer:fine)').matches) {
     document.addEventListener('mousemove', (e) => {
       const card = e.target.closest('.product-card.revealed');
       if (!card) return;
@@ -1474,6 +1544,40 @@
       if (!state.raf) state.raf = requestAnimationFrame(() => lerpCard(card));
     });
   }
+
+  // ════════════════════════════════════════════
+  // CLICK-TO-EXPAND EXPERIENCE
+  // Clicking a product (not the wishlist heart or shop
+  // button directly) briefly expands the card and blurs
+  // the background before opening the real affiliate link —
+  // there's no separate internal product page, so this is
+  // a transitional moment rather than a fake page swap.
+  // Works on all devices, independent of the tilt engine.
+  // ════════════════════════════════════════════
+  const expandBackdrop = document.createElement('div');
+  expandBackdrop.className = 'expand-backdrop';
+  document.body.appendChild(expandBackdrop);
+
+  document.addEventListener('click', (e) => {
+    if (e.target.closest('.card-wish')) return;   // wishlist handles itself
+    if (e.target.closest('.shop-btn')) return;     // let the link navigate normally
+
+    const card = e.target.closest('.product-card.revealed');
+    if (!card) return;
+
+    const link = card.querySelector('.shop-btn');
+    if (!link || !link.href || link.href === '#') return;
+
+    e.preventDefault();
+    card.classList.add('expanding');
+    expandBackdrop.classList.add('active');
+
+    setTimeout(() => {
+      window.open(link.href, '_blank', 'noopener');
+      card.classList.remove('expanding');
+      expandBackdrop.classList.remove('active');
+    }, 380);
+  });
 
   // Spawn floating depth particles per section
   const SECTION_PARTICLES = {
