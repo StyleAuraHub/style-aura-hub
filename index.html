@@ -25,7 +25,8 @@
     body{background:#0d0a07;font-family:'DM Sans',sans-serif;overflow-x:hidden;color:rgba(255,252,249,0.9)}
 
     /* ── NAV ── */
-    nav{background:rgba(13,10,7,0.92);border-bottom:1px solid rgba(201,168,76,0.12);padding:0 40px;display:flex;align-items:center;height:58px;position:sticky;top:0;z-index:100;backdrop-filter:blur(20px)}
+    nav{background:rgba(13,10,7,0.7);border-bottom:1px solid rgba(201,168,76,0.1);padding:0 40px;display:flex;align-items:center;height:64px;position:sticky;top:0;z-index:100;backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);transition:height 0.35s cubic-bezier(0.22,1,0.36,1),background 0.35s ease,box-shadow 0.35s ease,border-color 0.35s ease}
+    nav.scrolled{height:52px;background:rgba(13,10,7,0.85);box-shadow:0 12px 32px rgba(0,0,0,0.35);border-bottom-color:rgba(201,168,76,0.18)}
     .nav-logo{font-family:'Playfair Display',serif;font-size:22px;font-weight:400;color:rgba(255,252,249,0.9);letter-spacing:0.5px;margin-right:32px;white-space:nowrap;text-decoration:none;display:flex;align-items:center;gap:4px}
     .nav-logo span{font-style:italic;background:linear-gradient(90deg,#c9a84c,#f0d080);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
     .nav-links{display:flex;overflow-x:auto;scrollbar-width:none;flex:1}
@@ -179,6 +180,51 @@
     .section-title{font-family:'Playfair Display',serif;font-size:28px;font-weight:400;color:rgba(255,252,249,0.9)}
     .section-title em{font-style:italic;background:linear-gradient(90deg,#c9a84c,#f0d080);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
     .section-count{font-family:'DM Sans',sans-serif;font-size:11px;letter-spacing:1px;color:var(--muted)}
+    .section-eyebrow{font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;letter-spacing:0.35em;text-transform:uppercase;color:#c9a84c;margin-bottom:8px;opacity:0.85}
+
+    /* ── EDITORIAL FLASH CARDS ── */
+    /* Magazine-style punctuation between sections — restrained,
+       appears only twice total across the page, never used as a CTA. */
+    .editorial-band{
+      padding:64px 40px;
+      display:flex;justify-content:center;
+      background:linear-gradient(160deg,#0a0703,#100b06);
+      border-top:1px solid rgba(201,168,76,0.08);
+      border-bottom:1px solid rgba(201,168,76,0.08);
+    }
+    .editorial-card{
+      max-width:560px;text-align:center;
+      padding:40px 48px;
+      border:1px solid rgba(201,168,76,0.18);
+      border-radius:2px;
+      background:rgba(255,252,249,0.02);
+      backdrop-filter:blur(6px);
+      transition:transform 0.5s cubic-bezier(0.22,1,0.36,1),
+                 border-color 0.4s ease,
+                 box-shadow 0.4s ease;
+      opacity:0;transform:translateY(24px);
+    }
+    .editorial-card.revealed{opacity:1;transform:translateY(0)}
+    .editorial-card.revealed:hover{
+      transform:translateY(-4px);
+      border-color:rgba(201,168,76,0.4);
+      box-shadow:0 24px 48px rgba(0,0,0,0.35);
+    }
+    .editorial-kicker{
+      font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;
+      letter-spacing:0.3em;text-transform:uppercase;
+      color:#c9a84c;margin-bottom:16px;
+    }
+    .editorial-quote{
+      font-family:'Playfair Display',serif;font-style:italic;
+      font-size:28px;font-weight:400;line-height:1.3;
+      color:rgba(255,252,249,0.88);
+    }
+    @media(max-width:600px){
+      .editorial-band{padding:48px 20px}
+      .editorial-card{padding:32px 28px}
+      .editorial-quote{font-size:22px}
+    }
 
     /* ── PRODUCT GRID ── */
     .products-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:20px;min-height:60px}
@@ -267,9 +313,22 @@
       box-shadow:0 40px 90px rgba(0,0,0,0.5),0 0 0 1px rgba(201,168,76,0.3) !important;
     }
 
+    /* ── IDLE BREATHING — tiny, only runs while card is on-screen ── */
+    @keyframes cardBreathe{
+      0%,100%{transform:scale(1)}
+      50%{transform:scale(1.006)}
+    }
+    .product-card.revealed.in-viewport{
+      animation:cardBreathe 6.5s ease-in-out infinite;
+    }
+    .product-card.revealed:hover{
+      animation-play-state:paused;
+    }
+
     /* ── REDUCED MOTION — respect user preference ── */
     @media (prefers-reduced-motion: reduce){
       .product-card{transition-duration:0.15s !important}
+      .product-card.revealed.in-viewport{animation:none !important}
       .product-image{transition:none !important}
       .products-grid:has(.product-card:hover) .product-card:not(:hover){
         opacity:1;filter:none;transition:none;
@@ -920,7 +979,10 @@
 <!-- PRODUCT SECTIONS -->
 <section id="fashion-section">
   <div class="section-header">
-    <h2 class="section-title"><em>Fashion</em> Finds</h2>
+    <div>
+      <div class="section-eyebrow">New Collection</div>
+      <h2 class="section-title"><em>Fashion</em> Finds</h2>
+    </div>
     <span class="section-count" id="fashion-count"></span>
   </div>
   <div class="section-scene"><div class="products-grid" id="fashion-grid">
@@ -932,29 +994,82 @@
     </div>
   </div></div>
 </section>
+
+<!-- EDITORIAL FLASH CARD -->
+<div class="editorial-band">
+  <div class="editorial-card">
+    <div class="editorial-kicker">Editor's Note</div>
+    <div class="editorial-quote">Luxury is never loud.</div>
+  </div>
+</div>
+
 <section id="skincare-section">
-  <div class="section-header"><h2 class="section-title">Skincare <em>&amp; Beauty</em></h2><span class="section-count" id="skincare-count"></span></div>
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Editor's Picks</div>
+      <h2 class="section-title">Skincare <em>&amp; Beauty</em></h2>
+    </div>
+    <span class="section-count" id="skincare-count"></span>
+  </div>
   <div class="products-grid" id="skincare-grid"></div>
 </section>
 <section id="accessories-section">
-  <div class="section-header"><h2 class="section-title">Accessories <em>&amp; Nail Art</em></h2><span class="section-count" id="accessories-count"></span></div>
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Featured Selection</div>
+      <h2 class="section-title">Accessories <em>&amp; Nail Art</em></h2>
+    </div>
+    <span class="section-count" id="accessories-count"></span>
+  </div>
   <div class="products-grid" id="accessories-grid"></div>
 </section>
 <section id="watches-section">
-  <div class="section-header"><h2 class="section-title">Luxury <em>Watches</em></h2><span class="section-count" id="watches-count"></span></div>
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">The Archive</div>
+      <h2 class="section-title">Luxury <em>Watches</em></h2>
+    </div>
+    <span class="section-count" id="watches-count"></span>
+  </div>
   <div class="products-grid" id="watches-grid"></div>
 </section>
 
+<!-- EDITORIAL FLASH CARD -->
+<div class="editorial-band">
+  <div class="editorial-card">
+    <div class="editorial-kicker">Field Notes</div>
+    <div class="editorial-quote">Details change everything.</div>
+  </div>
+</div>
+
 <section id="tech-section">
-  <div class="section-header"><h2 class="section-title">Tech <em>&amp; Gadgets</em></h2><span class="section-count" id="tech-count"></span></div>
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Studio Edit</div>
+      <h2 class="section-title">Tech <em>&amp; Gadgets</em></h2>
+    </div>
+    <span class="section-count" id="tech-count"></span>
+  </div>
   <div class="products-grid" id="tech-grid"></div>
 </section>
 <section id="homekitchen-section">
-  <div class="section-header"><h2 class="section-title">Home <em>&amp; Kitchen</em></h2><span class="section-count" id="homekitchen-count"></span></div>
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">Everyday Luxury</div>
+      <h2 class="section-title">Home <em>&amp; Kitchen</em></h2>
+    </div>
+    <span class="section-count" id="homekitchen-count"></span>
+  </div>
   <div class="products-grid" id="homekitchen-grid"></div>
 </section>
 <section id="discover-section" style="display:none">
-  <div class="section-header"><h2 class="section-title"><em>Discover</em> More</h2><span class="section-count" id="discover-count"></span></div>
+  <div class="section-header">
+    <div>
+      <div class="section-eyebrow">More To Explore</div>
+      <h2 class="section-title"><em>Discover</em> More</h2>
+    </div>
+    <span class="section-count" id="discover-count"></span>
+  </div>
   <div class="products-grid" id="discover-grid"></div>
 </section>
 
@@ -1172,6 +1287,7 @@
       setTimeout(()=>{
         document.querySelectorAll('.product-card').forEach(card=>{
           if(typeof revealObserver !== 'undefined' && revealObserver) revealObserver.observe(card);
+          if(typeof breatheObserver !== 'undefined' && breatheObserver) breatheObserver.observe(card);
         });
         // Safety net: force-reveal any card the observer hasn't caught within 2s
         // (covers edge cases where a section is already in view before observing starts)
@@ -1272,6 +1388,8 @@
     const progressEl   = document.getElementById('scrollProgress');
     const pageSections = document.querySelectorAll('section[id]');
     const navLinks      = document.querySelectorAll('.nav-link');
+    const navEl         = document.querySelector('nav');
+    let navScrolled = false;
 
     // Cache expensive layout values — only recompute on resize,
     // never inside the scroll loop itself
@@ -1311,6 +1429,13 @@
 
     function update() {
       const scrollY = window.scrollY;
+
+      // ── 0. Nav glass shrink — class toggle only, fires once per state change ──
+      const shouldShrink = scrollY > 40;
+      if (shouldShrink !== navScrolled) {
+        navScrolled = shouldShrink;
+        if (navEl) navEl.classList.toggle('scrolled', navScrolled);
+      }
 
       // ── 1. Hero parallax — only compute while hero is anywhere near view ──
       // Now just 2 transform/opacity writes (both compositor-only, cheap)
@@ -1369,6 +1494,15 @@
     });
   }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
 
+  // Viewport-gated idle "breathing" — unlike revealObserver (one-shot),
+  // this toggles both ways so the animation genuinely pauses when a
+  // card scrolls off-screen, per the "animate only visible elements" rule.
+  const breatheObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      entry.target.classList.toggle('in-viewport', entry.isIntersecting);
+    });
+  }, { threshold: 0.1 });
+
   // Section in-view observer (for accent bar + particles)
   const sectionObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
@@ -1388,7 +1522,7 @@
   });
 
   // Observe trust cards and about stats
-  document.querySelectorAll('.trust-card, .about-stat').forEach(el => revealObserver.observe(el));
+  document.querySelectorAll('.trust-card, .about-stat, .editorial-card').forEach(el => revealObserver.observe(el));
   // Observe section headers
   document.querySelectorAll('.section-header').forEach(h => revealObserver.observe(h));
 
@@ -1612,6 +1746,31 @@
     btn.textContent = liked ? '❤️' : '🤍';
     btn.style.transform = 'scale(1.3)';
     setTimeout(()=>{ btn.style.transform=''; }, 200);
+  }
+
+  // ════════════════════════════════════════════
+  // MAGNETIC HERO BUTTONS
+  // Scoped to just the 2 hero CTAs, not every shop
+  // button on the page — that many elements running
+  // per-pixel distance math on mousemove would be the
+  // same performance trap already avoided for cards.
+  // ════════════════════════════════════════════
+  if (window.matchMedia('(hover:hover) and (pointer:fine)').matches
+      && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.querySelectorAll('.hero-actions .btn-primary, .hero-actions .btn-secondary')
+      .forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+          const r = btn.getBoundingClientRect();
+          const x = (e.clientX - r.left - r.width / 2) * 0.25;
+          const y = (e.clientY - r.top - r.height / 2) * 0.35;
+          // Include the existing -2px hover lift so the magnetic pull
+          // doesn't visually cancel out the CSS hover state it overrides
+          btn.style.transform = `translate(${x}px, ${y - 2}px)`;
+        }, { passive: true });
+        btn.addEventListener('mouseleave', () => {
+          btn.style.transform = '';
+        }, { passive: true });
+      });
   }
 
 
