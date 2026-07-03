@@ -287,39 +287,149 @@
     #tech-section::before       { background: linear-gradient(90deg, transparent, #708090, transparent); }
     #homekitchen-section::before{ background: linear-gradient(90deg, transparent, #90A878, transparent); }
 
-    /* ── EDITORIAL FLASH CARDS ── */
+    /* ── EDITORIAL FLASH CARDS (ROTATING CINEMATIC) ── */
     .editorial-band{
-      padding:64px 40px;
-      display:flex;justify-content:center;
-      background:linear-gradient(160deg,#0a0703,#100b06);
+      padding:80px 40px;
+      display:flex;justify-content:center;align-items:center;
+      background:linear-gradient(160deg,#0a0703 0%,#100b06 40%,#0d0a07 100%);
       border-top:1px solid rgba(201,168,76,0.08);
       border-bottom:1px solid rgba(201,168,76,0.08);
+      position:relative;
+      overflow:hidden;
     }
-    .editorial-card{
-      max-width:560px;text-align:center;
-      padding:40px 48px;
-      border:1px solid rgba(201,168,76,0.18);
-      border-radius:2px;
+    .editorial-band::before{
+      content:'';
+      position:absolute;
+      width:500px;height:500px;
+      border-radius:50%;
+      background:radial-gradient(circle,rgba(201,168,76,0.06) 0%,transparent 70%);
+      top:50%;left:50%;transform:translate(-50%,-50%);
+      pointer-events:none;
+      animation:editorialGlow 6s ease-in-out infinite;
+    }
+    @keyframes editorialGlow{
+      0%,100%{opacity:0.5;transform:translate(-50%,-50%) scale(1)}
+      50%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}
+    }
+    .editorial-carousel{
+      max-width:680px;width:100%;text-align:center;
+      position:relative;
+      padding:48px 56px;
+      border:1px solid rgba(201,168,76,0.15);
+      border-radius:4px;
       background:rgba(255,252,249,0.02);
-      backdrop-filter:blur(6px);
-      transition:transform 0.5s cubic-bezier(0.22,1,0.36,1), border-color 0.4s ease, box-shadow 0.4s ease;
-      opacity:0;transform:translateY(24px);
+      backdrop-filter:blur(10px);
+      box-shadow:0 0 80px rgba(201,168,76,0.04);
+      opacity:0;transform:translateY(28px);
+      transition:opacity 0.8s ease,transform 0.8s cubic-bezier(0.22,1,0.36,1);
     }
-    .editorial-card.revealed{opacity:1;transform:translateY(0)}
-    .editorial-card.revealed:hover{
-      transform:translateY(-4px);
-      border-color:rgba(201,168,76,0.4);
-      box-shadow:0 24px 48px rgba(0,0,0,0.35);
+    .editorial-carousel.revealed{opacity:1;transform:translateY(0)}
+    /* Decorative corner accents */
+    .editorial-carousel::before,.editorial-carousel::after{
+      content:'';
+      position:absolute;
+      width:28px;height:28px;
+      border-color:rgba(201,168,76,0.35);
+      border-style:solid;
+      pointer-events:none;
+    }
+    .editorial-carousel::before{top:12px;left:12px;border-width:1px 0 0 1px;}
+    .editorial-carousel::after{bottom:12px;right:12px;border-width:0 1px 1px 0;}
+    /* Animated quote mark */
+    .editorial-quotemark{
+      font-family:'Playfair Display',serif;
+      font-size:72px;line-height:1;
+      background:linear-gradient(135deg,rgba(201,168,76,0.25),rgba(240,208,128,0.15));
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      margin-bottom:-12px;
+      user-select:none;
+      animation:quoteFloat 5s ease-in-out infinite;
+    }
+    @keyframes quoteFloat{
+      0%,100%{transform:translateY(0) scale(1);opacity:0.7}
+      50%{transform:translateY(-4px) scale(1.05);opacity:1}
     }
     .editorial-kicker{
       font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;
-      letter-spacing:0.3em;text-transform:uppercase;
-      color:#c9a84c;margin-bottom:16px;
+      letter-spacing:0.35em;text-transform:uppercase;
+      color:rgba(201,168,76,0.8);margin-bottom:20px;
+      display:inline-flex;align-items:center;gap:10px;
+    }
+    .editorial-kicker::before,.editorial-kicker::after{
+      content:'';display:block;
+      width:24px;height:1px;
+      background:linear-gradient(90deg,transparent,rgba(201,168,76,0.4));
+    }
+    .editorial-kicker::after{background:linear-gradient(90deg,rgba(201,168,76,0.4),transparent)}
+    /* Quote stage with crossfade */
+    .editorial-stage{
+      position:relative;
+      min-height:80px;
+      display:flex;align-items:center;justify-content:center;
     }
     .editorial-quote{
+      position:absolute;inset:0;
+      display:flex;align-items:center;justify-content:center;
       font-family:'Playfair Display',serif;font-style:italic;
-      font-size:28px;font-weight:400;line-height:1.3;
-      color:rgba(255,252,249,0.88);
+      font-size:30px;font-weight:400;line-height:1.35;
+      color:rgba(255,252,249,0.9);
+      opacity:0;
+      transform:translateY(16px) scale(0.97);
+      transition:opacity 0.7s cubic-bezier(0.4,0,0.2,1),transform 0.7s cubic-bezier(0.4,0,0.2,1);
+      pointer-events:none;
+    }
+    .editorial-quote.active{
+      opacity:1;
+      transform:translateY(0) scale(1);
+      pointer-events:auto;
+    }
+    .editorial-quote.exiting{
+      opacity:0;
+      transform:translateY(-16px) scale(0.97);
+    }
+    .editorial-quote em{
+      background:linear-gradient(90deg,#c9a84c,#f0d080);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      font-style:italic;
+    }
+    /* Dot indicators */
+    .editorial-dots{
+      display:flex;gap:8px;
+      justify-content:center;
+      margin-top:28px;
+    }
+    .editorial-dot{
+      width:6px;height:6px;
+      border-radius:50%;
+      background:rgba(255,252,249,0.15);
+      border:none;cursor:pointer;
+      padding:0;
+      transition:background 0.35s,transform 0.35s,box-shadow 0.35s;
+    }
+    .editorial-dot.active{
+      background:var(--gold);
+      transform:scale(1.4);
+      box-shadow:0 0 10px rgba(201,168,76,0.5);
+    }
+    .editorial-dot:hover:not(.active){
+      background:rgba(255,252,249,0.35);
+    }
+    /* Author attribution */
+    .editorial-author{
+      font-family:'DM Sans',sans-serif;
+      font-size:11px;
+      color:rgba(255,252,249,0.3);
+      margin-top:8px;
+      letter-spacing:0.5px;
+      opacity:0;
+      transition:opacity 0.5s ease 0.2s;
+    }
+    .editorial-author.visible{opacity:1}
+    @media(max-width:768px){
+      .editorial-band{padding:56px 20px}
+      .editorial-carousel{padding:36px 28px}
+      .editorial-quote{font-size:22px}
+      .editorial-quotemark{font-size:52px}
     }
 
     /* ── PRODUCT GRID ── */
@@ -977,11 +1087,19 @@
   </div>
 </section>
 
-<!-- EDITORIAL FLASH CARD -->
+<!-- EDITORIAL ROTATING FLASH CARD 1 -->
 <div class="editorial-band">
-  <div class="editorial-card">
+  <div class="editorial-carousel" id="editCarousel1">
+    <div class="editorial-quotemark">&ldquo;</div>
     <div class="editorial-kicker">Editor's Note</div>
-    <div class="editorial-quote">Luxury is never loud.</div>
+    <div class="editorial-stage">
+      <div class="editorial-quote active">Luxury is <em>never</em> loud.</div>
+      <div class="editorial-quote">Style is a way to say who you are — <em>without speaking.</em></div>
+      <div class="editorial-quote">Less is more, but <em>more is more</em> when done right.</div>
+      <div class="editorial-quote">Elegance is the only beauty that <em>never fades.</em></div>
+    </div>
+    <div class="editorial-author" id="editAuthor1"></div>
+    <div class="editorial-dots" id="editDots1"></div>
   </div>
 </div>
 
@@ -1018,11 +1136,19 @@
   <div class="products-grid" id="watches-grid"></div>
 </section>
 
-<!-- EDITORIAL FLASH CARD -->
+<!-- EDITORIAL ROTATING FLASH CARD 2 -->
 <div class="editorial-band">
-  <div class="editorial-card">
+  <div class="editorial-carousel" id="editCarousel2">
+    <div class="editorial-quotemark">&ldquo;</div>
     <div class="editorial-kicker">Field Notes</div>
-    <div class="editorial-quote">Details change everything.</div>
+    <div class="editorial-stage">
+      <div class="editorial-quote active">Details change <em>everything.</em></div>
+      <div class="editorial-quote">Fashion fades, only <em>style</em> remains the same.</div>
+      <div class="editorial-quote">Buy less, choose well, <em>make it last.</em></div>
+      <div class="editorial-quote">The best things in life aren't <em>things.</em></div>
+    </div>
+    <div class="editorial-author" id="editAuthor2"></div>
+    <div class="editorial-dots" id="editDots2"></div>
   </div>
 </div>
 
@@ -1522,7 +1648,7 @@
     if (header) revealObserver.observe(header);
   });
 
-  document.querySelectorAll('.trust-card, .about-stat, .editorial-card').forEach(el => revealObserver.observe(el));
+  document.querySelectorAll('.trust-card, .about-stat, .editorial-carousel').forEach(el => revealObserver.observe(el));
   document.querySelectorAll('.section-header').forEach(h => revealObserver.observe(h));
 
   // ── STUDIO 3D TILT ENGINE (CARDS) ──
@@ -1753,6 +1879,96 @@
     } catch(e) {}
   }
   loadLiveStats();
+
+  // ── EDITORIAL ROTATING QUOTE CAROUSEL ENGINE ──
+  (function initEditorialCarousels() {
+    const QUOTE_AUTHORS = {
+      // Carousel 1
+      'editCarousel1': [
+        '',
+        '— Rachel Zoe',
+        '— Iris Apfel',
+        '— Audrey Hepburn',
+      ],
+      // Carousel 2
+      'editCarousel2': [
+        '',
+        '— Yves Saint Laurent',
+        '— Vivienne Westwood',
+        '— Art Van Elslander',
+      ],
+    };
+
+    document.querySelectorAll('.editorial-carousel').forEach(carousel => {
+      const id = carousel.id;
+      const quotes = carousel.querySelectorAll('.editorial-quote');
+      const dotsWrap = carousel.querySelector('.editorial-dots');
+      const authorEl = carousel.querySelector('[id^="editAuthor"]');
+      const authors = QUOTE_AUTHORS[id] || [];
+      const total = quotes.length;
+      if (total <= 1) return;
+
+      let current = 0;
+      let autoTimer = null;
+
+      // Build dot indicators
+      for (let i = 0; i < total; i++) {
+        const dot = document.createElement('button');
+        dot.className = 'editorial-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', `Quote ${i + 1}`);
+        dot.addEventListener('click', () => goTo(i));
+        dotsWrap.appendChild(dot);
+      }
+      const dots = dotsWrap.querySelectorAll('.editorial-dot');
+
+      function showAuthor(idx) {
+        if (!authorEl) return;
+        const text = authors[idx] || '';
+        authorEl.classList.remove('visible');
+        setTimeout(() => {
+          authorEl.textContent = text;
+          if (text) authorEl.classList.add('visible');
+        }, 300);
+      }
+
+      function goTo(idx) {
+        if (idx === current) return;
+        // Exit current
+        quotes[current].classList.remove('active');
+        quotes[current].classList.add('exiting');
+        dots[current].classList.remove('active');
+
+        // After exit transition, remove exiting class
+        const prevIdx = current;
+        setTimeout(() => {
+          quotes[prevIdx].classList.remove('exiting');
+        }, 700);
+
+        // Enter new
+        current = idx;
+        quotes[current].classList.add('active');
+        dots[current].classList.add('active');
+        showAuthor(current);
+
+        // Reset auto-rotation timer
+        resetAuto();
+      }
+
+      function next() {
+        goTo((current + 1) % total);
+      }
+
+      function resetAuto() {
+        clearInterval(autoTimer);
+        autoTimer = setInterval(next, 5000);
+      }
+
+      // Show first author
+      showAuthor(0);
+      // Start auto-rotation
+      resetAuto();
+    });
+  })();
 </script>
 </body>
 </html>
