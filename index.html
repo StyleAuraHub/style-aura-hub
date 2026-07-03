@@ -74,10 +74,45 @@
       align-items: center;
       justify-content: space-between;
       overflow: hidden;
-      background: radial-gradient(circle at 20% 30%, #1c140c 0%, #0d0a07 100%);
+      background: #0d0a07;
       padding: 0 80px;
       gap: 40px;
       perspective: 1000px;
+    }
+    /* Hero background slideshow - fills the right half behind gallery */
+    .hero-bg-slideshow {
+      position: absolute;
+      top: 0; right: 0; bottom: 0;
+      width: 55%;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .hero-bg-slide {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: opacity;
+    }
+    .hero-bg-slide.active { opacity: 1; }
+    .hero-bg-slide img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transform: scale(1.08);
+      animation: heroBgKenBurns 12s ease-in-out infinite alternate;
+      filter: brightness(0.35) saturate(0.8);
+    }
+    @keyframes heroBgKenBurns {
+      0%   { transform: scale(1.08) translate(0, 0); }
+      100% { transform: scale(1.15) translate(-2%, -1%); }
+    }
+    .hero-bg-slideshow::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, #0d0a07 0%, rgba(13,10,7,0.7) 30%, rgba(13,10,7,0.25) 70%, rgba(13,10,7,0.4) 100%);
+      z-index: 1;
+      pointer-events: none;
     }
     .hero-grain{position:absolute;inset:0;z-index:3;pointer-events:none;opacity:0.045;mix-blend-mode:overlay;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
     .hero-vignette{position:absolute;inset:0;z-index:3;pointer-events:none;box-shadow:inset 0 0 14vw 3vw rgba(0,0,0,0.55)}
@@ -134,13 +169,18 @@
       will-change: transform;
       transform-style: preserve-3d;
     }
+    /* Each gallery card holds multiple images that crossfade */
     .gallery-card img {
+      position: absolute;
+      inset: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+      opacity: 0;
+      transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
     }
-    .gallery-card:hover img {
+    .gallery-card img.active { opacity: 1; }
+    .gallery-card:hover img.active {
       transform: scale(1.06);
     }
 
@@ -361,36 +401,41 @@
       background:linear-gradient(90deg,transparent,rgba(201,168,76,0.4));
     }
     .editorial-kicker::after{background:linear-gradient(90deg,rgba(201,168,76,0.4),transparent)}
-    /* Quote stage with crossfade */
+    /* Quote stage with crossfade - FIXED: proper height for absolute children */
     .editorial-stage{
       position:relative;
-      min-height:80px;
+      height:90px;
       display:flex;align-items:center;justify-content:center;
+      overflow:hidden;
     }
     .editorial-quote{
-      position:absolute;inset:0;
+      position:absolute;
+      left:0;right:0;
+      top:50%;
       display:flex;align-items:center;justify-content:center;
       font-family:'Playfair Display',serif;font-style:italic;
       font-size:30px;font-weight:400;line-height:1.35;
       color:rgba(255,252,249,0.9);
       opacity:0;
-      transform:translateY(16px) scale(0.97);
-      transition:opacity 0.7s cubic-bezier(0.4,0,0.2,1),transform 0.7s cubic-bezier(0.4,0,0.2,1);
+      transform:translateY(30px);
+      transition:opacity 0.8s cubic-bezier(0.4,0,0.2,1),transform 0.8s cubic-bezier(0.4,0,0.2,1);
       pointer-events:none;
+      padding:0 8px;
     }
     .editorial-quote.active{
       opacity:1;
-      transform:translateY(0) scale(1);
+      transform:translateY(-50%);
       pointer-events:auto;
     }
     .editorial-quote.exiting{
       opacity:0;
-      transform:translateY(-16px) scale(0.97);
+      transform:translateY(-130%);
     }
     .editorial-quote em{
       background:linear-gradient(90deg,#c9a84c,#f0d080);
       -webkit-background-clip:text;-webkit-text-fill-color:transparent;
       font-style:italic;
+      padding:0 4px;
     }
     /* Dot indicators */
     .editorial-dots{
@@ -1024,6 +1069,14 @@
 
 <!-- HERO -->
 <div class="hero">
+  <!-- Background image slideshow behind the gallery (right half) -->
+  <div class="hero-bg-slideshow" id="heroBgSlideshow">
+    <div class="hero-bg-slide active"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85f82e?w=1200&q=75&fit=crop" alt="Fashion aesthetic" loading="eager"></div>
+    <div class="hero-bg-slide"><img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=1200&q=75&fit=crop" alt="Beauty aesthetic" loading="lazy"></div>
+    <div class="hero-bg-slide"><img src="https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&q=75&fit=crop" alt="Lifestyle aesthetic" loading="lazy"></div>
+    <div class="hero-bg-slide"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=1200&q=75&fit=crop" alt="Shopping aesthetic" loading="lazy"></div>
+  </div>
+
   <div class="hero-content">
     <div class="hero-vibe-label">
       <div class="vibe-dot"></div>
@@ -1045,16 +1098,22 @@
     </div>
   </div>
 
-  <!-- 3D Interactive Floating Collage of Curated Aesthetic Models -->
+  <!-- 3D Interactive Floating Collage — each card has multiple images that crossfade -->
   <div class="hero-gallery" id="heroGallery">
     <div class="gallery-card c-fashion card-fashion" title="Curated Fashion finds">
-      <img src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=800&q=80&fit=crop&crop=top" alt="Fashion Model">
+      <img class="active" src="https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=800&q=80&fit=crop&crop=top" alt="Fashion 1">
+      <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?w=800&q=80&fit=crop&crop=top" alt="Fashion 2">
+      <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=800&q=80&fit=crop&crop=top" alt="Fashion 3">
     </div>
     <div class="gallery-card c-skincare card-skincare" title="Curated Skincare finds">
-      <img src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&q=80&fit=crop" alt="Skincare Beauty">
+      <img class="active" src="https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=800&q=80&fit=crop" alt="Beauty 1">
+      <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80&fit=crop" alt="Beauty 2">
+      <img src="https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=800&q=80&fit=crop" alt="Beauty 3">
     </div>
     <div class="gallery-card c-watch card-watch" title="Curated Accessories & Watches finds">
-      <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80&fit=crop" alt="Aesthetic watch">
+      <img class="active" src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=80&fit=crop" alt="Watch 1">
+      <img src="https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=800&q=80&fit=crop" alt="Watch 2">
+      <img src="https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=800&q=80&fit=crop" alt="Accessories">
     </div>
   </div>
 
@@ -1880,17 +1939,15 @@
   }
   loadLiveStats();
 
-  // ── EDITORIAL ROTATING QUOTE CAROUSEL ENGINE ──
+  // ── EDITORIAL ROTATING QUOTE CAROUSEL ENGINE (FIXED) ──
   (function initEditorialCarousels() {
     const QUOTE_AUTHORS = {
-      // Carousel 1
       'editCarousel1': [
         '',
         '— Rachel Zoe',
         '— Iris Apfel',
         '— Audrey Hepburn',
       ],
-      // Carousel 2
       'editCarousel2': [
         '',
         '— Yves Saint Laurent',
@@ -1901,56 +1958,66 @@
 
     document.querySelectorAll('.editorial-carousel').forEach(carousel => {
       const id = carousel.id;
-      const quotes = carousel.querySelectorAll('.editorial-quote');
+      const stage = carousel.querySelector('.editorial-stage');
+      if (!stage) return;
+      const quotes = Array.from(stage.querySelectorAll('.editorial-quote'));
       const dotsWrap = carousel.querySelector('.editorial-dots');
-      const authorEl = carousel.querySelector('[id^="editAuthor"]');
+      const authorEl = document.getElementById(id.replace('editCarousel', 'editAuthor'));
       const authors = QUOTE_AUTHORS[id] || [];
       const total = quotes.length;
       if (total <= 1) return;
 
       let current = 0;
       let autoTimer = null;
+      let transitioning = false;
 
       // Build dot indicators
       for (let i = 0; i < total; i++) {
         const dot = document.createElement('button');
         dot.className = 'editorial-dot' + (i === 0 ? ' active' : '');
-        dot.setAttribute('aria-label', `Quote ${i + 1}`);
-        dot.addEventListener('click', () => goTo(i));
+        dot.setAttribute('aria-label', 'Quote ' + (i + 1));
+        dot.addEventListener('click', function() { goTo(i); });
         dotsWrap.appendChild(dot);
       }
-      const dots = dotsWrap.querySelectorAll('.editorial-dot');
+      const dots = Array.from(dotsWrap.querySelectorAll('.editorial-dot'));
 
       function showAuthor(idx) {
         if (!authorEl) return;
-        const text = authors[idx] || '';
+        var text = authors[idx] || '';
         authorEl.classList.remove('visible');
-        setTimeout(() => {
+        setTimeout(function() {
           authorEl.textContent = text;
           if (text) authorEl.classList.add('visible');
-        }, 300);
+        }, 350);
       }
 
       function goTo(idx) {
-        if (idx === current) return;
-        // Exit current
+        if (idx === current || transitioning) return;
+        transitioning = true;
+
+        // Exit current quote
         quotes[current].classList.remove('active');
         quotes[current].classList.add('exiting');
         dots[current].classList.remove('active');
 
-        // After exit transition, remove exiting class
-        const prevIdx = current;
-        setTimeout(() => {
-          quotes[prevIdx].classList.remove('exiting');
-        }, 700);
-
-        // Enter new
+        var prevIdx = current;
         current = idx;
-        quotes[current].classList.add('active');
-        dots[current].classList.add('active');
-        showAuthor(current);
 
-        // Reset auto-rotation timer
+        // Enter new quote
+        // Small delay so exit starts visibly before enter
+        setTimeout(function() {
+          quotes[current].classList.add('active');
+          dots[current].classList.add('active');
+          showAuthor(current);
+        }, 120);
+
+        // Clean up exiting class after transition
+        setTimeout(function() {
+          quotes[prevIdx].classList.remove('exiting');
+          transitioning = false;
+        }, 900);
+
+        // Reset auto timer
         resetAuto();
       }
 
@@ -1959,15 +2026,54 @@
       }
 
       function resetAuto() {
-        clearInterval(autoTimer);
-        autoTimer = setInterval(next, 5000);
+        if (autoTimer) clearInterval(autoTimer);
+        autoTimer = setInterval(next, 4500);
       }
 
-      // Show first author
       showAuthor(0);
-      // Start auto-rotation
       resetAuto();
+
+      // Debug log to confirm carousel initialized
+      console.log('[StyleAura] Editorial carousel initialized:', id, total, 'quotes');
     });
+  })();
+
+  // ── HERO BACKGROUND SLIDESHOW ENGINE ──
+  (function initHeroBgSlideshow() {
+    var container = document.getElementById('heroBgSlideshow');
+    if (!container) return;
+    var slides = Array.from(container.querySelectorAll('.hero-bg-slide'));
+    if (slides.length <= 1) return;
+    var current = 0;
+
+    setInterval(function() {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    }, 5000);
+
+    console.log('[StyleAura] Hero BG slideshow initialized:', slides.length, 'slides');
+  })();
+
+  // ── GALLERY CARD IMAGE CYCLING ENGINE ──
+  (function initGalleryCardCycling() {
+    var cards = document.querySelectorAll('.gallery-card');
+    cards.forEach(function(card, cardIdx) {
+      var images = Array.from(card.querySelectorAll('img'));
+      if (images.length <= 1) return;
+      var current = 0;
+
+      // Stagger each card's interval so they don't all change at once
+      var delay = 3500 + cardIdx * 1200;
+
+      setInterval(function() {
+        images[current].classList.remove('active');
+        current = (current + 1) % images.length;
+        images[current].classList.add('active');
+      }, delay);
+    });
+
+    console.log('[StyleAura] Gallery card cycling initialized:', cards.length, 'cards');
   })();
 </script>
 </body>
