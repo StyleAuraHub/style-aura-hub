@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+const fs = require('fs');
+const path = require('path');
+
+const dest = 'C:\\Users\\D Joshi\\.gemini\\antigravity\\scratch\\style-aura-hub\\admin.html';
+
+const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -7,14 +12,9 @@
   <meta name="robots" content="noindex, nofollow">
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --cream:#FAF7F2; --blush:#F2E4DA; --rose:#C9967A; --deep:#3D2B1F;
-      --gold:#B8965A; --muted:#A89585; --card:#FFFCF9; --green:#4CAF7D; --red:#E07070;
-    }
+    :root{--cream:#FAF7F2;--rose:#C9967A;--gold:#B8965A;--muted:#A89585;--green:#4CAF7D;--red:#E07070}
     *{box-sizing:border-box;margin:0;padding:0}
     body{background:#1a1210;font-family:'DM Sans',sans-serif;min-height:100vh;color:var(--cream)}
-
-    /* ── LOGIN ── */
     .login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
     .login-box{background:#2a1e15;border:1px solid rgba(184,150,90,0.2);border-radius:8px;padding:48px 40px;width:100%;max-width:440px}
     .login-logo{font-family:'Playfair Display',serif;font-size:26px;color:var(--cream);margin-bottom:6px}
@@ -29,8 +29,6 @@
     .btn-login{width:100%;background:var(--rose);color:var(--cream);border:none;padding:14px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:4px;transition:background 0.2s}
     .btn-login:hover{background:#b87f64}
     .login-error{color:var(--red);font-size:12px;margin-bottom:16px;display:none;padding:8px 12px;background:rgba(224,112,112,0.1);border-radius:4px}
-
-    /* ── ADMIN SHELL ── */
     .admin-wrap{display:none;min-height:100vh;flex-direction:column}
     .admin-nav{background:#2a1e15;border-bottom:1px solid rgba(184,150,90,0.2);padding:0 28px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
     .admin-nav-logo{font-family:'Playfair Display',serif;font-size:20px;color:var(--cream)}
@@ -39,23 +37,14 @@
     .nav-badge{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);background:rgba(184,150,90,0.12);padding:4px 10px;border-radius:20px;border:1px solid rgba(184,150,90,0.2);text-decoration:none}
     .btn-logout{background:transparent;border:1px solid rgba(255,252,249,0.15);color:rgba(255,252,249,0.5);padding:6px 14px;font-size:11px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:3px;transition:all 0.2s}
     .btn-logout:hover{border-color:var(--red);color:var(--red)}
-
-    /* ── TABS ── */
-    .admin-tabs{background:#221810;border-bottom:1px solid rgba(184,150,90,0.15);padding:0 28px;display:flex;gap:0}
-    .admin-tab{padding:14px 22px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,252,249,0.4);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s}
-    .admin-tab:hover{color:rgba(255,252,249,0.7)}
+    .admin-tabs{background:#221810;border-bottom:1px solid rgba(184,150,90,0.15);padding:0 28px;display:flex}
+    .admin-tab{padding:14px 22px;font-size:11px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,252,249,0.4);cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s}
     .admin-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
-
-    /* ── TAB PANELS ── */
     .tab-panel{display:none;padding:28px}
     .tab-panel.active{display:block}
-
-    /* ── ADD PRODUCT LAYOUT ── */
     .add-layout{display:grid;grid-template-columns:380px 1fr;gap:28px}
     .panel-box{background:#221810;border:1px solid rgba(184,150,90,0.12);border-radius:6px;padding:24px}
     .panel-title{font-family:'Playfair Display',serif;font-size:17px;font-style:italic;color:var(--cream);margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid rgba(255,252,249,0.06)}
-
-    /* ── FORM ELEMENTS ── */
     .form-group{margin-bottom:16px}
     .form-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--muted);margin-bottom:7px;display:block}
     .form-input,.form-select,.form-textarea{width:100%;background:rgba(255,252,249,0.06);border:1px solid rgba(255,252,249,0.1);border-radius:4px;padding:10px 14px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--cream);outline:none;transition:border-color 0.2s}
@@ -64,8 +53,6 @@
     .form-select option{background:#2a1e15;color:var(--cream)}
     .form-textarea{resize:vertical;min-height:72px}
     .form-hint{font-size:11px;color:rgba(255,252,249,0.25);margin-top:5px;line-height:1.5}
-
-    /* ── IMAGE UPLOAD ── */
     .img-upload-area{border:2px dashed rgba(184,150,90,0.25);border-radius:6px;padding:20px;text-align:center;cursor:pointer;transition:border-color 0.2s;position:relative;overflow:hidden}
     .img-upload-area:hover{border-color:rgba(184,150,90,0.5)}
     .img-upload-area input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
@@ -73,8 +60,6 @@
     .img-upload-text{font-size:11px;color:var(--muted)}
     .img-preview-box{width:100%;height:130px;object-fit:cover;border-radius:4px;display:none;margin-top:10px;border:1px solid rgba(255,252,249,0.08)}
     .img-or{font-size:10px;color:rgba(255,252,249,0.2);text-align:center;margin:10px 0;letter-spacing:1px;text-transform:uppercase}
-
-    /* ── BUTTONS ── */
     .btn-primary{background:var(--rose);color:var(--cream);border:none;padding:11px 24px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:4px;transition:background 0.2s;width:100%}
     .btn-primary:hover{background:#b87f64}
     .btn-primary:disabled{background:#7a5548;cursor:not-allowed}
@@ -86,14 +71,10 @@
     .btn-edit:hover{background:rgba(184,150,90,0.1);border-color:var(--gold);color:var(--gold)}
     .btn-visit{background:transparent;color:rgba(255,252,249,0.4);border:1px solid rgba(255,252,249,0.1);padding:6px 12px;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:3px;text-decoration:none;transition:all 0.2s;display:inline-block}
     .btn-visit:hover{border-color:rgba(255,252,249,0.3);color:rgba(255,252,249,0.8)}
-
-    /* ── STATUS MESSAGES ── */
     .form-status{font-size:12px;text-align:center;margin-top:12px;padding:10px;border-radius:4px;display:none;line-height:1.5}
     .form-status.success{background:rgba(76,175,125,0.1);color:var(--green);border:1px solid rgba(76,175,125,0.2)}
     .form-status.error{background:rgba(224,112,112,0.1);color:var(--red);border:1px solid rgba(224,112,112,0.2)}
     .form-status.info{background:rgba(184,150,90,0.08);color:var(--gold);border:1px solid rgba(184,150,90,0.2)}
-
-    /* ── PRODUCT LIST ── */
     .list-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
     .list-title{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--cream)}
     .count-badge{font-size:11px;color:var(--gold);background:rgba(184,150,90,0.1);padding:4px 12px;border-radius:20px;border:1px solid rgba(184,150,90,0.2)}
@@ -102,125 +83,83 @@
     .filter-btn:hover,.filter-btn.active{background:rgba(184,150,90,0.12);border-color:rgba(184,150,90,0.35);color:var(--gold)}
     .products-list{display:flex;flex-direction:column;gap:10px;max-height:620px;overflow-y:auto;padding-right:4px}
     .products-list::-webkit-scrollbar{width:4px}
-    .products-list::-webkit-scrollbar-track{background:rgba(255,252,249,0.04)}
     .products-list::-webkit-scrollbar-thumb{background:rgba(184,150,90,0.3);border-radius:2px}
     .product-row{background:#2a1e15;border:1px solid rgba(255,252,249,0.07);border-radius:6px;padding:12px 14px;display:grid;grid-template-columns:60px 1fr auto;gap:12px;align-items:center;transition:border-color 0.2s}
     .product-row:hover{border-color:rgba(184,150,90,0.22)}
-    .product-row-img{width:60px;height:60px;border-radius:4px;object-fit:cover;background:rgba(255,252,249,0.06);flex-shrink:0}
+    .product-row-img{width:60px;height:60px;border-radius:4px;object-fit:cover;background:rgba(255,252,249,0.06)}
     .product-row-info{min-width:0}
     .product-row-title{font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--cream);margin-bottom:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
     .product-row-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
     .row-cat{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold)}
-    .row-badge{font-size:9px;background:rgba(201,150,122,0.15);color:var(--rose);padding:2px 8px;border-radius:10px;letter-spacing:0.5px}
+    .row-badge{font-size:9px;background:rgba(201,150,122,0.15);color:var(--rose);padding:2px 8px;border-radius:10px}
     .row-link{font-size:11px;color:rgba(255,252,249,0.25);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
     .row-actions{display:flex;gap:6px;flex-shrink:0}
-    .loading-msg{text-align:center;padding:48px;color:var(--muted);font-family:'Playfair Display',serif;font-style:italic}
-    .empty-msg{text-align:center;padding:40px;color:var(--muted);font-size:13px}
-
-    /* ── EDIT MODAL ── */
+    .loading-msg,.empty-msg{text-align:center;padding:48px;color:var(--muted);font-family:'Playfair Display',serif;font-style:italic}
     .modal-bg{display:none;position:fixed;inset:0;background:rgba(10,6,2,0.85);z-index:200;align-items:center;justify-content:center;padding:20px}
     .modal-bg.open{display:flex}
     .modal-box{background:#2a1e15;border:1px solid rgba(184,150,90,0.2);border-radius:8px;padding:32px;width:100%;max-width:520px;max-height:90vh;overflow-y:auto;animation:modalPop 0.3s cubic-bezier(0.34,1.56,0.64,1)}
     @keyframes modalPop{from{opacity:0;transform:scale(0.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
     .modal-title{font-family:'Playfair Display',serif;font-size:20px;font-style:italic;color:var(--cream);margin-bottom:20px;padding-bottom:14px;border-bottom:1px solid rgba(255,252,249,0.06);display:flex;justify-content:space-between;align-items:center}
-    .modal-close{background:none;border:none;color:rgba(255,252,249,0.4);font-size:20px;cursor:pointer;padding:0;transition:color 0.2s}
+    .modal-close{background:none;border:none;color:rgba(255,252,249,0.4);font-size:20px;cursor:pointer;padding:0}
     .modal-close:hover{color:var(--red)}
     .modal-actions{display:flex;gap:10px;margin-top:20px}
     .modal-actions .btn-primary{width:auto;flex:1}
-
-    /* ── HERO MANAGER ── */
+    .badge-chip{background:rgba(255,252,249,0.06);border:1px solid rgba(255,252,249,0.1);color:rgba(255,252,249,0.5);padding:4px 10px;font-size:10px;border-radius:20px;cursor:pointer;transition:all 0.2s;display:inline-block;margin:3px}
+    .badge-chip:hover{background:rgba(184,150,90,0.15);border-color:var(--gold);color:var(--gold)}
+    .hero-text-section{background:#2a1e15;border:1px solid rgba(184,150,90,0.12);border-radius:6px;padding:24px;margin-bottom:20px}
+    .hero-section-title{font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--cream);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(255,252,249,0.06)}
     .hero-manager-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
-    .hero-slide-card{background:#2a1e15;border:1px solid rgba(255,252,249,0.08);border-radius:6px;overflow:hidden;transition:border-color 0.2s}
-    .hero-slide-card:hover{border-color:rgba(184,150,90,0.3)}
-    .slide-thumb{width:100%;height:120px;object-fit:cover;background:rgba(255,252,249,0.06);display:flex;align-items:center;justify-content:center;font-size:24px;color:rgba(255,252,249,0.2)}
+    .hero-slide-card{background:#2a1e15;border:1px solid rgba(255,252,249,0.08);border-radius:6px;overflow:hidden}
+    .slide-thumb{width:100%;height:120px;background:rgba(255,252,249,0.06);overflow:hidden}
     .slide-thumb img{width:100%;height:100%;object-fit:cover}
     .slide-body{padding:12px}
     .slide-num{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
-    .slide-label{font-family:'Playfair Display',serif;font-size:13px;font-style:italic;color:var(--cream);margin-bottom:10px}
-    .slide-input{width:100%;background:rgba(255,252,249,0.06);border:1px solid rgba(255,252,249,0.1);border-radius:3px;padding:7px 10px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--cream);outline:none;margin-bottom:6px;transition:border-color 0.2s}
-    .slide-input:focus{border-color:rgba(184,150,90,0.5)}
+    .slide-input{width:100%;background:rgba(255,252,249,0.06);border:1px solid rgba(255,252,249,0.1);border-radius:3px;padding:7px 10px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--cream);outline:none;margin-bottom:6px}
     .slide-input::placeholder{color:rgba(255,252,249,0.2)}
-    .btn-slide-save{background:rgba(184,150,90,0.15);color:var(--gold);border:1px solid rgba(184,150,90,0.25);padding:6px 12px;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:3px;width:100%;transition:all 0.2s;font-family:'DM Sans',sans-serif}
-    .btn-slide-save:hover{background:rgba(184,150,90,0.25)}
-    .hero-text-section{background:#2a1e15;border:1px solid rgba(184,150,90,0.12);border-radius:6px;padding:24px;margin-bottom:20px}
-    .hero-section-title{font-family:'Playfair Display',serif;font-size:16px;font-style:italic;color:var(--cream);margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid rgba(255,252,249,0.06)}
-    .hero-preview{background:rgba(10,6,2,0.6);border-radius:6px;padding:20px;margin-top:16px;position:relative;overflow:hidden}
-    .hero-preview-bg{position:absolute;inset:0;background:linear-gradient(135deg,#2C1A12,#8B5E3C);opacity:0.4}
-    .hero-preview-content{position:relative;z-index:1}
-    .preview-eyebrow{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--gold);margin-bottom:8px}
-    .preview-title{font-family:'Playfair Display',serif;font-size:22px;color:#FAF7F2;font-style:italic;margin-bottom:6px;line-height:1.2}
-    .preview-sub{font-size:13px;color:rgba(250,247,242,0.6);font-family:'DM Sans',sans-serif;line-height:1.5}
+    .btn-slide-save{background:rgba(184,150,90,0.15);color:var(--gold);border:1px solid rgba(184,150,90,0.25);padding:6px 12px;font-size:10px;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:3px;width:100%;font-family:'DM Sans',sans-serif}
     .save-hero-btn{background:var(--rose);color:var(--cream);border:none;padding:12px 28px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:500;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:4px;transition:background 0.2s;margin-top:16px}
     .save-hero-btn:hover{background:#b87f64}
-
-    /* ── BADGE AUTO-SUGGEST ── */
-    .badge-suggestions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
-    .badge-chip{background:rgba(255,252,249,0.06);border:1px solid rgba(255,252,249,0.1);color:rgba(255,252,249,0.5);padding:4px 10px;font-size:10px;border-radius:20px;cursor:pointer;transition:all 0.2s}
-    .badge-chip:hover{background:rgba(184,150,90,0.15);border-color:var(--gold);color:var(--gold)}
-
-    /* ── RESPONSIVE ── */
-    @media(max-width:900px){
-      .add-layout{grid-template-columns:1fr}
-      .hero-manager-grid{grid-template-columns:1fr 1fr}
-    }
-    @media(max-width:600px){
-      .admin-tabs{padding:0 16px}
-      .tab-panel{padding:16px}
-      .hero-manager-grid{grid-template-columns:1fr}
-      .product-row{grid-template-columns:48px 1fr}
-      .row-actions{display:none}
-    }
+    @media(max-width:900px){.add-layout{grid-template-columns:1fr}.hero-manager-grid{grid-template-columns:1fr 1fr}}
+    @media(max-width:600px){.tab-panel{padding:16px}.hero-manager-grid{grid-template-columns:1fr}.product-row{grid-template-columns:48px 1fr}.row-actions{display:none}}
   </style>
 </head>
 <body>
 
-<!-- ── LOGIN SCREEN ── -->
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
     <div class="login-logo">Style<span>Aura</span></div>
-    <div class="login-sub">Admin Panel · Secure Access</div>
+    <div class="login-sub">Admin Panel &middot; Secure Access</div>
     <div id="loginError" class="login-error">Incorrect password. Please try again.</div>
     <label class="field-label">Admin Password</label>
-    <input type="password" class="field-input" id="loginPassword"
-      placeholder="Enter your admin password"
-      onkeydown="if(event.key==='Enter')doLogin()">
+    <input type="password" class="field-input" id="loginPassword" placeholder="Enter your admin password" onkeydown="if(event.key==='Enter')doLogin()">
     <label class="field-label">Sanity Write Token</label>
-    <input type="password" class="field-input" id="sanityToken"
-      placeholder="Paste your Sanity API write token">
+    <input type="password" class="field-input" id="sanityToken" placeholder="Paste your Sanity API write token">
     <div class="login-hint">
       <strong style="color:var(--gold)">Get your Sanity token:</strong><br>
       1. Go to <a href="https://www.sanity.io/manage" target="_blank">sanity.io/manage</a><br>
-      2. Your Project → API → Tokens → Add Token<br>
-      3. Choose <strong>Editor</strong> permissions → Copy & paste above
+      2. Your Project &rarr; API &rarr; Tokens &rarr; Add Token<br>
+      3. Choose <strong>Editor</strong> permissions &rarr; Copy &amp; paste above
     </div>
     <button class="btn-login" onclick="doLogin()">Enter Admin Panel</button>
   </div>
 </div>
 
-<!-- ── ADMIN SHELL ── -->
 <div class="admin-wrap" id="adminWrap">
-
-  <!-- Top Nav -->
   <nav class="admin-nav">
-    <div class="admin-nav-logo">Style<span>Aura</span>
-      <span style="font-family:'DM Sans',sans-serif;font-size:13px;font-style:normal;color:var(--muted);margin-left:8px">Admin</span>
-    </div>
+    <div class="admin-nav-logo">Style<span>Aura</span> <span style="font-family:'DM Sans',sans-serif;font-size:13px;font-style:normal;color:var(--muted);margin-left:8px">Admin</span></div>
     <div class="admin-nav-right">
-      <span class="nav-badge">✦ Secure Session</span>
-      <a href="/" target="_blank" class="nav-badge" style="cursor:pointer">View Site ↗</a>
+      <span class="nav-badge">&#10022; Secure Session</span>
+      <a href="/" target="_blank" class="nav-badge">View Site &nearr;</a>
       <button class="btn-logout" onclick="doLogout()">Logout</button>
     </div>
   </nav>
-
-  <!-- Tab Bar -->
   <div class="admin-tabs">
-    <div class="admin-tab active" onclick="switchTab('products')">📦 Products</div>
-    <div class="admin-tab" onclick="switchTab('add')">➕ Add Product</div>
-    <div class="admin-tab" onclick="switchTab('hero')">🎬 Hero Manager</div>
-    <div class="admin-tab" onclick="switchTab('stats')">📊 Stats Manager</div>
+    <div class="admin-tab active" onclick="switchTab('products')">Products</div>
+    <div class="admin-tab" onclick="switchTab('add')">Add Product</div>
+    <div class="admin-tab" onclick="switchTab('hero')">Hero Manager</div>
+    <div class="admin-tab" onclick="switchTab('stats')">Stats Manager</div>
   </div>
 
-  <!-- ══ TAB: PRODUCTS ══ -->
   <div class="tab-panel active" id="tab-products">
     <div class="list-header">
       <div class="list-title">All Products</div>
@@ -234,325 +173,111 @@
       <button class="filter-btn" onclick="filterProducts('watches',this)">Watches</button>
       <button class="filter-btn" onclick="filterProducts('nail art',this)">Nail Art</button>
       <button class="filter-btn" onclick="filterProducts('tech',this)">Tech</button>
-      <button class="filter-btn" onclick="filterProducts('home & kitchen',this)">Home</button>
+      <button class="filter-btn" onclick="filterProducts('home &amp; kitchen',this)">Home</button>
     </div>
-    <div class="products-list" id="productList">
-      <div class="loading-msg">Loading your products...</div>
-    </div>
+    <div class="products-list" id="productList"><div class="loading-msg">Loading your products...</div></div>
   </div>
 
-  <!-- ══ TAB: ADD PRODUCT ══ -->
   <div class="tab-panel" id="tab-add">
     <div class="add-layout">
-      <!-- Form -->
       <div class="panel-box">
         <div class="panel-title">Add New Product</div>
-
-        <div class="form-group">
-          <label class="form-label">Product Title *</label>
-          <input type="text" class="form-input" id="fTitle" placeholder="e.g. Minimalist Beige Linen Dress">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Category *</label>
+        <div class="form-group"><label class="form-label">Product Title *</label><input type="text" class="form-input" id="fTitle" placeholder="e.g. Minimalist Beige Linen Dress"></div>
+        <div class="form-group"><label class="form-label">Category *</label>
           <select class="form-select" id="fCategory" onchange="suggestBadge()">
             <option value="">Select category</option>
-            <option value="fashion">Fashion</option>
-            <option value="skincare">Skincare</option>
-            <option value="accessories">Accessories</option>
-            <option value="watches">Watches</option>
-            <option value="nail art">Nail Art</option>
-            <option value="tech">Tech &amp; Gadgets</option>
-            <option value="home & kitchen">Home &amp; Kitchen</option>
+            <option value="fashion">Fashion</option><option value="skincare">Skincare</option>
+            <option value="accessories">Accessories</option><option value="watches">Watches</option>
+            <option value="nail art">Nail Art</option><option value="tech">Tech &amp; Gadgets</option>
+            <option value="home &amp; kitchen">Home &amp; Kitchen</option>
           </select>
         </div>
-
-        <div class="form-group">
-          <label class="form-label">Affiliate Link *</label>
-          <input type="url" class="form-input" id="fLink"
-            placeholder="https://amzn.to/... or Flipkart / Nykaa / any platform">
-          <div class="form-hint">Paste any affiliate link — Amazon, Flipkart, Myntra, Nykaa, Meesho, Ajio etc.</div>
-        </div>
-
+        <div class="form-group"><label class="form-label">Affiliate Link *</label><input type="url" class="form-input" id="fLink" placeholder="https://amzn.to/..."><div class="form-hint">Amazon, Flipkart, Myntra, Nykaa, Meesho etc.</div></div>
         <div class="form-group">
           <label class="form-label">Product Image</label>
-          <div class="img-upload-area" id="uploadArea">
-            <input type="file" id="fImageFile" accept="image/*" onchange="previewImg(this,'addPreview')">
-            <div class="img-upload-icon">🖼️</div>
-            <div class="img-upload-text">Click to upload image<br><span style="font-size:10px;opacity:0.6">JPG, PNG, WebP — max 5MB</span></div>
-          </div>
+          <div class="img-upload-area"><input type="file" id="fImageFile" accept="image/*" onchange="previewImg(this,'addPreview')"><div class="img-upload-icon">&#128444;&#65039;</div><div class="img-upload-text">Click to upload (max 5MB)</div></div>
           <img class="img-preview-box" id="addPreview" alt="Preview">
           <div class="img-or">or paste image URL</div>
-          <input type="url" class="form-input" id="fImageUrl"
-            placeholder="https://m.media-amazon.com/images/..."
-            oninput="urlPreview(this.value,'addPreview')">
-          <div class="form-hint">Right-click Amazon product image → Copy image address → paste here</div>
+          <input type="url" class="form-input" id="fImageUrl" placeholder="https://m.media-amazon.com/images/..." oninput="urlPreview(this.value,'addPreview')">
         </div>
-
-        <div class="form-group">
-          <label class="form-label">Badge <span style="opacity:0.5">(optional)</span></label>
-          <input type="text" class="form-input" id="fBadge"
-            placeholder="e.g. Trending, New Arrival, Under ₹999">
-          <div class="badge-suggestions" id="badgeSuggestions"></div>
-        </div>
-
+        <div class="form-group"><label class="form-label">Badge (optional)</label><input type="text" class="form-input" id="fBadge" placeholder="e.g. Trending, New Arrival"><div id="badgeSuggestions" style="margin-top:8px"></div></div>
         <button class="btn-primary" id="addBtn" onclick="addProduct()">Publish Product</button>
         <div class="form-status" id="addStatus"></div>
       </div>
-
-      <!-- Live Preview -->
       <div class="panel-box">
         <div class="panel-title">Live Preview</div>
         <div style="background:#FAF7F2;border-radius:6px;overflow:hidden;border:1px solid rgba(139,111,94,0.12)">
           <div style="position:relative;height:220px;background:#F2E4DA;overflow:hidden">
             <img id="previewCardImg" src="" alt="" style="width:100%;height:100%;object-fit:cover;display:none">
-            <div id="previewCardPlaceholder" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:40px">🖼️</div>
+            <div id="previewCardPlaceholder" style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:40px">&#128444;</div>
             <div id="previewBadgeEl" style="display:none;position:absolute;top:10px;left:10px;background:#3D2B1F;color:#FAF7F2;font-size:9px;font-weight:500;letter-spacing:1.5px;text-transform:uppercase;padding:5px 10px;border-radius:2px"></div>
           </div>
           <div style="padding:14px 16px">
-            <div id="previewCatEl" style="font-size:9px;font-weight:500;letter-spacing:2px;text-transform:uppercase;color:#B8965A;margin-bottom:5px"></div>
+            <div id="previewCatEl" style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#B8965A;margin-bottom:5px"></div>
             <div id="previewTitleEl" style="font-family:'Playfair Display',serif;font-size:15px;font-style:italic;color:#3D2B1F;line-height:1.35;margin-bottom:14px">Product title will appear here</div>
-            <div id="previewBtnEl" style="background:#3D2B1F;color:#FAF7F2;padding:9px 16px;font-size:10px;letter-spacing:1px;text-transform:uppercase;display:inline-block;border-radius:2px">Shop Now ↗</div>
+            <div id="previewBtnEl" style="background:#3D2B1F;color:#FAF7F2;padding:9px 16px;font-size:10px;letter-spacing:1px;text-transform:uppercase;display:inline-block;border-radius:2px">Shop Now &nearr;</div>
           </div>
-        </div>
-        <div style="margin-top:16px;padding:14px;background:rgba(184,150,90,0.06);border-radius:4px;font-size:12px;color:rgba(255,252,249,0.4);line-height:1.7">
-          💡 <strong style="color:var(--gold)">Auto Badge tip:</strong> Select a category above and badge suggestions will appear automatically. You can also type your own badge label.
         </div>
       </div>
     </div>
   </div>
 
-  <!-- ══ TAB: HERO MANAGER ══ -->
   <div class="tab-panel" id="tab-hero">
-
-    <!-- Hero Text Controls -->
     <div class="hero-text-section">
-      <div class="hero-section-title">Hero Headline & Subtext</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-        <div>
-          <div class="form-group">
-            <label class="form-label">Main Headline</label>
-            <input type="text" class="form-input" id="heroTitle"
-              value="Discover Pinterest-Inspired"
-              oninput="updateHeroPreview()">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Italic Highlight Word</label>
-            <input type="text" class="form-input" id="heroEmphasis"
-              value="Fashion Finds"
-              oninput="updateHeroPreview()">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Third Line</label>
-            <input type="text" class="form-input" id="heroThird"
-              value="Lifestyle &amp; Trending Picks"
-              oninput="updateHeroPreview()">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Subtext</label>
-            <textarea class="form-textarea" id="heroSub"
-              oninput="updateHeroPreview()">Carefully curated fashion, beauty, home and tech finds. Trending aesthetics loved across Pinterest — all in one place.</textarea>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Button 1 Text</label>
-            <input type="text" class="form-input" id="heroBtn1" value="Explore Now">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Button 2 Text</label>
-            <input type="text" class="form-input" id="heroBtn2" value="Shop Finds ↓">
-          </div>
-        </div>
-        <div>
-          <div class="form-label" style="margin-bottom:12px">Live Preview</div>
-          <div class="hero-preview">
-            <div class="hero-preview-bg"></div>
-            <div class="hero-preview-content">
-              <div class="preview-eyebrow">✦ StyleAura Hub</div>
-              <div class="preview-title" id="previewHeroTitle">
-                Discover Pinterest-Inspired<br><em style="color:#C9967A">Fashion Finds</em>,<br>Lifestyle &amp; Trending Picks
-              </div>
-              <div class="preview-sub" id="previewHeroSub" style="margin-top:10px">
-                Carefully curated fashion, beauty, home and tech finds.
-              </div>
-            </div>
-          </div>
-          <div style="margin-top:14px;padding:12px;background:rgba(184,150,90,0.06);border-radius:4px;font-size:11px;color:rgba(255,252,249,0.4);line-height:1.7">
-            ⚡ Changes saved here are stored in your browser. To make them permanent, copy the updated text into your <code style="color:var(--gold)">index.html</code> hero section, or paste into GitHub directly.
-          </div>
-        </div>
-      </div>
-      <button class="save-hero-btn" onclick="saveHeroText()">Save Hero Text</button>
-      <div class="form-status" id="heroStatus" style="display:inline-block;margin-left:16px"></div>
-    </div>
-
-    <!-- Slide Image Manager -->
-    <div class="hero-text-section">
-      <div class="hero-section-title">Hero Slide Images & Vibe Labels</div>
-      <div style="font-size:12px;color:rgba(255,252,249,0.35);margin-bottom:20px;line-height:1.6">
-        Each slide has a background photo and a vibe label shown in the animated text strip. Paste a new Unsplash or product image URL to update the slide photo. Vibe labels cycle with each slide.
-      </div>
+      <div class="hero-section-title">Hero Slide Images &amp; Vibe Labels</div>
+      <p style="font-size:12px;color:rgba(255,252,249,0.35);margin-bottom:20px;line-height:1.6">Paste a new image URL to update each hero background slide. Vibe labels cycle in the animated text strip on the main site.</p>
       <div class="hero-manager-grid" id="slidesGrid"></div>
-      <button class="save-hero-btn" onclick="saveSlides()" style="margin-top:8px">Save All Slides</button>
+      <button class="save-hero-btn" onclick="saveSlides()">Save All Slides</button>
       <div class="form-status" id="slidesStatus" style="display:inline-block;margin-left:16px"></div>
     </div>
-
   </div>
 
-  <!-- ══ TAB: STATS MANAGER ══ -->
   <div class="tab-panel" id="tab-stats">
     <div style="max-width:680px">
-
-      <div class="panel-box" style="margin-bottom:20px">
-        <div class="panel-title">📊 About Section Stats</div>
-        <div style="font-size:12px;color:rgba(255,252,249,0.35);margin-bottom:20px;line-height:1.7">
-          These numbers appear in the About section of your website. Update them anytime — Pinterest views, product count, etc. Changes save instantly to your browser and show live on your site.
-        </div>
-
+      <div class="panel-box">
+        <div class="panel-title">About Section Stats</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-
-          <div class="form-group">
-            <label class="form-label">📌 Pinterest Views (Number)</label>
-            <input type="text" class="form-input" id="s-pinterestNum" placeholder="e.g. 5.2k+" value="3.8k+">
-            <div class="form-hint">Update when your Pinterest analytics changes</div>
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">📌 Pinterest Label</label>
-            <input type="text" class="form-input" id="s-pinterestLabel" placeholder="e.g. Monthly Pinterest Views" value="Monthly Pinterest Views">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">🏷️ Categories (Number)</label>
-            <input type="text" class="form-input" id="s-categoriesNum" placeholder="e.g. 7" value="7">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">🏷️ Categories Label</label>
-            <input type="text" class="form-input" id="s-categoriesLabel" placeholder="e.g. Curated Categories" value="Curated Categories">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">✨ Products (Number)</label>
-            <input type="text" class="form-input" id="s-handpickedNum" placeholder="e.g. 100%" value="100%">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">✨ Products Label</label>
-            <input type="text" class="form-input" id="s-handpickedLabel" placeholder="e.g. Handpicked Products" value="Handpicked Products">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">💰 Cost Stat (Number)</label>
-            <input type="text" class="form-input" id="s-costNum" placeholder="e.g. ₹0" value="₹0">
-          </div>
-
-          <div class="form-group">
-            <label class="form-label">💰 Cost Label</label>
-            <input type="text" class="form-input" id="s-costLabel" placeholder="e.g. Extra Cost To You" value="Extra Cost To You">
-          </div>
-
+          <div class="form-group"><label class="form-label">Pinterest Views</label><input type="text" class="form-input" id="s-pinterestNum" value="3.8k+"></div>
+          <div class="form-group"><label class="form-label">Pinterest Label</label><input type="text" class="form-input" id="s-pinterestLabel" value="Monthly Pinterest Views"></div>
+          <div class="form-group"><label class="form-label">Categories Count</label><input type="text" class="form-input" id="s-categoriesNum" value="7"></div>
+          <div class="form-group"><label class="form-label">Categories Label</label><input type="text" class="form-input" id="s-categoriesLabel" value="Curated Categories"></div>
+          <div class="form-group"><label class="form-label">Products Stat</label><input type="text" class="form-input" id="s-handpickedNum" value="100%"></div>
+          <div class="form-group"><label class="form-label">Products Label</label><input type="text" class="form-input" id="s-handpickedLabel" value="Handpicked Products"></div>
+          <div class="form-group"><label class="form-label">Cost Stat</label><input type="text" class="form-input" id="s-costNum" value="&#8377;0"></div>
+          <div class="form-group"><label class="form-label">Cost Label</label><input type="text" class="form-input" id="s-costLabel" value="Extra Cost To You"></div>
         </div>
-
-        <div class="form-group" style="margin-top:8px">
-          <label class="form-label">📌 Pinterest Social Bar Text</label>
-          <input type="text" class="form-input" id="s-pinterestSocial" placeholder="e.g. 5.2K+ Monthly Views" value="3.8K+ Monthly Views">
-          <div class="form-hint">This appears in the social links bar at the bottom of your site</div>
-        </div>
-
-        <div style="margin-top:20px;display:flex;gap:12px;align-items:center;flex-wrap:wrap">
-          <button class="btn-primary" style="width:auto;padding:12px 28px" onclick="saveStats()">
-            💾 Save All Stats
-          </button>
-          <button class="btn-ghost" onclick="loadCurrentStats()">↺ Load Current</button>
+        <div style="margin-top:20px;display:flex;gap:12px;align-items:center">
+          <button class="btn-primary" style="width:auto;padding:12px 28px" onclick="saveStats()">Save Stats</button>
+          <button class="btn-ghost" onclick="loadCurrentStats()">Load Current</button>
           <div class="form-status" id="statsStatus" style="display:inline-block"></div>
         </div>
       </div>
-
-      <!-- Live Preview -->
-      <div class="panel-box">
-        <div class="panel-title">Live Preview</div>
-        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin-top:4px">
-          <div style="background:rgba(255,252,249,0.04);border:1px solid rgba(255,252,249,0.08);border-radius:4px;padding:20px;text-align:center">
-            <div style="font-family:'Playfair Display',serif;font-size:28px;color:var(--rose);margin-bottom:4px" id="prev-pinterestNum">3.8k+</div>
-            <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,252,249,0.4)" id="prev-pinterestLabel">Monthly Pinterest Views</div>
-          </div>
-          <div style="background:rgba(255,252,249,0.04);border:1px solid rgba(255,252,249,0.08);border-radius:4px;padding:20px;text-align:center">
-            <div style="font-family:'Playfair Display',serif;font-size:28px;color:var(--rose);margin-bottom:4px" id="prev-categoriesNum">7</div>
-            <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,252,249,0.4)" id="prev-categoriesLabel">Curated Categories</div>
-          </div>
-          <div style="background:rgba(255,252,249,0.04);border:1px solid rgba(255,252,249,0.08);border-radius:4px;padding:20px;text-align:center">
-            <div style="font-family:'Playfair Display',serif;font-size:28px;color:var(--rose);margin-bottom:4px" id="prev-handpickedNum">100%</div>
-            <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,252,249,0.4)" id="prev-handpickedLabel">Handpicked Products</div>
-          </div>
-          <div style="background:rgba(255,252,249,0.04);border:1px solid rgba(255,252,249,0.08);border-radius:4px;padding:20px;text-align:center">
-            <div style="font-family:'Playfair Display',serif;font-size:28px;color:var(--rose);margin-bottom:4px" id="prev-costNum">₹0</div>
-            <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:rgba(255,252,249,0.4)" id="prev-costLabel">Extra Cost To You</div>
-          </div>
-        </div>
-
-        <div style="margin-top:16px;padding:12px 14px;background:rgba(184,150,90,0.06);border-radius:4px;font-size:11px;color:rgba(255,252,249,0.35);line-height:1.7">
-          ⚡ <strong style="color:var(--gold)">How it works:</strong> Stats are saved to your browser's localStorage. Your website reads from the same localStorage and updates automatically — no code changes needed. Works on the same browser/device. For permanent changes across all devices, update the numbers directly in <code style="color:var(--gold)">index.html</code> lines 900–903.
-        </div>
-      </div>
-
     </div>
   </div>
-
 </div>
 
-<!-- ══ EDIT PRODUCT MODAL ══ -->
 <div class="modal-bg" id="editModal">
   <div class="modal-box">
-    <div class="modal-title">
-      Edit Product
-      <button class="modal-close" onclick="closeEdit()">✕</button>
-    </div>
+    <div class="modal-title">Edit Product <button class="modal-close" onclick="closeEdit()">&#x2715;</button></div>
     <input type="hidden" id="editId">
-    <div class="form-group">
-      <label class="form-label">Product Title *</label>
-      <input type="text" class="form-input" id="editTitle" placeholder="Product title">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Category *</label>
+    <div class="form-group"><label class="form-label">Title *</label><input type="text" class="form-input" id="editTitle"></div>
+    <div class="form-group"><label class="form-label">Category *</label>
       <select class="form-select" id="editCategory">
-        <option value="fashion">Fashion</option>
-        <option value="skincare">Skincare</option>
-        <option value="accessories">Accessories</option>
-        <option value="watches">Watches</option>
-        <option value="nail art">Nail Art</option>
-        <option value="tech">Tech &amp; Gadgets</option>
-        <option value="home & kitchen">Home &amp; Kitchen</option>
+        <option value="fashion">Fashion</option><option value="skincare">Skincare</option>
+        <option value="accessories">Accessories</option><option value="watches">Watches</option>
+        <option value="nail art">Nail Art</option><option value="tech">Tech &amp; Gadgets</option>
+        <option value="home &amp; kitchen">Home &amp; Kitchen</option>
       </select>
     </div>
-    <div class="form-group">
-      <label class="form-label">Affiliate Link *</label>
-      <input type="url" class="form-input" id="editLink" placeholder="https://...">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Image URL</label>
-      <input type="url" class="form-input" id="editImageUrl"
-        placeholder="Paste new image URL or leave unchanged"
-        oninput="urlPreview(this.value,'editPreview')">
-      <img class="img-preview-box" id="editPreview" alt="Preview" style="margin-top:8px">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Upload New Image <span style="opacity:0.5">(replaces URL above)</span></label>
-      <div class="img-upload-area">
-        <input type="file" id="editImageFile" accept="image/*" onchange="previewImg(this,'editPreview')">
-        <div class="img-upload-icon">📁</div>
-        <div class="img-upload-text">Click to upload new image</div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Badge</label>
-      <input type="text" class="form-input" id="editBadge" placeholder="e.g. Trending, New Arrival">
-      <div class="badge-suggestions" id="editBadgeSuggestions">
-        <div class="badge-chip" onclick="setBadge('editBadge','Trending')">Trending</div>
-        <div class="badge-chip" onclick="setBadge('editBadge','Best Seller')">Best Seller</div>
-        <div class="badge-chip" onclick="setBadge('editBadge','New Arrival')">New Arrival</div>
-        <div class="badge-chip" onclick="setBadge('editBadge','Editor\'s Pick')">Editor's Pick</div>
-        <div class="badge-chip" onclick="setBadge('editBadge','Limited Deal')">Limited Deal</div>
-        <div class="badge-chip" onclick="setBadge('editBadge','')">Remove Badge</div>
+    <div class="form-group"><label class="form-label">Affiliate Link *</label><input type="url" class="form-input" id="editLink"></div>
+    <div class="form-group"><label class="form-label">Image URL</label><input type="url" class="form-input" id="editImageUrl" oninput="urlPreview(this.value,'editPreview')"><img class="img-preview-box" id="editPreview" alt="" style="margin-top:8px"></div>
+    <div class="form-group"><label class="form-label">Upload New Image</label><div class="img-upload-area"><input type="file" id="editImageFile" accept="image/*" onchange="previewImg(this,'editPreview')"><div class="img-upload-icon">&#128193;</div><div class="img-upload-text">Click to upload</div></div></div>
+    <div class="form-group"><label class="form-label">Badge</label><input type="text" class="form-input" id="editBadge">
+      <div style="margin-top:8px">
+        <span class="badge-chip" onclick="setBadge('editBadge','Trending')">Trending</span>
+        <span class="badge-chip" onclick="setBadge('editBadge','Best Seller')">Best Seller</span>
+        <span class="badge-chip" onclick="setBadge('editBadge','New Arrival')">New Arrival</span>
+        <span class="badge-chip" onclick="setBadge('editBadge','')">Remove Badge</span>
       </div>
     </div>
     <div class="form-status" id="editStatus"></div>
@@ -564,540 +289,46 @@
 </div>
 
 <script>
-  // ── CONFIG ──
-  const SANITY_PROJECT = '0rnruyd6';
-  const SANITY_DATASET = 'production';
-  const ADMIN_PASS = 'styleaura2024'; // Change this!
-  let SANITY_TOKEN = '';
-  let allProducts = [];
-
-  // Default slide data
-  let slides = [
-    { url:'https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=1600&q=80', vibe:'Old Money Aesthetic' },
-    { url:'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1600&q=80', vibe:'Party & Evening Glam' },
-    { url:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1600&q=80', vibe:'Luxury Watches & Jewellery' },
-    { url:'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1600&q=80', vibe:'Minimal Street Style' },
-    { url:'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1600&q=80', vibe:'Skincare & Beauty Finds' },
-    { url:'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=1600&q=80', vibe:'Coquette · Soft Girl' },
+  const SANITY_PROJECT='0rnruyd6',SANITY_DATASET='production',ADMIN_PASS='styleaura2024';
+  let SANITY_TOKEN='',allProducts=[];
+  let slides=[
+    {url:'https://images.unsplash.com/photo-1581044777550-4cfa60707c03?w=1600&q=80',vibe:'Old Money Aesthetic'},
+    {url:'https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=1600&q=80',vibe:'Party & Evening Glam'},
+    {url:'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=1600&q=80',vibe:'Luxury Watches & Jewellery'},
+    {url:'https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1600&q=80',vibe:'Minimal Street Style'},
+    {url:'https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?w=1600&q=80',vibe:'Skincare & Beauty Finds'},
+    {url:'https://images.unsplash.com/photo-1496747611176-843222e1e57c?w=1600&q=80',vibe:'Coquette & Soft Girl'},
   ];
+  const BADGE_SUG={fashion:['Trending','New Arrival','Old Money','Best Seller'],skincare:['Must Have','Bestseller','Glow Up','Clean Beauty'],accessories:['Trending','Luxury Pick','Gift Idea'],watches:['Premium','Limited Edition','Best Seller'],'nail art':['Viral','New','Trending','Starter Kit'],tech:['Top Rated','New Launch','Best Buy'],'home & kitchen':['Home Essential','Bestseller','Gift Idea']};
 
-  // Auto badge suggestions per category
-  const BADGE_SUGGESTIONS = {
-    fashion:        ['Trending','New Arrival','Old Money','Best Seller','Editor\'s Pick'],
-    skincare:       ['Must Have','Bestseller','Glow Up','Clean Beauty','Editor\'s Pick'],
-    accessories:    ['Trending','Luxury Pick','New Arrival','Gift Idea','Editor\'s Pick'],
-    watches:        ['Premium','Limited Edition','Best Seller','Gift Idea','New Arrival'],
-    'nail art':     ['Viral','New','Trending','Starter Kit','Salon Quality'],
-    tech:           ['Top Rated','New Launch','Best Buy','Editor\'s Pick','Trending'],
-    'home & kitchen':['Home Essential','Bestseller','New Arrival','Gift Idea','Trending'],
-  };
-
-  // ── AUTH ──
-  function doLogin() {
-    const pass  = document.getElementById('loginPassword').value;
-    const token = document.getElementById('sanityToken').value.trim();
-    const err   = document.getElementById('loginError');
-    if (pass !== ADMIN_PASS) { err.style.display='block'; return; }
-    if (!token) { alert('Please enter your Sanity write token.'); return; }
-    SANITY_TOKEN = token;
-    err.style.display = 'none';
-    document.getElementById('loginScreen').style.display  = 'none';
-    document.getElementById('adminWrap').style.display    = 'flex';
-    loadProducts();
-    buildSlidesGrid();
-    loadSavedSlides();
-  }
-
-  function doLogout() {
-    SANITY_TOKEN = '';
-    document.getElementById('loginScreen').style.display = 'flex';
-    document.getElementById('adminWrap').style.display   = 'none';
-    document.getElementById('loginPassword').value = '';
-    document.getElementById('sanityToken').value   = '';
-  }
-
-  // ── TABS ──
-  function switchTab(name) {
-    document.querySelectorAll('.admin-tab').forEach((t,i) => {
-      const names = ['products','add','hero','stats'];
-      t.classList.toggle('active', names[i] === name);
-    });
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    document.getElementById('tab-'+name).classList.add('active');
-    if (name === 'products') loadProducts();
-  }
-
-  // ── LOAD PRODUCTS ──
-  async function loadProducts() {
-    const url = `https://${SANITY_PROJECT}.api.sanity.io/v2021-10-21/data/query/${SANITY_DATASET}`
-      + `?query=*[_type=="product"]{_id,title,"imageUrl":image.asset->url,affiliateLink,category,badge}`
-      + `|order(_createdAt desc)`;
-    try {
-      const res  = await fetch(url, { headers:{ Authorization:`Bearer ${SANITY_TOKEN}` }});
-      const data = await res.json();
-      allProducts = data.result || [];
-      renderProducts(allProducts);
-      document.getElementById('totalCount').textContent = `${allProducts.length} products`;
-    } catch(e) {
-      document.getElementById('productList').innerHTML =
-        `<div class="empty-msg">Could not load — check token & connection.</div>`;
-    }
-  }
-
-  // ── RENDER PRODUCTS ──
-  function renderProducts(products) {
-    const list = document.getElementById('productList');
-    if (!products.length) {
-      list.innerHTML = `<div class="empty-msg">No products in this category yet.</div>`;
-      return;
-    }
-    list.innerHTML = products.map(p => `
-      <div class="product-row" id="row-${p._id}">
-        ${p.imageUrl
-          ? `<img class="product-row-img" src="${p.imageUrl}" alt="${p.title||''}" onerror="this.style.display='none'">`
-          : `<div class="product-row-img" style="display:flex;align-items:center;justify-content:center;font-size:22px">🖼️</div>`}
-        <div class="product-row-info">
-          <div class="product-row-title">${p.title||'Untitled'}</div>
-          <div class="product-row-meta">
-            <span class="row-cat">${p.category||'—'}</span>
-            ${p.badge ? `<span class="row-badge">${p.badge}</span>` : ''}
-          </div>
-          <div class="row-link">${p.affiliateLink||'No link'}</div>
-        </div>
-        <div class="row-actions">
-          ${p.affiliateLink ? `<a href="${p.affiliateLink}" target="_blank" class="btn-visit">View ↗</a>` : ''}
-          <button class="btn-edit" onclick="openEdit('${p._id}')">✏ Edit</button>
-          <button class="btn-danger" onclick="deleteProduct('${p._id}')">✕ Delete</button>
-        </div>
-      </div>`).join('');
-  }
-
-  // ── FILTER ──
-  function filterProducts(cat, btn) {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const filtered = cat==='all' ? allProducts
-      : allProducts.filter(p => (p.category||'').toLowerCase() === cat);
-    renderProducts(filtered);
-  }
-
-  // ── IMAGE HELPERS ──
-  function previewImg(input, previewId) {
-    const preview = document.getElementById(previewId);
-    if (input.files && input.files[0]) {
-      const reader = new FileReader();
-      reader.onload = e => {
-        preview.src = e.target.result;
-        preview.style.display = 'block';
-        // Also update card preview if on add tab
-        if (previewId === 'addPreview') {
-          document.getElementById('previewCardImg').src = e.target.result;
-          document.getElementById('previewCardImg').style.display = 'block';
-          document.getElementById('previewCardPlaceholder').style.display = 'none';
-        }
-      };
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
-
-  function urlPreview(url, previewId) {
-    const preview = document.getElementById(previewId);
-    if (url) {
-      preview.src = url;
-      preview.style.display = 'block';
-      if (previewId === 'addPreview') {
-        document.getElementById('previewCardImg').src = url;
-        document.getElementById('previewCardImg').style.display = 'block';
-        document.getElementById('previewCardPlaceholder').style.display = 'none';
-      }
-    } else {
-      preview.style.display = 'none';
-    }
-  }
-
-  // ── LIVE CARD PREVIEW (Add tab) ──
-  document.addEventListener('input', e => {
-    if (['fTitle','fCategory','fBadge'].includes(e.target.id)) updateCardPreview();
-  });
-
-  function updateCardPreview() {
-    const title    = document.getElementById('fTitle').value || 'Product title will appear here';
-    const category = document.getElementById('fCategory').value || '';
-    const badge    = document.getElementById('fBadge').value || '';
-    const link     = document.getElementById('fLink').value || '';
-    document.getElementById('previewTitleEl').textContent = title;
-    document.getElementById('previewCatEl').textContent   = category.toUpperCase();
-    const badgeEl = document.getElementById('previewBadgeEl');
-    badgeEl.style.display = badge ? 'block' : 'none';
-    badgeEl.textContent   = badge;
-    // Smart button label
-    const u = link.toLowerCase();
-    let btnLabel = 'Shop Now ↗';
-    if (u.includes('amzn')||u.includes('amazon'))   btnLabel = 'Shop on Amazon ↗';
-    else if (u.includes('fktr')||u.includes('flipkart')) btnLabel = 'Shop on Flipkart ↗';
-    else if (u.includes('myntra'))  btnLabel = 'Shop on Myntra ↗';
-    else if (u.includes('nykaa'))   btnLabel = 'Shop on Nykaa ↗';
-    else if (u.includes('meesho'))  btnLabel = 'Shop on Meesho ↗';
-    document.getElementById('previewBtnEl').textContent = btnLabel;
-  }
-
-  // ── AUTO BADGE SUGGESTIONS ──
-  function suggestBadge() {
-    const cat  = document.getElementById('fCategory').value;
-    const wrap = document.getElementById('badgeSuggestions');
-    const badges = BADGE_SUGGESTIONS[cat] || ['Trending','New Arrival','Best Seller','Editor\'s Pick'];
-    wrap.innerHTML = badges.map(b =>
-      `<div class="badge-chip" onclick="setBadge('fBadge','${b}')">${b}</div>`
-    ).join('');
-    updateCardPreview();
-  }
-
-  function setBadge(inputId, value) {
-    document.getElementById(inputId).value = value;
-    updateCardPreview();
-  }
-
-  // ── UPLOAD IMAGE TO SANITY ──
-  async function uploadImageToSanity(file) {
-    const res = await fetch(
-      `https://${SANITY_PROJECT}.api.sanity.io/v2021-10-21/assets/images/${SANITY_DATASET}`,
-      { method:'POST', headers:{ Authorization:`Bearer ${SANITY_TOKEN}`, 'Content-Type':file.type }, body:file }
-    );
-    if (!res.ok) throw new Error('Image upload failed');
-    const data = await res.json();
-    return data.document._id;
-  }
-
-  // ── ADD PRODUCT ──
-  async function addProduct() {
-    const title    = document.getElementById('fTitle').value.trim();
-    const category = document.getElementById('fCategory').value;
-    const link     = document.getElementById('fLink').value.trim();
-    const badge    = document.getElementById('fBadge').value.trim();
-    const imgFile  = document.getElementById('fImageFile').files[0];
-    const imgUrl   = document.getElementById('fImageUrl').value.trim();
-
-    if (!title)    { showStatus('addStatus','Please enter a product title.','error'); return; }
-    if (!category) { showStatus('addStatus','Please select a category.','error'); return; }
-    if (!link)     { showStatus('addStatus','Please enter an affiliate link.','error'); return; }
-
-    const btn = document.getElementById('addBtn');
-    btn.disabled = true; btn.textContent = 'Publishing...';
-    showStatus('addStatus','','');
-
-    try {
-      const mutation = { _type:'product', title, category, affiliateLink:link };
-      if (badge) mutation.badge = badge;
-
-      if (imgFile) {
-        showStatus('addStatus','Uploading image to Sanity...','info');
-        const assetId = await uploadImageToSanity(imgFile);
-        mutation.image = { _type:'image', asset:{ _type:'reference', _ref:assetId }};
-      } else if (imgUrl) {
-        mutation.imageUrl = imgUrl;
-      }
-
-      const res = await fetch(
-        `https://${SANITY_PROJECT}.api.sanity.io/v2021-10-21/data/mutate/${SANITY_DATASET}`,
-        { method:'POST', headers:{ Authorization:`Bearer ${SANITY_TOKEN}`, 'Content-Type':'application/json' },
-          body: JSON.stringify({ mutations:[{ create: mutation }]}) }
-      );
-      if (!res.ok) { const e=await res.json(); throw new Error(e.error?.description||'Failed'); }
-
-      showStatus('addStatus','✓ Product published successfully! It is now live on your site.','success');
-      clearAddForm();
-      setTimeout(() => switchTab('products'), 1500);
-    } catch(e) {
-      showStatus('addStatus','Error: '+e.message,'error');
-    } finally {
-      btn.disabled = false; btn.textContent = 'Publish Product';
-    }
-  }
-
-  function clearAddForm() {
-    ['fTitle','fLink','fImageUrl','fBadge'].forEach(id => document.getElementById(id).value='');
-    document.getElementById('fCategory').value = '';
-    document.getElementById('fImageFile').value = '';
-    document.getElementById('addPreview').style.display = 'none';
-    document.getElementById('previewCardImg').style.display = 'none';
-    document.getElementById('previewCardPlaceholder').style.display = 'flex';
-    document.getElementById('badgeSuggestions').innerHTML = '';
-    updateCardPreview();
-  }
-
-  // ── EDIT PRODUCT ──
-  function openEdit(id) {
-    const p = allProducts.find(x => x._id === id);
-    if (!p) return;
-    document.getElementById('editId').value       = p._id;
-    document.getElementById('editTitle').value    = p.title || '';
-    document.getElementById('editCategory').value = p.category || '';
-    document.getElementById('editLink').value     = p.affiliateLink || '';
-    document.getElementById('editImageUrl').value = p.imageUrl || '';
-    document.getElementById('editBadge').value    = p.badge || '';
-    const prev = document.getElementById('editPreview');
-    if (p.imageUrl) { prev.src=p.imageUrl; prev.style.display='block'; }
-    else prev.style.display = 'none';
-    document.getElementById('editStatus').style.display = 'none';
-    document.getElementById('editModal').classList.add('open');
-  }
-
-  function closeEdit() {
-    document.getElementById('editModal').classList.remove('open');
-    document.getElementById('editImageFile').value = '';
-  }
-
-  async function saveEdit() {
-    const id       = document.getElementById('editId').value;
-    const title    = document.getElementById('editTitle').value.trim();
-    const category = document.getElementById('editCategory').value;
-    const link     = document.getElementById('editLink').value.trim();
-    const imgUrl   = document.getElementById('editImageUrl').value.trim();
-    const badge    = document.getElementById('editBadge').value.trim();
-    const imgFile  = document.getElementById('editImageFile').files[0];
-
-    if (!title||!category||!link) {
-      showStatus('editStatus','Title, category and link are required.','error'); return;
-    }
-
-    showStatus('editStatus','Saving...','info');
-
-    try {
-      const setFields = { title, category, affiliateLink:link, badge };
-
-      if (imgFile) {
-        showStatus('editStatus','Uploading new image...','info');
-        const assetId = await uploadImageToSanity(imgFile);
-        setFields.image = { _type:'image', asset:{ _type:'reference', _ref:assetId }};
-      } else if (imgUrl) {
-        setFields.imageUrl = imgUrl;
-      }
-
-      const res = await fetch(
-        `https://${SANITY_PROJECT}.api.sanity.io/v2021-10-21/data/mutate/${SANITY_DATASET}`,
-        { method:'POST', headers:{ Authorization:`Bearer ${SANITY_TOKEN}`, 'Content-Type':'application/json' },
-          body: JSON.stringify({ mutations:[{ patch:{ id, set:setFields }}]}) }
-      );
-      if (!res.ok) throw new Error('Save failed');
-
-      showStatus('editStatus','✓ Saved successfully!','success');
-      // Update local cache
-      const idx = allProducts.findIndex(p => p._id === id);
-      if (idx > -1) Object.assign(allProducts[idx], { title, category, affiliateLink:link, badge, imageUrl:imgUrl });
-      renderProducts(allProducts);
-      setTimeout(closeEdit, 1200);
-    } catch(e) {
-      showStatus('editStatus','Error: '+e.message,'error');
-    }
-  }
-
-  // ── DELETE PRODUCT ──
-  async function deleteProduct(id) {
-    if (!confirm('Delete this product? Cannot be undone.')) return;
-    try {
-      const res = await fetch(
-        `https://${SANITY_PROJECT}.api.sanity.io/v2021-10-21/data/mutate/${SANITY_DATASET}`,
-        { method:'POST', headers:{ Authorization:`Bearer ${SANITY_TOKEN}`, 'Content-Type':'application/json' },
-          body: JSON.stringify({ mutations:[{ delete:{ id }}]}) }
-      );
-      if (!res.ok) throw new Error('Delete failed');
-      const row = document.getElementById(`row-${id}`);
-      if (row) { row.style.opacity='0'; row.style.transition='opacity 0.3s'; setTimeout(()=>row.remove(),300); }
-      allProducts = allProducts.filter(p => p._id !== id);
-      document.getElementById('totalCount').textContent = `${allProducts.length} products`;
-    } catch(e) { alert('Could not delete: '+e.message); }
-  }
-
-  // ── HERO MANAGER ──
-  function buildSlidesGrid() {
-    const grid = document.getElementById('slidesGrid');
-    grid.innerHTML = slides.map((s,i) => `
-      <div class="hero-slide-card">
-        <div class="slide-thumb">
-          <img src="${s.url}" alt="Slide ${i+1}"
-            style="width:100%;height:100%;object-fit:cover"
-            onerror="this.style.display='none'">
-        </div>
-        <div class="slide-body">
-          <div class="slide-num">Slide ${i+1}</div>
-          <input class="slide-input" id="slideUrl${i}"
-            value="${s.url}"
-            placeholder="Paste image URL..."
-            oninput="previewSlide(${i},this.value)">
-          <input class="slide-input" id="slideVibe${i}"
-            value="${s.vibe}"
-            placeholder="Vibe label (e.g. Old Money)">
-          <button class="btn-slide-save" onclick="updateSlide(${i})">Update Slide ${i+1}</button>
-        </div>
-      </div>`).join('');
-  }
-
-  function previewSlide(i, url) {
-    const imgs = document.querySelectorAll(`#slidesGrid .hero-slide-card:nth-child(${i+1}) img`);
-    if (imgs[0]) imgs[0].src = url;
-  }
-
-  function updateSlide(i) {
-    slides[i].url  = document.getElementById(`slideUrl${i}`).value.trim();
-    slides[i].vibe = document.getElementById(`slideVibe${i}`).value.trim();
-    buildSlidesGrid();
-    saveSlides();
-  }
-
-  function saveSlides() {
-    localStorage.setItem('sa_slides', JSON.stringify(slides));
-    showStatus('slidesStatus','✓ Slides saved to browser!','success');
-    setTimeout(()=>{ document.getElementById('slidesStatus').style.display='none'; },2500);
-    generateSlideCode();
-  }
-
-  function loadSavedSlides() {
-    const saved = localStorage.getItem('sa_slides');
-    if (saved) { try { slides = JSON.parse(saved); buildSlidesGrid(); } catch(e){} }
-  }
-
-  function generateSlideCode() {
-    const code = slides.map((s,i) => `.slide-${i+1}{background-image:url('${s.url}')}`).join('\n');
-    console.log('Updated slide CSS:\n' + code);
-    console.log('Updated vibes JS:\n const vibes = ' + JSON.stringify(slides.map(s=>s.vibe)));
-  }
-
-  function updateHeroPreview() {
-    const title    = document.getElementById('heroTitle').value || '';
-    const emphasis = document.getElementById('heroEmphasis').value || '';
-    const third    = document.getElementById('heroThird').value || '';
-    const sub      = document.getElementById('heroSub').value || '';
-    document.getElementById('previewHeroTitle').innerHTML =
-      `${title}<br><em style="color:#C9967A">${emphasis}</em>,<br>${third}`;
-    document.getElementById('previewHeroSub').textContent = sub.split('\n')[0];
-  }
-
-  function saveHeroText() {
-    const heroData = {
-      title:    document.getElementById('heroTitle').value,
-      emphasis: document.getElementById('heroEmphasis').value,
-      third:    document.getElementById('heroThird').value,
-      sub:      document.getElementById('heroSub').value,
-      btn1:     document.getElementById('heroBtn1').value,
-      btn2:     document.getElementById('heroBtn2').value,
-    };
-    localStorage.setItem('sa_hero', JSON.stringify(heroData));
-    showStatus('heroStatus','✓ Hero text saved!','success');
-    setTimeout(()=>{ document.getElementById('heroStatus').style.display='none'; },2500);
-    // Log the code for copy-paste
-    console.log('Updated hero HTML:\n',
-      `<h1 class="hero-title">${heroData.title}<br><em>${heroData.emphasis}</em>,<br>${heroData.third}</h1>\n` +
-      `<p class="hero-sub">${heroData.sub}</p>\n` +
-      `<a class="btn-primary">${heroData.btn1}</a>\n` +
-      `<a class="btn-secondary">${heroData.btn2}</a>`
-    );
-  }
-
-  // Load saved hero on start
-  window.addEventListener('load', () => {
-    const saved = localStorage.getItem('sa_hero');
-    if (saved) {
-      try {
-        const h = JSON.parse(saved);
-        document.getElementById('heroTitle').value    = h.title    || '';
-        document.getElementById('heroEmphasis').value = h.emphasis || '';
-        document.getElementById('heroThird').value    = h.third    || '';
-        document.getElementById('heroSub').value      = h.sub      || '';
-        document.getElementById('heroBtn1').value     = h.btn1     || '';
-        document.getElementById('heroBtn2').value     = h.btn2     || '';
-        updateHeroPreview();
-      } catch(e) {}
-    }
-  });
-
-  // ── STATUS HELPER ──
-  function showStatus(id, msg, type) {
-    const el = document.getElementById(id);
-    el.textContent  = msg;
-    el.className    = 'form-status' + (type ? ' '+type : '');
-    el.style.display = msg ? 'block' : 'none';
-  }
-
-
-  // ════════════════════════════════════
-  // STATS MANAGER
-  // ════════════════════════════════════
-
-  const STAT_FIELDS = [
-    'pinterestNum','pinterestLabel',
-    'categoriesNum','categoriesLabel',
-    'handpickedNum','handpickedLabel',
-    'costNum','costLabel',
-    'pinterestSocial'
-  ];
-
-  function saveStats() {
-    const stats = {};
-    STAT_FIELDS.forEach(f => {
-      stats[f] = document.getElementById('s-'+f)?.value || '';
-    });
-    localStorage.setItem('sa_stats', JSON.stringify(stats));
-    updateStatsPreview(stats);
-    showStatus('statsStatus', '✓ Stats saved! Reload your website to see changes.', 'success');
-    setTimeout(() => { document.getElementById('statsStatus').style.display='none'; }, 3500);
-  }
-
-  function loadCurrentStats() {
-    const saved = localStorage.getItem('sa_stats');
-    if (!saved) {
-      showStatus('statsStatus', 'No saved stats found — showing defaults.', 'info');
-      return;
-    }
-    try {
-      const stats = JSON.parse(saved);
-      STAT_FIELDS.forEach(f => {
-        const el = document.getElementById('s-'+f);
-        if (el && stats[f]) el.value = stats[f];
-      });
-      updateStatsPreview(stats);
-      showStatus('statsStatus', '✓ Loaded current saved stats.', 'success');
-      setTimeout(() => { document.getElementById('statsStatus').style.display='none'; }, 2000);
-    } catch(e) {}
-  }
-
-  function updateStatsPreview(stats) {
-    const previewMap = {
-      'prev-pinterestNum':   stats.pinterestNum,
-      'prev-pinterestLabel': stats.pinterestLabel,
-      'prev-categoriesNum':  stats.categoriesNum,
-      'prev-categoriesLabel':stats.categoriesLabel,
-      'prev-handpickedNum':  stats.handpickedNum,
-      'prev-handpickedLabel':stats.handpickedLabel,
-      'prev-costNum':        stats.costNum,
-      'prev-costLabel':      stats.costLabel,
-    };
-    Object.entries(previewMap).forEach(([id,val]) => {
-      const el = document.getElementById(id);
-      if (el && val) el.textContent = val;
-    });
-  }
-
-  // Live preview as you type
-  STAT_FIELDS.forEach(f => {
-    const el = document.getElementById('s-'+f);
-    if (el) el.addEventListener('input', () => {
-      const stats = {};
-      STAT_FIELDS.forEach(field => {
-        stats[field] = document.getElementById('s-'+field)?.value || '';
-      });
-      updateStatsPreview(stats);
-    });
-  });
-
-  // Load on init
-  window.addEventListener('load', () => {
-    loadCurrentStats();
-  });
-
-  // Close modal on background click
-  document.getElementById('editModal').addEventListener('click', function(e) {
-    if (e.target === this) closeEdit();
-  });
+  function doLogin(){const p=document.getElementById('loginPassword').value,t=document.getElementById('sanityToken').value.trim(),e=document.getElementById('loginError');if(p!==ADMIN_PASS){e.style.display='block';return;}if(!t){alert('Please enter your Sanity write token.');return;}SANITY_TOKEN=t;e.style.display='none';document.getElementById('loginScreen').style.display='none';document.getElementById('adminWrap').style.display='flex';loadProducts();buildSlidesGrid();loadSavedSlides();loadCurrentStats();}
+  function doLogout(){SANITY_TOKEN='';document.getElementById('loginScreen').style.display='flex';document.getElementById('adminWrap').style.display='none';['loginPassword','sanityToken'].forEach(id=>document.getElementById(id).value='');}
+  function switchTab(n){document.querySelectorAll('.admin-tab').forEach((t,i)=>t.classList.toggle('active',['products','add','hero','stats'][i]===n));document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));document.getElementById('tab-'+n).classList.add('active');if(n==='products')loadProducts();}
+  async function loadProducts(){try{const r=await fetch('https://'+SANITY_PROJECT+'.api.sanity.io/v2021-10-21/data/query/'+SANITY_DATASET+'?query=*[_type=="product"]{_id,title,"imageUrl":image.asset->url,affiliateLink,category,badge}|order(_createdAt desc)',{headers:{Authorization:'Bearer '+SANITY_TOKEN}});const d=await r.json();allProducts=d.result||[];renderProducts(allProducts);document.getElementById('totalCount').textContent=allProducts.length+' products';}catch(e){document.getElementById('productList').innerHTML='<div class="empty-msg">Could not load. Check token.</div>';}}
+  function renderProducts(products){const l=document.getElementById('productList');if(!products.length){l.innerHTML='<div class="empty-msg">No products yet.</div>';return;}l.innerHTML=products.map(p=>'<div class="product-row" id="row-'+p._id+'">'+(p.imageUrl?'<img class="product-row-img" src="'+p.imageUrl+'" alt="" onerror="this.style.display=\'none\'">':'<div class="product-row-img" style="display:flex;align-items:center;justify-content:center;font-size:22px">&#128444;</div>')+'<div class="product-row-info"><div class="product-row-title">'+(p.title||'Untitled')+'</div><div class="product-row-meta"><span class="row-cat">'+(p.category||'')+'</span>'+(p.badge?'<span class="row-badge">'+p.badge+'</span>':'')+'</div><div class="row-link">'+(p.affiliateLink||'')+'</div></div><div class="row-actions">'+(p.affiliateLink?'<a href="'+p.affiliateLink+'" target="_blank" class="btn-visit">View</a>':'')+'<button class="btn-edit" onclick="openEdit(\''+p._id+'\')">Edit</button><button class="btn-danger" onclick="deleteProduct(\''+p._id+'\')">Delete</button></div></div>').join('');}
+  function filterProducts(c,b){document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderProducts(c==='all'?allProducts:allProducts.filter(p=>(p.category||'').toLowerCase()===c));}
+  function previewImg(input,pid){if(input.files&&input.files[0]){const r=new FileReader();r.onload=e=>{const p=document.getElementById(pid);p.src=e.target.result;p.style.display='block';if(pid==='addPreview'){document.getElementById('previewCardImg').src=e.target.result;document.getElementById('previewCardImg').style.display='block';document.getElementById('previewCardPlaceholder').style.display='none';}};r.readAsDataURL(input.files[0]);}}
+  function urlPreview(u,pid){const p=document.getElementById(pid);if(u){p.src=u;p.style.display='block';if(pid==='addPreview'){document.getElementById('previewCardImg').src=u;document.getElementById('previewCardImg').style.display='block';document.getElementById('previewCardPlaceholder').style.display='none';}}else p.style.display='none';}
+  document.addEventListener('input',e=>{if(['fTitle','fCategory','fBadge'].includes(e.target.id)){const t=document.getElementById('fTitle').value||'Product title',c=document.getElementById('fCategory').value||'',b=document.getElementById('fBadge').value||'';document.getElementById('previewTitleEl').textContent=t;document.getElementById('previewCatEl').textContent=c.toUpperCase();const be=document.getElementById('previewBadgeEl');be.style.display=b?'block':'none';be.textContent=b;}});
+  function suggestBadge(){const c=document.getElementById('fCategory').value;const w=document.getElementById('badgeSuggestions');const bs=BADGE_SUG[c]||['Trending','New Arrival'];w.innerHTML=bs.map(b=>'<span class="badge-chip" onclick="setBadge(\'fBadge\',\''+b+'\')">'+b+'</span>').join('');}
+  function setBadge(id,v){document.getElementById(id).value=v;}
+  async function uploadImg(file){const r=await fetch('https://'+SANITY_PROJECT+'.api.sanity.io/v2021-10-21/assets/images/'+SANITY_DATASET,{method:'POST',headers:{Authorization:'Bearer '+SANITY_TOKEN,'Content-Type':file.type},body:file});if(!r.ok)throw new Error('Image upload failed');return(await r.json()).document._id;}
+  async function addProduct(){const title=document.getElementById('fTitle').value.trim(),cat=document.getElementById('fCategory').value,link=document.getElementById('fLink').value.trim(),badge=document.getElementById('fBadge').value.trim(),imgFile=document.getElementById('fImageFile').files[0],imgUrl=document.getElementById('fImageUrl').value.trim();if(!title){showStatus('addStatus','Enter a title','error');return;}if(!cat){showStatus('addStatus','Select a category','error');return;}if(!link){showStatus('addStatus','Enter a link','error');return;}const btn=document.getElementById('addBtn');btn.disabled=true;btn.textContent='Publishing...';try{const m={_type:'product',title,category:cat,affiliateLink:link};if(badge)m.badge=badge;if(imgFile){showStatus('addStatus','Uploading image...','info');m.image={_type:'image',asset:{_type:'reference',_ref:await uploadImg(imgFile)}};}else if(imgUrl)m.imageUrl=imgUrl;const r=await fetch('https://'+SANITY_PROJECT+'.api.sanity.io/v2021-10-21/data/mutate/'+SANITY_DATASET,{method:'POST',headers:{Authorization:'Bearer '+SANITY_TOKEN,'Content-Type':'application/json'},body:JSON.stringify({mutations:[{create:m}]})});if(!r.ok){const e=await r.json();throw new Error(e.error?.description||'Failed');}showStatus('addStatus','Published!','success');['fTitle','fLink','fImageUrl','fBadge'].forEach(id=>document.getElementById(id).value='');document.getElementById('fCategory').value='';setTimeout(()=>switchTab('products'),1500);}catch(e){showStatus('addStatus','Error: '+e.message,'error');}finally{btn.disabled=false;btn.textContent='Publish Product';}}
+  function openEdit(id){const p=allProducts.find(x=>x._id===id);if(!p)return;document.getElementById('editId').value=id;document.getElementById('editTitle').value=p.title||'';document.getElementById('editCategory').value=p.category||'fashion';document.getElementById('editLink').value=p.affiliateLink||'';document.getElementById('editBadge').value=p.badge||'';const ep=document.getElementById('editPreview');if(p.imageUrl){ep.src=p.imageUrl;ep.style.display='block';}else ep.style.display='none';document.getElementById('editImageUrl').value=p.imageUrl||'';document.getElementById('editModal').classList.add('open');}
+  function closeEdit(){document.getElementById('editModal').classList.remove('open');document.getElementById('editStatus').style.display='none';}
+  async function saveEdit(){const id=document.getElementById('editId').value,title=document.getElementById('editTitle').value.trim(),cat=document.getElementById('editCategory').value,link=document.getElementById('editLink').value.trim(),badge=document.getElementById('editBadge').value.trim(),imgUrl=document.getElementById('editImageUrl').value.trim(),imgFile=document.getElementById('editImageFile').files[0];if(!title||!cat||!link){showStatus('editStatus','Fill all required fields','error');return;}showStatus('editStatus','Saving...','info');try{const patches=[{set:{title,category:cat,affiliateLink:link}}];if(badge)patches.push({set:{badge}});else patches.push({unset:['badge']});if(imgFile)patches.push({set:{image:{_type:'image',asset:{_type:'reference',_ref:await uploadImg(imgFile)}}}});else if(imgUrl)patches.push({set:{imageUrl:imgUrl}});const r=await fetch('https://'+SANITY_PROJECT+'.api.sanity.io/v2021-10-21/data/mutate/'+SANITY_DATASET,{method:'POST',headers:{Authorization:'Bearer '+SANITY_TOKEN,'Content-Type':'application/json'},body:JSON.stringify({mutations:patches.map(p=>({patch:{id,...p}}))})});if(!r.ok)throw new Error('Save failed');showStatus('editStatus','Saved!','success');setTimeout(()=>{closeEdit();loadProducts();},1000);}catch(e){showStatus('editStatus','Error: '+e.message,'error');}}
+  async function deleteProduct(id){if(!confirm('Delete this product?'))return;try{await fetch('https://'+SANITY_PROJECT+'.api.sanity.io/v2021-10-21/data/mutate/'+SANITY_DATASET,{method:'POST',headers:{Authorization:'Bearer '+SANITY_TOKEN,'Content-Type':'application/json'},body:JSON.stringify({mutations:[{delete:{id}}]})});document.getElementById('row-'+id)?.remove();allProducts=allProducts.filter(p=>p._id!==id);document.getElementById('totalCount').textContent=allProducts.length+' products';}catch(e){alert('Delete failed: '+e.message);}}
+  function buildSlidesGrid(){const g=document.getElementById('slidesGrid');if(!g)return;g.innerHTML=slides.map((s,i)=>'<div class="hero-slide-card"><div class="slide-thumb"><img src="'+s.url+'" alt="Slide '+(i+1)+'" onerror="this.style.display=\'none\'"></div><div class="slide-body"><div class="slide-num">Slide '+(i+1)+'</div><input class="slide-input" id="slide-url-'+i+'" value="'+s.url+'" placeholder="Image URL" oninput="previewSlide('+i+')"><input class="slide-input" id="slide-vibe-'+i+'" value="'+s.vibe+'" placeholder="Vibe label"><button class="btn-slide-save" onclick="updateSlide('+i+')">Update</button></div></div>').join('');}
+  function previewSlide(i){const u=document.getElementById('slide-url-'+i).value;const img=document.querySelector('#slidesGrid .hero-slide-card:nth-child('+(i+1)+') .slide-thumb img');if(img)img.src=u;}
+  function updateSlide(i){slides[i].url=document.getElementById('slide-url-'+i).value;slides[i].vibe=document.getElementById('slide-vibe-'+i).value;}
+  function saveSlides(){slides.forEach((s,i)=>{s.url=document.getElementById('slide-url-'+i).value;s.vibe=document.getElementById('slide-vibe-'+i).value;});localStorage.setItem('styleaura_slides',JSON.stringify(slides));showStatus('slidesStatus','Slides saved!','success');}
+  function loadSavedSlides(){try{const s=localStorage.getItem('styleaura_slides');if(s){slides=JSON.parse(s);buildSlidesGrid();}}catch(e){}}
+  function saveStats(){const stats={pinterestNum:document.getElementById('s-pinterestNum').value,pinterestLabel:document.getElementById('s-pinterestLabel').value,categoriesNum:document.getElementById('s-categoriesNum').value,categoriesLabel:document.getElementById('s-categoriesLabel').value,handpickedNum:document.getElementById('s-handpickedNum').value,handpickedLabel:document.getElementById('s-handpickedLabel').value,costNum:document.getElementById('s-costNum').value,costLabel:document.getElementById('s-costLabel').value};localStorage.setItem('styleaura_stats',JSON.stringify(stats));showStatus('statsStatus','Stats saved!','success');}
+  function loadCurrentStats(){try{const s=localStorage.getItem('styleaura_stats');if(s){const d=JSON.parse(s);Object.keys(d).forEach(k=>{const el=document.getElementById('s-'+k);if(el)el.value=d[k];});showStatus('statsStatus','Loaded!','success');}}catch(e){}}
+  function showStatus(id,msg,type){const el=document.getElementById(id);if(!el)return;el.textContent=msg;el.className='form-status'+(type?' '+type:'');el.style.display=msg?'block':'none';if(type==='success')setTimeout(()=>el.style.display='none',3000);}
 </script>
 </body>
-</html>
+</html>`;
+
+fs.writeFileSync(dest, html, 'utf8');
+console.log('SUCCESS: admin.html written, size:', fs.statSync(dest).size, 'bytes');
